@@ -8,18 +8,37 @@ namespace ippCompiler
     {
         public static string CODE_FILE_PATH = "";
         public static int FILE_LEN = 0;
-        private static void SetFilePath(string path)
+
+        public static void Error(string str)
+        {
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine(str);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public static void Debug(string str)
+        {
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(str);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        private static bool SetFilePath(string path)
         {
             if (!File.Exists(path))
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Wystąpił błąd podczas wczytywania pliku kodu! Upewnij się, że podełeś jego prawidłową lokalizację.");
-                Console.ForegroundColor = ConsoleColor.White;
+                Error("Wystąpił błąd podczas wczytywania pliku kodu! Upewnij się, że podełeś jego prawidłową lokalizację.");
+                return false;
             }
             else
             {
                 CODE_FILE_PATH = path;
                 FILE_LEN = File.ReadLines(path).Count();
+                return true;
             }
                 
         }
@@ -30,8 +49,8 @@ namespace ippCompiler
             {
                 Console.WriteLine("Witaj w kompilatorze dla języka i++");
                 Console.Write("Wprowadź ścieżkę do pliku języka i++ (relatywną): ");
-                SetFilePath(Console.ReadLine());
-                Compiler.Compile();
+                bool opt = SetFilePath(Console.ReadLine());
+                if (opt) Compiler.Compile();
             }
         }
     }

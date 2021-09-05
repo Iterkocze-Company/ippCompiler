@@ -18,38 +18,101 @@ namespace ippCompiler
 
         public static string[] ReadFileContents(string pathToFile)
         {
-            return File.ReadAllText(pathToFile).Replace("\r\n", " ").Split(" ");
+            return File.ReadAllText(pathToFile).Replace("\r\n", " ").Split(";");
+        }
+
+        public static string deleteFirstArg(string str)
+        {
+            string opt = "";
+            bool firstSpace = false;
+
+            foreach(char ch in str)
+            {
+                if (firstSpace) opt = opt + ch;
+                if (ch == ' ') firstSpace = true;
+            }
+
+            return opt;
         }
 
         public static void Compile()
         {
-            string[] contents = ReadFileContents(Program.CODE_FILE_PATH);
-            string[] GeneratedCode = new string[Program.FILE_LEN+10];
+            string[] lines = ReadFileContents(Program.CODE_FILE_PATH);
+            string[] GeneratedCode = new string[Program.FILE_LEN+1];
             int index = 0;
-            foreach (string line in contents)
+            
+            foreach (string line in lines)
             {
-                if (line == "echo")
+                string afterEcho = deleteFirstArg(line);
+
+                if (line != lines[lines.Length - 1])
                 {
-                    Console.WriteLine("echo wykryte!");
-                    GeneratedCode[index] = $"printf({contents[index + 1]} ";
-                    if (contents[index+2].EndsWith("\""))
-                        GeneratedCode[index] += $"{contents[index + 2]}";
-                    GeneratedCode[index] += ");";
-                        
-                    index++;
+                    switch (line.Split(" ")[0])
+                    {
+                        case "echoLine":
+                            GeneratedCode[index] = "cout << ";
+                            
+                            foreach (char ch in afterEcho)
+                            {
+                                if (ch == '+')
+                                    GeneratedCode[index] = GeneratedCode[index] + " << ";
+                                else
+                                {
+                                    if (ch == ' ')
+                                    {
+                                        GeneratedCode[index] = GeneratedCode[index] + " ";
+                                    }
+                                    else
+                                    {
+                                        GeneratedCode[index] = GeneratedCode[index] + ch;
+                                    }
+                                }
+                            }
+                            GeneratedCode[index] += " << endl;";
+                            index++;
+                            break;
+
+                        case "echo": // echo "test" + " test2"
+                            GeneratedCode[index] = "cout << ";
+                            
+                            foreach (char ch in afterEcho) 
+                            {
+                                if (ch == '+')
+                                    GeneratedCode[index] = GeneratedCode[index] + " << ";
+                                else
+                                {
+                                    if (ch == ' ')
+                                    {
+                                        GeneratedCode[index] = GeneratedCode[index] + " ";
+                                    }
+                                    else
+                                    {
+                                        GeneratedCode[index] = GeneratedCode[index] + ch;
+                                    }
+                                }
+                            }
+                            GeneratedCode[index] += " ;";
+                            index++;
+                            break;
+
+                        default:
+                            Program.Error($"\"{line}\"\n ^ Tutaj błąd");
+                            break;
+                    }
+
                 }
             }
 
-            File.WriteAllText("genCode.c", "");
-            File.AppendAllText("genCode.c", "#include <stdio.h>\nint main() {");
+            File.WriteAllText("genCode.cpp", "");
+            File.AppendAllText("genCode.cpp", "#include <iostream>\n\nusing namespace std;\n\nint main() {");
 
             for (int i = 0; i < GeneratedCode.Length; i++)
-                File.AppendAllText("genCode.c", "\n" + GeneratedCode[i]);
+                File.AppendAllText("genCode.cpp", "\n" + GeneratedCode[i]);
 
-            File.AppendAllText("genCode.c", "\nreturn 0;\n}");
+            File.AppendAllText("genCode.cpp", "\nreturn 0;\n}");
 
             Console.WriteLine("Kompiluję...");
-            Process.Start("gcc","genCode.c");
+            Process.Start("g++","genCode.cpp");
         }
     }
 }
