@@ -2,7 +2,7 @@
 Kompilator języka i++ <br> <br>
 
 ### Instrukcje Języka i++
-'echo "helo"' Lub 'echoLine "helo"' Powoduje wypisanie ciągu znaków w konsoli. Można użyć z operatorem '+'. <br> <br>
+`echo "helo"` Lub 'echoLine "helo"' Powoduje wypisanie ciągu znaków w konsoli. Można użyć z operatorem '+'. <br> <br>
 'readKey' Powoduje postój w oczekiwaniu na input ze strony użytkownika programu. W przypadku użycia ze zadeklarowaną zmienną, zwróci kod ASCII wpisanej liery. <br&gt; <br&gt;
 
 ### Operatory w Języku i++
