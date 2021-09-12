@@ -8,6 +8,8 @@ namespace ippCompiler
     {
         public static string CODE_FILE_PATH = "";
         public static int FILE_LEN = 0;
+        public static bool FLAG_RUN;
+        public static string FLAG_NAME = "a";
 
         public static void Error(string str)
         {
@@ -42,6 +44,16 @@ namespace ippCompiler
             }
                 
         }
+        private static void HandleCompilerFlags()
+        {
+            Console.Write("Podaj flagi kompilatora: ");
+            string flags = Console.ReadLine();
+            if (flags.Contains("run")) FLAG_RUN = true;
+            if (flags.Contains("name"))
+            {
+                FLAG_NAME = flags.Substring(flags.IndexOf('=')+1);
+            }
+        }
 
         public static void Main(string[] args)
         {
@@ -50,6 +62,7 @@ namespace ippCompiler
                 Console.WriteLine("Witaj w kompilatorze dla języka i++");
                 Console.Write("Wprowadź ścieżkę do pliku języka i++ (relatywną): ");
                 bool opt = SetFilePath(Console.ReadLine());
+                if (opt) HandleCompilerFlags();
                 if (opt) Compiler.Compile();
             }
         }

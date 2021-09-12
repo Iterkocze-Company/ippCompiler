@@ -10,15 +10,12 @@ namespace ippCompiler
 {
     public static class Compiler
     {
-        private struct Compiler_Flags
-        {
-        }
-
-        //static string[] Tokens = {"echo"};
+        //public static string[] VARS;
+        public static List<string> VARS = new List<string>();
 
         public static string[] ReadFileContents(string pathToFile)
         {
-            return File.ReadAllText(pathToFile).Replace("\r\n", " ").Split(";");
+            return File.ReadAllText(pathToFile).Replace("\r\n", "").Split(";");
         }
 
         public static string deleteFirstArg(string str)
@@ -95,16 +92,51 @@ namespace ippCompiler
                             index++;
                             break;
 
+                        case "int":
+                            GeneratedCode[index] = "int ";
+                            if (line.EndsWith("readKey"))
+                            {
+                                string nameRead = lines[index].Substring(lines[index].IndexOf(' ')).Replace(" ", "");
+                                nameRead = nameRead.Substring(0, nameRead.IndexOf('='));
+                                GeneratedCode[index] = $"int {nameRead} =  getch();";
+                                index++;
+                                break;
+                            }
+                            string name = lines[index].Substring(lines[index].IndexOf(' ')).Replace(" ", "");
+
+                            GeneratedCode[index] = GeneratedCode[index] + name + ";";
+
+                            name = name.Substring(0, name.IndexOf('='));
+                            VARS.Add(name);
+
+                            index++;
+                            break;
+
+                        case "readKey":
+                            GeneratedCode[index] = "getch();";
+                            index++;
+                            break;
+
                         default:
-                            Program.Error($"\"{line}\"\n ^ Tutaj błąd");
+                            //Program.Error($"\"{line}\"\n ^ Tutaj błąd");
                             break;
                     }
+                }
 
+                foreach (string var in VARS)
+                {
+                    if (line.Contains(var) && line.StartsWith(var[0]))
+                    {
+                        string val = line.Substring(line.IndexOf('=')+1);
+                        val = val.Replace(" ", "");
+                        GeneratedCode[index] = var + "=" + (string)val + ";";
+                        index++;
+                    }
                 }
             }
 
             File.WriteAllText("genCode.cpp", "");
-            File.AppendAllText("genCode.cpp", "#include <iostream>\n\nusing namespace std;\n\nint main() {");
+            File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <conio.h>\n\nusing namespace std;\n\nint main() {");
 
             for (int i = 0; i < GeneratedCode.Length; i++)
                 File.AppendAllText("genCode.cpp", "\n" + GeneratedCode[i]);
@@ -112,7 +144,22 @@ namespace ippCompiler
             File.AppendAllText("genCode.cpp", "\nreturn 0;\n}");
 
             Console.WriteLine("Kompiluję...");
-            Process.Start("g++","genCode.cpp");
+            string args = "";
+            
+            
+            args = args + $"{"-o " + Program.FLAG_NAME}";
+            Process.Start("g++", $"{args} -O2 -s genCode.cpp");
+            var startInfo = new ProcessStartInfo();
+
+            startInfo.WorkingDirectory = Directory.GetCurrentDirectory();
+            startInfo.FileName = Program.FLAG_NAME + ".exe";
+            
+            Process.Start("g++", "-O2 -s genCode.cpp");
+            
+            Console.WriteLine("Gotowe");
+            Thread.Sleep(2000);
+            if (Program.FLAG_RUN) Process.Start(startInfo);
+            Console.ReadKey();
         }
     }
 }
