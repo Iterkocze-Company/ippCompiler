@@ -1,5 +1,5 @@
 # ippCompiler
-Kompilator języka i++ <br> <br>
+Kompilator języka i++ :3 <br> <br>
 
 ### Instrukcje Języka i++
 `echo "helo"` Lub 'echoLine "helo"' Powoduje wypisanie ciągu znaków w konsoli. Można użyć z operatorem '+'. <br> <br>
