@@ -14,3 +14,4 @@ Kompilator języka i++ <br> <br>
 
 ### Flagi Kompilatora
 `name=example` Dodanie tej flagi spowoduje zmianę nazwy wykompilowanego pliku .exe na 'example'. <br> <br>
+`run` Uruchamia program po jego kompilacji. <br> <br>
