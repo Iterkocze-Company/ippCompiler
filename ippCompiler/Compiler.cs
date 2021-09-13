@@ -179,6 +179,13 @@ namespace ippCompiler
                             index++;
                             break;
 
+                        case "else":
+                            IF_FLAG = true;
+                            GeneratedCode[index] += "else{";
+
+                            index++;
+                            break;
+
                         default:
                             break;
                     }
