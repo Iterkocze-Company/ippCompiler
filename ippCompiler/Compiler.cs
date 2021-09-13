@@ -191,6 +191,13 @@ namespace ippCompiler
                             break;
                         }
 
+                        if (line.EndsWith("()"))
+                        {
+                            GeneratedCode[index] = var + "();";
+                            index++;
+                            break;
+                        }
+
                         string val = line.Substring(line.IndexOf('=')+1);
                         val = val.Replace(" ", "");
                         GeneratedCode[index] = var + "=" + (string)val + ";";
@@ -202,6 +209,7 @@ namespace ippCompiler
                 {
                     string[] splitted = line.Split();
                     string funcName = splitted[2];
+                    VARS.Add(funcName);
 
                     foreach (string lineDef in splitted)
                     {
