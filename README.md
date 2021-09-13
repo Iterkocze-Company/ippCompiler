@@ -38,3 +38,11 @@ Aby pomyślnie wykompilować program, musisz zdefiniować funkcję main za pomoc
 `def int main;` <br>
 `echoLine "Hello, World!";` <br>
 `end;` <br> <br>
+
+Aby wywołać funkcję, zwyczajnie wpisz jej nazwę zakończoną klamrami. Oto przykładowy program demonstrujący wywoływanie zadeklarowanej funkcji: <br>
+`def int test;` <br>
+`echoLine "Funkcja";` <br>
+`end;` <br>
+`def int main;` <br>
+`test();` <br>
+`end;` <br> <br>
