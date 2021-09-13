@@ -48,7 +48,6 @@ namespace ippCompiler
                     switch (line.Split(" ")[0].Replace("\t", " "))
                     {
                         case "echoLine":
-                        case " echoLine":
                             GeneratedCode[index] = "cout << ";
                             
                             foreach (char ch in afterEcho)
@@ -72,7 +71,6 @@ namespace ippCompiler
                             break;
 
                         case "echo":
-                        case " echo": // echo "test" + " test2"
                             GeneratedCode[index] = "cout << ";
                             
                             foreach (char ch in afterEcho) 
@@ -96,7 +94,6 @@ namespace ippCompiler
                             break;
 
                         case "int":
-                        case " int":
                             GeneratedCode[index] = "int ";
                             if (line.EndsWith("readKey"))
                             {
@@ -119,7 +116,6 @@ namespace ippCompiler
                             break;
 
                         case "string":
-                        case " string":
                             GeneratedCode[index] = "string ";
 
                             string nameStr = lines[index].Substring(lines[index].IndexOf(' ')).Replace(" ", "");
@@ -133,7 +129,6 @@ namespace ippCompiler
                             break;
 
                         case "end":
-                        case " end":
 
                             if (FUNCTION_FLAG == 0)
                                 GeneratedCode[index] = "return 0;";
@@ -147,7 +142,6 @@ namespace ippCompiler
                             break;
 
                         case "readKey":
-                        case " readKey":
                             GeneratedCode[index] = "getch();";
                             index++;
                             break;
