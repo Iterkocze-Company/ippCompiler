@@ -11,6 +11,7 @@ namespace ippCompiler
     public static class Compiler
     {
         private static int FUNCTION_FLAG = 0; //0= int, 1 = string
+        private static bool IF_FLAG;
         public static List<string> VARS = new List<string>(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
         public static string[] ReadFileContents(string pathToFile)
@@ -145,18 +146,36 @@ namespace ippCompiler
                         case "end":
 
                             if (FUNCTION_FLAG == 0)
+                            {
                                 GeneratedCode[index] = "return 0;";
+                                GeneratedCode[index] = "}";
+                            }
+                                
                             if (FUNCTION_FLAG == 1)
+                            {
                                 GeneratedCode[index] = "return \"0\";";
-
-                            index++;
-                            GeneratedCode[index] = "}";
-
+                                GeneratedCode[index] = "}";
+                            }
+                                
+                            if (IF_FLAG)
+                            {
+                                GeneratedCode[index] = "}";
+                                IF_FLAG = false;
+                            }
+                            
                             index++;
                             break;
 
                         case "readKey":
                             GeneratedCode[index] = "getch();";
+                            index++;
+                            break;
+
+                        case "if":
+                            IF_FLAG = true;
+                            foreach (char c in line)
+                                    GeneratedCode[index] += c;
+                            GeneratedCode[index] += "{";
                             index++;
                             break;
 
