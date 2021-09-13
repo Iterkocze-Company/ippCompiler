@@ -43,9 +43,13 @@ namespace ippCompiler
                 string afterEcho = deleteFirstArg(line);
                 if (line != lines[lines.Length - 1])
                 {
+                    args = line.Split(" ");
+                    int a = 0;
+                    
+                    while (args[a] == "") a = a + 1;
 
                     //switch (line.Split(" ")[0])
-                    switch (line.Split(" ")[0].Replace("\t", ""))
+                    switch (args[a].Replace("\t", ""))
                     {
                         case "echoLine":
                             GeneratedCode[index] = "cout << ";
