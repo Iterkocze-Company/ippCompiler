@@ -17,6 +17,7 @@ Kompilator języka i++
 `*` Mnożenie <br>
 `/` Dzielenie <br>
 `%` Dzielenie Modulo <br>
+##### Należy ich używać samodzielnie, w środku kodu. Na przykład `x++;`
 `++` Inkrementacja <br> <br>
 
 ### Typy w Języku i++
