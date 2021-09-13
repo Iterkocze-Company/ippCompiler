@@ -117,7 +117,7 @@ namespace ippCompiler
                                 index++;
                                 break;
                             }
-                            string name = line.Substring(line.IndexOf(' ')).Replace(" ", "");
+                            string name = afterFirst.Substring(afterFirst.IndexOf(' ')).Replace(" ", "");
 
                             GeneratedCode[index] = GeneratedCode[index] + name + ";";
 
