@@ -10,8 +10,8 @@ namespace ippCompiler
 {
     public static class Compiler
     {
-        //public static string[] VARS;
-        public static List<string> VARS = new List<string>();
+        private static int FUNCTION_FLAG = 0; //0= int, 1 = string
+        public static List<string> VARS = new List<string>(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
         public static string[] ReadFileContents(string pathToFile)
         {
@@ -35,7 +35,7 @@ namespace ippCompiler
         public static void Compile()
         {
             string[] lines = ReadFileContents(Program.CODE_FILE_PATH);
-            string[] GeneratedCode = new string[Program.FILE_LEN+1];
+            string[] GeneratedCode = new string[Program.FILE_LEN+4];
             int index = 0;
             
             foreach (string line in lines)
@@ -127,13 +127,25 @@ namespace ippCompiler
                             index++;
                             break;
 
+                        case "end":
+
+                            if (FUNCTION_FLAG == 0)
+                                GeneratedCode[index] = "return 0;";
+                            if (FUNCTION_FLAG == 1)
+                                GeneratedCode[index] = "return \"0\";";
+
+                            index++;
+                            GeneratedCode[index] = "}";
+
+                            index++;
+                            break;
+
                         case "readKey":
                             GeneratedCode[index] = "getch();";
                             index++;
                             break;
 
                         default:
-                            //Program.Error($"\"{line}\"\n ^ Tutaj błąd");
                             break;
                     }
                 }
@@ -185,15 +197,45 @@ namespace ippCompiler
                         index++;
                     }
                 }
+
+                if (line.ToLower().Contains("def")) //Obsługa funkcji. Póki co nie wiem jak to zrobić.
+                {
+                    string[] splitted = line.Split();
+                    string funcName = splitted[2];
+
+                    foreach (string lineDef in splitted)
+                    {
+                        if (lineDef.Contains("int"))
+                        {
+                            FUNCTION_FLAG = 0;
+                            GeneratedCode[index] += "int ";
+                            GeneratedCode[index] += funcName + "()";
+                            index++;
+                            GeneratedCode[index] = "{";
+                            index++;
+                        }
+
+                        if (lineDef.Contains("string"))
+                        {
+                            FUNCTION_FLAG = 1;
+                            GeneratedCode[index] += "string ";
+                            GeneratedCode[index] += funcName + "()";
+                            index++;
+                            GeneratedCode[index] = "{";
+                            index++;
+                        }
+                    }
+                }
             }
 
             File.WriteAllText("genCode.cpp", "");
-            File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <conio.h>\n\nusing namespace std;\n\nint main() {");
+            //File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <conio.h>\n\nusing namespace std;\n\nint main() {");
+            File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <conio.h>\n\nusing namespace std;\n");
 
             for (int i = 0; i < GeneratedCode.Length; i++)
                 File.AppendAllText("genCode.cpp", "\n" + GeneratedCode[i]);
 
-            File.AppendAllText("genCode.cpp", "\nreturn 0;\n}");
+            //File.AppendAllText("genCode.cpp", "\nreturn 0;\n}");
 
             Console.WriteLine("Kompiluję...");
             string args = "";
