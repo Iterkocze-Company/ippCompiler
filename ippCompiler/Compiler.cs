@@ -51,7 +51,8 @@ namespace ippCompiler
                     string toFirst = "";
                     for (int i = 0; i <= a; i = i + 1)
                     {
-                        toFirst = toFirst + parts[i];
+                        if (parts[i] == "") toFirst = toFirst + " ";
+                        else toFirst = toFirst + parts[i];
                     }
                     afterFirst = afterFirst.Replace(toFirst, "");
 
