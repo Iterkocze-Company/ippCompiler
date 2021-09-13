@@ -40,6 +40,7 @@ namespace ippCompiler
             
             foreach (string line in lines)
             {
+                line = line.Replace("\n", "");
                 if (line != lines[lines.Length - 1])
                 {
                     string[] parts = line.Split(" ");
