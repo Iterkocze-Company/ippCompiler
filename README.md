@@ -5,7 +5,7 @@ Kompilator języka i++
 ### Instrukcje Języka i++
 `echo "helo"` Lub 'echoLine "helo"' Powoduje wypisanie ciągu znaków w konsoli. Można użyć z operatorem '+'. <br> <br>
 `readKey` Powoduje postój w oczekiwaniu na input ze strony użytkownika programu. W przypadku użycia ze zadeklarowaną zmienną, zwróci kod ASCII wpisanej liery. <br> <br>
-`readString` Powoduje postój w oczekiwaniu na input ze strony użytkownika programu. Musi być użyty, aby odczytać wartość wpisaną przez użytkownika w konsoli. Na przykład `string s = readString` lub po deklaracji zmiennej typu string `s = readString`. <br> <br>
+`readString` Powoduje postój w oczekiwaniu na input ze strony użytkownika programu. Musi być użyty, aby odczytać wartość wpisaną przez użytkownika w konsoli. Na przykład `string s = readString;` lub po deklaracji zmiennej typu string `s = readString;`. <br> <br>
 
 ### Operatory w Języku i++
 `+` Operator Konkatenacji. Można użyć go razem z instrukcją `echo` Lub `echoLine`, aby połączyć dwa (lub więcej) napisów w jeden. <br> <br>
