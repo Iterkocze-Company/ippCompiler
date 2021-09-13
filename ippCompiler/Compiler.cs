@@ -37,10 +37,11 @@ namespace ippCompiler
             string[] lines = ReadFileContents(Program.CODE_FILE_PATH);
             string[] GeneratedCode = new string[Program.FILE_LEN+4];
             int index = 0;
-            
-            foreach (string line in lines)
+
+            for (int i = 0; i < lines.Length; i = i + 1)
             {
-                line = line.Replace("\n", "");
+                string line = lines[i].Replace("\n", "");
+                
                 if (line != lines[lines.Length - 1])
                 {
                     string[] parts = line.Split(" ");
@@ -50,10 +51,10 @@ namespace ippCompiler
 
                     string afterFirst = line;
                     string toFirst = "";
-                    for (int i = 0; i <= a; i = i + 1)
+                    for (int j = 0; i <= a; j = j + 1)
                     {
-                        if (parts[i] == "") toFirst = toFirst + " ";
-                        else toFirst = toFirst + parts[i];
+                        if (parts[j] == "") toFirst = toFirst + " ";
+                        else toFirst = toFirst + parts[j];
                     }
                     afterFirst = afterFirst.Replace(toFirst, "");
 
