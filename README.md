@@ -9,7 +9,15 @@ Kompilator języka i++
 
 `readString` Powoduje postój w oczekiwaniu na input ze strony użytkownika programu. Musi być użyty, aby odczytać wartość wpisaną przez użytkownika w konsoli. Instrukcję `readString` można też użyć ze zmienną typu int. Input zostanie automatycznie przekonwertowany na typ int. Na przykład po deklaracji zmiennej `s = readString;`. Należy pamiętać, że język C++, do którego konwertowany jest język i++ nie wspiera odczytywania wartości operatorem 'cin', w tej samej linijce, po deklaracji zmiennej. Ten kod jest niepoprawny `string s = readString;`. <br>
 
-`if` Służy do podejmowania decyzji na podstawie konkretnego warunku/warunków. Na przykład `if (x == 1)`. Aby zakończyć instrukcję `if`, użyj słowa kluczowego `end`. Wszystkie spójniki logiczne są identyczne do tych, spotykanych w językach C/C++. <br> <br>
+`if` oraz `else` Służy do podejmowania decyzji na podstawie konkretnego warunku/warunków. Na przykład `if (x == 1);`. Aby zakończyć instrukcję `if`, użyj słowa kluczowego `end`. Możesz też użyć `else` razem, z instrukcją `if` w następujący sposób: <br>
+`if (x == 1);` <br>
+`echoLine x;` <br>
+`end;` <br>
+`else;` <br>
+`echoLine "else";` <br>
+`end;` <br>
+
+Wszystkie spójniki logiczne są identyczne do tych, spotykanych w językach C/C++. <br> <br>
 
 ### Operatory w Języku i++
 `+` Operator Konkatenacji. Można użyć go razem z instrukcją `echo` Lub `echoLine`, aby połączyć dwa (lub więcej) napisów w jeden. <br> <br>
