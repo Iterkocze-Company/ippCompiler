@@ -114,6 +114,19 @@ namespace ippCompiler
                             index++;
                             break;
 
+                        case "string":
+                            GeneratedCode[index] = "string ";
+
+                            string nameStr = lines[index].Substring(lines[index].IndexOf(' ')).Replace(" ", "");
+                            GeneratedCode[index] = GeneratedCode[index] + nameStr + ";";
+                            if (nameStr.Contains('='))
+                                nameStr = nameStr.Substring(0, nameStr.IndexOf('='));
+
+                            VARS.Add(nameStr);
+
+                            index++;
+                            break;
+
                         case "readKey":
                             GeneratedCode[index] = "getch();";
                             index++;
@@ -132,6 +145,20 @@ namespace ippCompiler
                         if (line.EndsWith("readKey"))
                         {
                             GeneratedCode[index] = var + " = getch();";
+                            index++;
+                            break;
+                        }
+
+                        if (line.EndsWith("readString"))
+                        {
+                            GeneratedCode[index] = "cin >> " + var + ";";
+                            index++;
+                            break;
+                        }
+
+                        if (line.EndsWith("++"))
+                        {
+                            GeneratedCode[index] = var + "++;";
                             index++;
                             break;
                         }
@@ -166,8 +193,11 @@ namespace ippCompiler
             Process.Start("g++", "-O2 -s genCode.cpp");
             
             Console.WriteLine("Gotowe");
-            Thread.Sleep(2000);
-            if (Program.FLAG_RUN) Process.Start(startInfo);
+            if (Program.FLAG_RUN)
+            {
+                Thread.Sleep(2000);
+                Process.Start(startInfo);
+            }
             Console.ReadKey();
         }
     }
