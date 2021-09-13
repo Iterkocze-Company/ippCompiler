@@ -12,6 +12,7 @@ Kompilator języka i++
 
 ### Typy w Języku i++
 `int` Deklaruje zmienną typu Int32 lub Int64, zależnie od platformy. Można tej zmiennej przypisać wartość w tej samej linijce, zaraz po deklaracji, lub później za pomocą operatora przypisania `=`. <br> <br>
+`string` Deklaruje zmienną typu String. Na przykład `string s;` lub `string s = "helo";`. <br> <br>
 
 ### Flagi Kompilatora
 `name=example` Dodanie tej flagi spowoduje zmianę nazwy wykompilowanego pliku .exe na 'example'. <br> <br>
