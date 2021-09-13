@@ -45,7 +45,7 @@ namespace ippCompiler
                 {
 
                     //switch (line.Split(" ")[0])
-                    switch (line.Split(" ")[0].Replace("\t", " "))
+                    switch (line.Split(" ")[0].Replace("\t", ""))
                     {
                         case "echoLine":
                             GeneratedCode[index] = "cout << ";
@@ -153,7 +153,7 @@ namespace ippCompiler
 
                 foreach (string var in VARS)
                 {
-                    if (line.Contains(var) && line.StartsWith(var[0]))
+                    if (line.Contains(var) && line.Replace(" ", "").Replace("\t", "").StartsWith(var[0]))
                     {
                         if (line.EndsWith("readKey"))
                         {
