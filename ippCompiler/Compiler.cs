@@ -42,7 +42,7 @@ namespace ippCompiler
             {
                 if (line != lines[lines.Length - 1])
                 {
-                    string parts = line.Split(" ");
+                    string[] parts = line.Split(" ");
                     int a = 0;
 
                     while (parts[a] == "") a = a + 1;
