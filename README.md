@@ -11,6 +11,14 @@ Kompilator języka i++
 `+` Operator Konkatenacji. Można użyć go razem z instrukcją `echo` Lub `echoLine`, aby połączyć dwa (lub więcej) napisów w jeden. <br> <br>
 `=` Operator Przypisania. Używa się go, aby przypisać wartość do zadeklarowanej zmiennej. Na przykład `int helo = 123;`. Podczas używania operatora przypisania, należy dodać jeden odstęp (` `) po nazwie zmiennej. <br> <br>
 
+#### Operatory Arytmetyczne w Języku i++
+##### Należy używać ich w instrukcji `echo` lub `echoLine`. Na przykład `echoLine x*2;`
+`+` Dodawanie <br>
+`*` Mnożenie <br>
+`/` Dzielenie <br>
+`%` Dzielenie Modulo <br>
+`++` Inkrementacja <br> <br>
+
 ### Typy w Języku i++
 `int` Deklaruje zmienną typu Int32 lub Int64, zależnie od platformy. Można tej zmiennej przypisać wartość w tej samej linijce, zaraz po deklaracji, lub później za pomocą operatora przypisania `=`. <br> <br>
 `string` Deklaruje zmienną typu String. Na przykład `string s;` lub `string s = "helo";`. <br> <br>
