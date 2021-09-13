@@ -40,7 +40,7 @@ namespace ippCompiler
 
             for (int i = 0; i < lines.Length; i = i + 1)
             {
-                string line = lines[i].Replace("\n", "");
+                string line = lines[i].Replace("\n", "").Replace("\t", "");
                 
                 if (line != lines[lines.Length - 1])
                 {
