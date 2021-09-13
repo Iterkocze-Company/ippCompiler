@@ -40,13 +40,20 @@ namespace ippCompiler
             
             foreach (string line in lines)
             {
-                string afterEcho = deleteFirstArg(line);
                 if (line != lines[lines.Length - 1])
                 {
                     string parts = line.Split(" ");
                     int a = 0;
-                    
+
                     while (parts[a] == "") a = a + 1;
+
+                    string afterFirst = line;
+                    string toFirst = "";
+                    for (int i = 0; i <= a; i = i + 1)
+                    {
+                        toFirst = toFirst + parts[i];
+                    }
+                    afterFirst = afterFirst.Replace(toFirst, "");
 
                     //switch (line.Split(" ")[0])
                     switch (parts[a].Replace("\t", ""))
@@ -54,7 +61,7 @@ namespace ippCompiler
                         case "echoLine":
                             GeneratedCode[index] = "cout << ";
                             
-                            foreach (char ch in afterEcho)
+                            foreach (char ch in afterFirst)
                             {
                                 if (ch == '+')
                                     GeneratedCode[index] = GeneratedCode[index] + " << ";
@@ -77,7 +84,7 @@ namespace ippCompiler
                         case "echo":
                             GeneratedCode[index] = "cout << ";
                             
-                            foreach (char ch in afterEcho) 
+                            foreach (char ch in afterFirst) 
                             {
                                 if (ch == '+')
                                     GeneratedCode[index] = GeneratedCode[index] + " << ";
