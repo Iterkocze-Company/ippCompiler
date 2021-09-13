@@ -26,6 +26,9 @@ Kompilator języka i++
 `int` Deklaruje zmienną typu Int32 lub Int64, zależnie od platformy. Można tej zmiennej przypisać wartość w tej samej linijce, zaraz po deklaracji, lub później za pomocą operatora przypisania `=`. <br> <br>
 `string` Deklaruje zmienną typu String. Na przykład `string s;` lub `string s = "helo";`. <br> <br>
 
+### Deklarowanie Funkcji w Języku i++
+użyj słowa kluczowego `def`, aby zadeklarować funkcję. Po słowie kluczowyn `def` wpisz typ zwracany przez funkcję. Na przykład `def int test;`. Po zakończeniu pracy z funkcją, wpisz słowo kluczowe `end`. Przykładowa deklaracja funkcji: <br> `def int test;` <br> `echoLine "Helo z funkcji!";` <br> `end;` <br> <br> Niestety, wszystko, co jest w funkcji powinno nie zawierać odstępów ani tabów. Niestety, związane jest to z rdzenną mechaniką kompilatora. Z góry przepraszam za Code Gore. <br> <br>
+
 ### Flagi Kompilatora
 `name=example` Dodanie tej flagi spowoduje zmianę nazwy wykompilowanego pliku .exe na 'example'. <br> <br>
 `run` Uruchamia program po jego kompilacji. Flaga `run` powinna być zawsze pierwsza (jeśli chcesz jej użyć). <br> <br>
