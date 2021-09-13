@@ -117,7 +117,7 @@ namespace ippCompiler
                                 index++;
                                 break;
                             }
-                            string name = lines[index].Substring(lines[index].IndexOf(' ')).Replace(" ", "");
+                            string name = line.Substring(line.IndexOf(' ')).Replace(" ", "");
 
                             GeneratedCode[index] = GeneratedCode[index] + name + ";";
 
@@ -132,7 +132,7 @@ namespace ippCompiler
                         case "string":
                             GeneratedCode[index] = "string ";
 
-                            string nameStr = lines[index].Substring(lines[index].IndexOf(' ')).Replace(" ", "");
+                            string nameStr = line.Substring(line.IndexOf(' ')).Replace(" ", "");
                             GeneratedCode[index] = GeneratedCode[index] + nameStr + ";";
                             if (nameStr.Contains('='))
                                 nameStr = nameStr.Substring(0, nameStr.IndexOf('='));
