@@ -27,14 +27,22 @@ Kompilator języka i++
 `string` Deklaruje zmienną typu String. Na przykład `string s;` lub `string s = "helo";`. <br> <br>
 
 ### Deklarowanie Funkcji w Języku i++
-użyj słowa kluczowego `def`, aby zadeklarować funkcję. Po słowie kluczowyn `def` wpisz typ zwracany przez funkcję. Na przykład `def int test;`. Po zakończeniu pracy z funkcją, wpisz słowo kluczowe `end`. Przykładowa deklaracja funkcji: <br> `def int test;` <br> `echoLine "Helo z funkcji!";` <br> `end;` <br> <br> Niestety, wszystko, co jest w funkcji powinno nie zawierać odstępów ani tabów. Niestety, związane jest to z rdzenną mechaniką kompilatora. Z góry przepraszam za Code Gore. <br> <br>
+Użyj słowa kluczowego `def`, aby zadeklarować funkcję. Po słowie kluczowyn `def` wpisz typ zwracany przez funkcję. Na przykład `def int test;`. Po zakończeniu pracy z funkcją, wpisz słowo kluczowe `end`. Przykładowa deklaracja funkcji: <br> `def int test;` <br> `echoLine "Helo z funkcji!";` <br> `end;` <br> <br> Niestety, wszystko, co jest w funkcji powinno nie zawierać odstępów ani tabów. Niestety, związane jest to z rdzenną mechaniką kompilatora. Z góry przepraszam za Code Gore. <br> <br>
 
 ### Flagi Kompilatora
 `name=example` Dodanie tej flagi spowoduje zmianę nazwy wykompilowanego pliku .exe na 'example'. <br> <br>
 `run` Uruchamia program po jego kompilacji. Flaga `run` powinna być zawsze pierwsza (jeśli chcesz jej użyć). <br> <br>
 
 ### Twój Pierwszy Program w Języku i++
-Aby pomyślnie wykompilować protgram, musisz zdefiniować funkcję main za pomocą `def int main;`. Oto program Hello World w i++: <br>
+Aby pomyślnie wykompilować program, musisz zdefiniować funkcję main za pomocą `def int main;`. Oto program Hello World w i++: <br>
 `def int main;` <br>
 `echoLine "Hello, World!";` <br>
+`end;` <br> <br>
+
+Aby wywołać funkcję, zwyczajnie wpisz jej nazwę zakończoną klamrami. Oto przykładowy program demonstrujący wywoływanie zadeklarowanej funkcji: <br>
+`def int test;` <br>
+`echoLine "Funkcja";` <br>
+`end;` <br>
+`def int main;` <br>
+`test();` <br>
 `end;` <br> <br>
