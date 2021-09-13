@@ -51,7 +51,7 @@ namespace ippCompiler
 
                     string afterFirst = line;
                     string toFirst = "";
-                    for (int j = 0; i <= a; j = j + 1)
+                    for (int j = 0; j <= a; j = j + 1)
                     {
                         if (parts[j] == "") toFirst = toFirst + " ";
                         else toFirst = toFirst + parts[j];
