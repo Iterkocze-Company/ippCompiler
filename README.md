@@ -18,7 +18,8 @@ Kompilator języka i++
 `/` Dzielenie <br>
 `%` Dzielenie Modulo <br>
 ##### Należy ich używać samodzielnie, w środku kodu. Na przykład `x++;`
-`++` Inkrementacja <br> <br>
+`++` Inkrementacja <br>
+`*` Mnożenie <br> <br>
 
 ### Typy w Języku i++
 `int` Deklaruje zmienną typu Int32 lub Int64, zależnie od platformy. Można tej zmiennej przypisać wartość w tej samej linijce, zaraz po deklaracji, lub później za pomocą operatora przypisania `=`. <br> <br>
