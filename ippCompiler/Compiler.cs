@@ -106,7 +106,9 @@ namespace ippCompiler
 
                             GeneratedCode[index] = GeneratedCode[index] + name + ";";
 
-                            name = name.Substring(0, name.IndexOf('='));
+                            if (name.Contains('='))
+                                name = name.Substring(0, name.IndexOf('='));
+
                             VARS.Add(name);
 
                             index++;
@@ -127,6 +129,13 @@ namespace ippCompiler
                 {
                     if (line.Contains(var) && line.StartsWith(var[0]))
                     {
+                        if (line.EndsWith("readKey"))
+                        {
+                            GeneratedCode[index] = var + " = getch();";
+                            index++;
+                            break;
+                        }
+
                         string val = line.Substring(line.IndexOf('=')+1);
                         val = val.Replace(" ", "");
                         GeneratedCode[index] = var + "=" + (string)val + ";";
