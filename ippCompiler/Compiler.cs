@@ -163,6 +163,22 @@ namespace ippCompiler
                             break;
                         }
 
+                        if (line.Contains('*'))
+                        {
+                            string valMul = line.Substring(line.IndexOf('*')+1);
+                            GeneratedCode[index] = var + "=" + var + "*" + valMul + ";";
+                            index++;
+                            break;
+                        }
+
+                        if (line.Contains('/'))
+                        {
+                            string valMul = line.Substring(line.IndexOf('/') + 1);
+                            GeneratedCode[index] = var + "=" + var + "/" + valMul + ";";
+                            index++;
+                            break;
+                        }
+
                         string val = line.Substring(line.IndexOf('=')+1);
                         val = val.Replace(" ", "");
                         GeneratedCode[index] = var + "=" + (string)val + ";";
@@ -198,7 +214,8 @@ namespace ippCompiler
                 Thread.Sleep(2000);
                 Process.Start(startInfo);
             }
-            Console.ReadKey();
+            else
+                Console.ReadKey();
         }
     }
 }
