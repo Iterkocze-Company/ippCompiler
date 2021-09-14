@@ -172,7 +172,8 @@ namespace ippCompiler
                             GeneratedCode[index] += lines[index + 2];
                             GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
-                            index++;
+                            //index++;
+                            index += 3;
                             break;
 
                         case "return":
