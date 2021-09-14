@@ -10,7 +10,7 @@ namespace ippCompiler
 {
     public static class Compiler
     {
-        private static int FUNCTION_FLAG = 0; //0= int, 1 = string
+        //private static int FUNCTION_FLAG = 0; //0= int, 1 = string
         private static bool LOOP_FLAG;
         public static List<string> VARS = new List<string>(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
@@ -145,7 +145,7 @@ namespace ippCompiler
 
                         case "end":
 
-                            if (FUNCTION_FLAG == 0)
+                            /*if (FUNCTION_FLAG == 0)
                             {
                                 GeneratedCode[index] = "return 0;";
                                 GeneratedCode[index] = "}";
@@ -155,8 +155,10 @@ namespace ippCompiler
                             {
                                 GeneratedCode[index] = "return \"0\";";
                                 GeneratedCode[index] = "}";
-                            }
-                                
+                            }*/
+
+                            GeneratedCode[index] = "}";
+
                             if (LOOP_FLAG)
                             {
                                 GeneratedCode[index] = "}";
@@ -195,6 +197,11 @@ namespace ippCompiler
                             lines[index+1] = lines[index+1] += ")";
                             GeneratedCode[index] += lines[index + 1];
                             GeneratedCode[index] += "{";
+                            index++;
+                            break;
+
+                        case "return":
+                            GeneratedCode[index] = line + ";";
                             index++;
                             break;
 
@@ -244,7 +251,7 @@ namespace ippCompiler
                             break;
                         }
 
-                        if (line.EndsWith("()"))
+                        if (line.EndsWith("()")) //Jeśli wykryjemy, że to nazwa funkcji.
                         {
                             GeneratedCode[index] = var + "();";
                             index++;
@@ -258,7 +265,7 @@ namespace ippCompiler
                     }
                 }
 
-                if (line.ToLower().Contains("def")) //Obsługa funkcji. Póki co nie wiem jak to zrobić.
+                if (line.ToLower().Contains("def")) //Obsługa funkcji.
                 {
                     string[] splitted = line.Split();
                     string funcName = splitted[2];
@@ -268,7 +275,7 @@ namespace ippCompiler
                     {
                         if (lineDef.Contains("int"))
                         {
-                            FUNCTION_FLAG = 0;
+                            //FUNCTION_FLAG = 0;
                             GeneratedCode[index] += "int ";
                             GeneratedCode[index] += funcName + "()";
                             index++;
@@ -278,8 +285,18 @@ namespace ippCompiler
 
                         if (lineDef.Contains("string"))
                         {
-                            FUNCTION_FLAG = 1;
+                            //FUNCTION_FLAG = 1;
                             GeneratedCode[index] += "string ";
+                            GeneratedCode[index] += funcName + "()";
+                            index++;
+                            GeneratedCode[index] = "{";
+                            index++;
+                        }
+
+                        if (lineDef.Contains("void"))
+                        {
+                            //FUNCTION_FLAG = 2;
+                            GeneratedCode[index] += "void ";
                             GeneratedCode[index] += funcName + "()";
                             index++;
                             GeneratedCode[index] = "{";
