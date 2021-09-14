@@ -11,7 +11,7 @@ namespace ippCompiler
     public static class Compiler
     {
         private static int FUNCTION_FLAG = 0; //0= int, 1 = string
-        private static bool IF_FLAG;
+        private static bool LOOP_FLAG;
         public static List<string> VARS = new List<string>(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
         public static string[] ReadFileContents(string pathToFile)
@@ -157,10 +157,10 @@ namespace ippCompiler
                                 GeneratedCode[index] = "}";
                             }
                                 
-                            if (IF_FLAG)
+                            if (LOOP_FLAG)
                             {
                                 GeneratedCode[index] = "}";
-                                IF_FLAG = false;
+                                LOOP_FLAG = false;
                             }
                             
                             index++;
@@ -172,17 +172,29 @@ namespace ippCompiler
                             break;
 
                         case "if":
-                            IF_FLAG = true;
-                            foreach (char c in line)
-                                    GeneratedCode[index] += c;
+                            LOOP_FLAG = true;
+                            GeneratedCode[index] = lines[index-1].Replace("if", "if (");
+                            GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
                             index++;
                             break;
 
                         case "else":
-                            IF_FLAG = true;
+                            LOOP_FLAG = true;
                             GeneratedCode[index] += "else{";
+                            index++;
+                            break;
 
+                        case "for":
+                            LOOP_FLAG = true;
+                            lines[index-1] = lines[index-1].Replace("for", "for (");
+                            GeneratedCode[index] += lines[index - 1];
+                            GeneratedCode[index] += ";";
+                            GeneratedCode[index] += lines[index];
+                            GeneratedCode[index] += ";";
+                            lines[index+1] = lines[index+1] += ")";
+                            GeneratedCode[index] += lines[index + 1];
+                            GeneratedCode[index] += "{";
                             index++;
                             break;
 
