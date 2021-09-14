@@ -165,14 +165,10 @@ namespace ippCompiler
 
                         case "for":
                             lines[index] = lines[index].Replace("for", "for (");
-                            GeneratedCode[index] += lines[index];
-                            GeneratedCode[index] += ";";
-                            GeneratedCode[index] += lines[index + 1];
-                            GeneratedCode[index] += ";";
+                            GeneratedCode[index] += lines[index] + ";";
+                            GeneratedCode[index] += lines[index + 1] + ";";
                             GeneratedCode[index] += lines[index + 2];
-                            GeneratedCode[index] += ")";
-                            GeneratedCode[index] += "{";
-                            //index++;
+                            GeneratedCode[index] += "){";
                             index += 3;
                             break;
 
