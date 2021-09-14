@@ -144,19 +144,6 @@ namespace ippCompiler
                             break;
 
                         case "end":
-
-                            /*if (FUNCTION_FLAG == 0)
-                            {
-                                GeneratedCode[index] = "return 0;";
-                                GeneratedCode[index] = "}";
-                            }
-                                
-                            if (FUNCTION_FLAG == 1)
-                            {
-                                GeneratedCode[index] = "return \"0\";";
-                                GeneratedCode[index] = "}";
-                            }*/
-
                             GeneratedCode[index] = "}";
 
                             if (LOOP_FLAG)
@@ -175,7 +162,7 @@ namespace ippCompiler
 
                         case "if":
                             LOOP_FLAG = true;
-                            GeneratedCode[index] = lines[index-1].Replace("if", "if (");
+                            GeneratedCode[index] = lines[index].Replace("if", "if (");
                             GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
                             index++;
@@ -275,31 +262,25 @@ namespace ippCompiler
                     {
                         if (lineDef.Contains("int"))
                         {
-                            //FUNCTION_FLAG = 0;
                             GeneratedCode[index] += "int ";
                             GeneratedCode[index] += funcName + "()";
-                            index++;
-                            GeneratedCode[index] = "{";
+                            GeneratedCode[index] += "{";
                             index++;
                         }
 
                         if (lineDef.Contains("string"))
                         {
-                            //FUNCTION_FLAG = 1;
                             GeneratedCode[index] += "string ";
                             GeneratedCode[index] += funcName + "()";
-                            index++;
-                            GeneratedCode[index] = "{";
+                            GeneratedCode[index] += "{";
                             index++;
                         }
 
                         if (lineDef.Contains("void"))
                         {
-                            //FUNCTION_FLAG = 2;
                             GeneratedCode[index] += "void ";
                             GeneratedCode[index] += funcName + "()";
-                            index++;
-                            GeneratedCode[index] = "{";
+                            GeneratedCode[index] += "{";
                             index++;
                         }
                     }
