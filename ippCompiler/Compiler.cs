@@ -10,8 +10,6 @@ namespace ippCompiler
 {
     public static class Compiler
     {
-        //private static int FUNCTION_FLAG = 0; //0= int, 1 = string
-        private static bool LOOP_FLAG;
         public static List<string> VARS = new List<string>(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
         public static string[] ReadFileContents(string pathToFile)
@@ -145,13 +143,6 @@ namespace ippCompiler
 
                         case "end":
                             GeneratedCode[index] = "}";
-
-                            if (LOOP_FLAG)
-                            {
-                                GeneratedCode[index] = "}";
-                                LOOP_FLAG = false;
-                            }
-                            
                             index++;
                             break;
 
@@ -161,7 +152,6 @@ namespace ippCompiler
                             break;
 
                         case "if":
-                            LOOP_FLAG = true;
                             GeneratedCode[index] = lines[index].Replace("if", "if (");
                             GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
@@ -169,20 +159,18 @@ namespace ippCompiler
                             break;
 
                         case "else":
-                            LOOP_FLAG = true;
                             GeneratedCode[index] += "else{";
                             index++;
                             break;
 
                         case "for":
-                            LOOP_FLAG = true;
-                            lines[index-1] = lines[index-1].Replace("for", "for (");
-                            GeneratedCode[index] += lines[index - 1];
-                            GeneratedCode[index] += ";";
+                            lines[index] = lines[index].Replace("for", "for (");
                             GeneratedCode[index] += lines[index];
                             GeneratedCode[index] += ";";
-                            lines[index+1] = lines[index+1] += ")";
                             GeneratedCode[index] += lines[index + 1];
+                            GeneratedCode[index] += ";";
+                            GeneratedCode[index] += lines[index + 2];
+                            GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
                             index++;
                             break;
@@ -288,25 +276,22 @@ namespace ippCompiler
             }
 
             File.WriteAllText("genCode.cpp", "");
-            //File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <conio.h>\n\nusing namespace std;\n\nint main() {");
             File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <conio.h>\n\nusing namespace std;\n");
 
             for (int i = 0; i < GeneratedCode.Length; i++)
                 File.AppendAllText("genCode.cpp", "\n" + GeneratedCode[i]);
 
-            //File.AppendAllText("genCode.cpp", "\nreturn 0;\n}");
-
             Console.WriteLine("Kompiluję...");
             string args = "";
             
-            
             args = args + $"{"-o " + Program.FLAG_NAME}";
             Process.Start("g++", $"{args} -O2 -s genCode.cpp");
-            var startInfo = new ProcessStartInfo();
+            var startInfo = new ProcessStartInfo
+            {
+                WorkingDirectory = Directory.GetCurrentDirectory(),
+                FileName = Program.FLAG_NAME + ".exe"
+            };
 
-            startInfo.WorkingDirectory = Directory.GetCurrentDirectory();
-            startInfo.FileName = Program.FLAG_NAME + ".exe";
-            
             Process.Start("g++", "-O2 -s genCode.cpp");
             
             Console.WriteLine("Gotowe");
