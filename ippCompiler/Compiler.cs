@@ -152,7 +152,7 @@ namespace ippCompiler
                             break;
 
                         case "if":
-                            GeneratedCode[index] = lines[index].Replace("if", "if (");
+                            GeneratedCode[index] = lines[index].Replace("if", "if (").Replace(":--", "==").Replace("!:--", "!=").Replace("<:-", "<=").Replace(">:-", ">=");
                             GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
                             index++;
