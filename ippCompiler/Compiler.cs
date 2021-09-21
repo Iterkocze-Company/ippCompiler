@@ -12,6 +12,7 @@ namespace ippCompiler
     {
         public static List<string> VARS = new List<string>(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
+        public static string lastVar = "";
         public static string[] ReadFileContents(string pathToFile)
         {
             return File.ReadAllText(pathToFile).Replace("\r\n", "").Split(";");
@@ -187,10 +188,13 @@ namespace ippCompiler
                             break;
                     }
                 }
+                
 
                 foreach (string var in VARS)
                 {
+                    
                     string numericArgs = "";
+                    
                     if (var != "")
                     if (line.Contains(var) && line.Replace(" ", "").Replace("\t", "").StartsWith(var[0]))
                     {
@@ -202,6 +206,7 @@ namespace ippCompiler
                             {
                                 
                             }
+                            
                         
                         if (line.EndsWith("readKey"))
                         {
@@ -247,19 +252,21 @@ namespace ippCompiler
                             break;
                         }
 
-                        if (line.EndsWith(")"))
+                        if (line.EndsWith(")") && var != lastVar)
                         {
                             GeneratedCode[index] = var + "(" + numericArgs + ");";
                             index++;
+                            lastVar = var;
                             break;
                         }
 
-                        if (!line.Contains("int"))
+                        if (!line.Contains("int") && var != lastVar)
                         {
                             string val = line.Substring(line.IndexOf('=') + 1);
                             val = val.Replace(" ", "");
                             GeneratedCode[index] = var + "=" + (string)val + ";";
                             index++;
+                               
                         }
                         
                     }
@@ -294,8 +301,8 @@ namespace ippCompiler
                                 if (c != ' ')
                                 {
                                     listOfArgumentsFinal[argumentsIntIndex] += c;
-                                    argumentsIntIndex++;
-
+                                    if (c == ',')
+                                        argumentsIntIndex++;
                                 }
                             }
                             GeneratedCode[index] += "int ";
@@ -332,7 +339,8 @@ namespace ippCompiler
                                 if (c != ' ')
                                 {
                                     listOfArgumentsFinal[argumentsIntIndex] += c;
-                                    argumentsIntIndex++;
+                                    if (c == ',')
+                                        argumentsIntIndex++;
 
                                 }
                             }
