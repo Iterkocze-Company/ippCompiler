@@ -158,6 +158,13 @@ namespace ippCompiler
                             index++;
                             break;
 
+                        case "while":
+                            GeneratedCode[index] = lines[index].Replace("while", "while (").Replace(":--", "==").Replace("!:--", "!=").Replace("<:-", "<=").Replace(">:-", ">=");
+                            GeneratedCode[index] += ")";
+                            GeneratedCode[index] += "{";
+                            index++;
+                            break;
+
                         case "else":
                             GeneratedCode[index] += "else{";
                             index++;
@@ -183,8 +190,19 @@ namespace ippCompiler
 
                 foreach (string var in VARS)
                 {
+                    string numericArgs = "";
+                    if (var != "")
                     if (line.Contains(var) && line.Replace(" ", "").Replace("\t", "").StartsWith(var[0]))
                     {
+                            try
+                            {
+                                numericArgs = line.Remove(0, line.IndexOf("(")).Replace("(", "").Replace(")", "");
+                            }
+                            catch
+                            {
+                                
+                            }
+                        
                         if (line.EndsWith("readKey"))
                         {
                             GeneratedCode[index] = var + " = getch();";
@@ -229,33 +247,110 @@ namespace ippCompiler
                             break;
                         }
 
-                        string val = line.Substring(line.IndexOf('=')+1);
-                        val = val.Replace(" ", "");
-                        GeneratedCode[index] = var + "=" + (string)val + ";";
-                        index++;
+                        if (line.EndsWith(")"))
+                        {
+                            GeneratedCode[index] = var + "(" + numericArgs + ");";
+                            index++;
+                            break;
+                        }
+
+                        if (!line.Contains("int"))
+                        {
+                            string val = line.Substring(line.IndexOf('=') + 1);
+                            val = val.Replace(" ", "");
+                            GeneratedCode[index] = var + "=" + (string)val + ";";
+                            index++;
+                        }
+                        
                     }
                 }
 
                 if (line.ToLower().Contains("def")) //Obsługa funkcji.
                 {
+                    string lastFuncName = "";
                     string[] splitted = line.Split();
-                    string funcName = splitted[2];
+                    string funcName = "";
+                    if (!splitted[2].Contains("main"))
+                        funcName = splitted[2].Substring(0, splitted[2].IndexOf("("));
+                    if (splitted[2].Contains("main"))
+                    {
+                        GeneratedCode[index] += "int main(){";
+                        index++;
+                    }
                     VARS.Add(funcName);
 
                     foreach (string lineDef in splitted)
                     {
-                        if (lineDef.Contains("int"))
+                        if (lineDef.Contains("int") && funcName != lastFuncName)
                         {
+                            lastFuncName = funcName;
+
+                            string listOfArgumentsInt = lines[index].Substring(lines[index].IndexOf('(')).Replace("(", "").Replace(")", "");
+                            listOfArgumentsInt = listOfArgumentsInt.Replace("int", "").Replace(",", "");
+                            string[] listOfArgumentsFinal = new string[8];
+                            int argumentsIntIndex = 0;
+                            foreach (char c in listOfArgumentsInt)
+                            {
+                                if (c != ' ')
+                                {
+                                    listOfArgumentsFinal[argumentsIntIndex] += c;
+                                    argumentsIntIndex++;
+
+                                }
+                            }
                             GeneratedCode[index] += "int ";
-                            GeneratedCode[index] += funcName + "()";
+                            GeneratedCode[index] += funcName + "(";
+                            foreach (string arg in listOfArgumentsFinal)
+                            {
+                                if (arg != null)
+                                {
+                                    GeneratedCode[index] += "int " + arg;
+                                    if (argumentsIntIndex > 1)
+                                        GeneratedCode[index] += ", ";
+                                    VARS.Add(arg);
+                                }
+                            }
+
+                            GeneratedCode[index] = GeneratedCode[index].Remove(GeneratedCode[index].Length - 2);
+
+                            GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
                             index++;
                         }
 
                         if (lineDef.Contains("string"))
                         {
+                            lastFuncName = funcName;
+
+                            string listOfArgumentsInt = lines[index].Substring(lines[index].IndexOf('(')).Replace("(", "").Replace(")", "");
+                            listOfArgumentsInt = listOfArgumentsInt.Replace("string", "").Replace(",", "");
+                            string[] listOfArgumentsFinal = new string[8];
+                            int argumentsIntIndex = 0;
+                            foreach (char c in listOfArgumentsInt)
+                            {
+                                if (c != ' ')
+                                {
+                                    listOfArgumentsFinal[argumentsIntIndex] += c;
+                                    argumentsIntIndex++;
+
+                                }
+                            }
                             GeneratedCode[index] += "string ";
-                            GeneratedCode[index] += funcName + "()";
+                            GeneratedCode[index] += funcName + "(";
+                            foreach (string arg in listOfArgumentsFinal)
+                            {
+                                if (arg != null)
+                                {
+                                    GeneratedCode[index] += "string " + arg;
+                                    if (argumentsIntIndex > 1)
+                                        GeneratedCode[index] += ", ";
+                                    VARS.Add(arg);
+                                }
+                            }
+
+                            GeneratedCode[index] = GeneratedCode[index].Remove(GeneratedCode[index].Length - 2);
+
+                            GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
                             index++;
                         }
