@@ -311,7 +311,8 @@ namespace ippCompiler
                                 }
                             }
 
-                            GeneratedCode[index] = GeneratedCode[index].Remove(GeneratedCode[index].Length - 2);
+                            if (argumentsIntIndex > 1)
+                                GeneratedCode[index] = GeneratedCode[index].Remove(GeneratedCode[index].Length - 2);
 
                             GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
@@ -348,7 +349,8 @@ namespace ippCompiler
                                 }
                             }
 
-                            GeneratedCode[index] = GeneratedCode[index].Remove(GeneratedCode[index].Length - 2);
+                            if (argumentsIntIndex > 1)
+                                GeneratedCode[index] = GeneratedCode[index].Remove(GeneratedCode[index].Length - 2);
 
                             GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
