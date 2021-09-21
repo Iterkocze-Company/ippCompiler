@@ -260,7 +260,7 @@ namespace ippCompiler
                             break;
                         }
 
-                        if (!line.Contains("int") && var != lastVar)
+                        if (!line.Contains("int") && !line.Contains("string") && var != lastVar)
                         {
                             string val = line.Substring(line.IndexOf('=') + 1);
                             val = val.Replace(" ", "");
@@ -268,7 +268,6 @@ namespace ippCompiler
                             index++;
                                
                         }
-                        
                     }
                 }
 
