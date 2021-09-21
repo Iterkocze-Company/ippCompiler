@@ -286,7 +286,7 @@ namespace ippCompiler
                             lastFuncName = funcName;
 
                             string listOfArgumentsInt = lines[index].Substring(lines[index].IndexOf('(')).Replace("(", "").Replace(")", "");
-                            listOfArgumentsInt = listOfArgumentsInt.Replace("int", "").Replace(",", "");
+                            listOfArgumentsInt = listOfArgumentsInt.Replace("string", "").Replace("int", "").Replace(",", "");
                             string[] listOfArgumentsFinal = new string[8];
                             int argumentsIntIndex = 0;
                             foreach (char c in listOfArgumentsInt)
@@ -323,7 +323,7 @@ namespace ippCompiler
                             lastFuncName = funcName;
 
                             string listOfArgumentsInt = lines[index].Substring(lines[index].IndexOf('(')).Replace("(", "").Replace(")", "");
-                            listOfArgumentsInt = listOfArgumentsInt.Replace("string", "").Replace(",", "");
+                            listOfArgumentsInt = listOfArgumentsInt.Replace("int", "").Replace("string", "").Replace(",", "");
                             string[] listOfArgumentsFinal = new string[8];
                             int argumentsIntIndex = 0;
                             foreach (char c in listOfArgumentsInt)
