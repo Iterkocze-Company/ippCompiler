@@ -20,6 +20,7 @@ Kompilator języka i++
 `end;` <br>
 
 `for` Na przykład: `for int i = 1; i < 10; i++;`. <br>
+`while` Na przykład: `while 1==1;`. <br>
 
 Wszystkie spójniki logiczne są identyczne do tych, spotykanych w językach C/C++. <br> <br>
 
@@ -45,6 +46,8 @@ Wszystkie spójniki logiczne są identyczne do tych, spotykanych w językach C/C
 
 ### Deklarowanie Funkcji w Języku i++
 Użyj słowa kluczowego `def`, aby zadeklarować funkcję. Po słowie kluczowyn `def` wpisz typ zwracany przez funkcję. Na przykład `def int test;`. Po zakończeniu pracy z funkcją, wpisz słowo kluczowe `end`. Przykładowa deklaracja funkcji: <br> `def int test;` <br> `echoLine "Helo z funkcji!";` <br> `end;` <br> <br> Niestety, wszystko, co jest w funkcji powinno nie zawierać odstępów ani tabów. Niestety, związane jest to z rdzenną mechaniką kompilatora. Z góry przepraszam za Code Gore. <br> <br>
+<br>
+Funkcje mogą przyjmować też argumenty. Na przykład `def int test(int x, int y);`.
 
 ### Flagi Kompilatora
 `name=example` Dodanie tej flagi spowoduje zmianę nazwy wykompilowanego pliku .exe na 'example'. <br> <br>
