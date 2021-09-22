@@ -29,7 +29,7 @@ Wszystkie spójniki logiczne są identyczne do tych, spotykanych w językach C/C
 `File.Open` Aby otworzyć plik. Na przykład `mojPlik.Open "plik.txt";`. <br>
 `File.Write` Aby zapisać dane w pliku. Na przykład `mojPlik.Write "tekst";`. <br>
 `File.Close` Aby zamknąć plik. Na przykład `mojPlik.Close;`. <br>
-`File.ReadByLine 'string output'` Aby wczytać zawartość pliku (musi być otwarty w trybie read). Na przykład `mojPlik.ReadByLine str;`. <br>
+`File.ReadByLine 'string output'` lub `File.ReadByLineEcho` Aby wczytać zawartość pliku (musi być otwarty w trybie read). Na przykład `mojPlik.ReadByLine str;`. <br>
 
 ### Operatory w Języku i++
 `+` Operator Konkatenacji. Można użyć go razem z instrukcją `echo` Lub `echoLine`, aby połączyć dwa (lub więcej) napisów w jeden. <br> <br>
