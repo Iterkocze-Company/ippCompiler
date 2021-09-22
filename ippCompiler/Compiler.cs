@@ -271,6 +271,7 @@ namespace ippCompiler
                             string fileName = line.Substring(line.IndexOf(".Open")+5).Replace(" ", "").Replace("\t", "");
                             GeneratedCode[index] += var + ".open(" + fileName + ");";
                             index++;
+                            break;
                         }
 
                         if (line.Contains(".Write"))
@@ -278,9 +279,18 @@ namespace ippCompiler
                             string textToWrite = line.Substring(line.IndexOf(".Write") + 6).Replace(" ", "").Replace("\t", "");
                             GeneratedCode[index] += var + " << " + textToWrite + ";";
                             index++;
+                            break;
                         }
 
-                        if (!line.Contains("int") && !line.Contains("string") && !line.Contains(".Open") && !line.Contains(".Write") && var != lastVar)
+                        if (line.Contains(".Close"))
+                        {
+                            string fileName = line.Substring(line.IndexOf(".Write") + 5).Replace(" ", "").Replace("\t", "");
+                            GeneratedCode[index] += var + ".close();";
+                            index++;
+                            break;
+                        }
+
+                        if (!line.Contains("int") && !line.Contains("string") && var != lastVar)
                         {
                             string val = line.Substring(line.IndexOf('=') + 1);
                             val = val.Replace(" ", "");
