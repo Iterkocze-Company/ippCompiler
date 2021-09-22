@@ -184,9 +184,19 @@ namespace ippCompiler
                             index++;
                             break;
 
-                        case "File":
-                            string fileName = line.Substring(line.IndexOf("File")+4).Replace(" ", "").Replace("\t", "");
-                            GeneratedCode[index] = "ofstream " + fileName + ";";
+                        case "FileR":
+                        case "FileW":
+                            bool isReadFile = false;
+                            if (line.Contains("FileR")) isReadFile = true; 
+                            string fileName = line.Substring(line.IndexOf("File")+5).Replace(" ", "").Replace("\t", "");
+                            if (isReadFile)
+                            {
+                                GeneratedCode[index] = "ofstream " + fileName + ";";
+                            }
+                            else
+                            {
+                                GeneratedCode[index] = "ifstream " + fileName + ";";
+                            }
                             VARS.Add(fileName);
                             index++;
                             break;
@@ -286,6 +296,14 @@ namespace ippCompiler
                         {
                             string fileName = line.Substring(line.IndexOf(".Write") + 5).Replace(" ", "").Replace("\t", "");
                             GeneratedCode[index] += var + ".close();";
+                            index++;
+                            break;
+                        }
+
+                        if (line.Contains(".ReadByLine"))
+                        {
+                            string stringName = line.Substring(line.IndexOf(".ReadByLine")+11).Replace(" ", "").Replace("\t", "");
+                            GeneratedCode[index] += "while (getline(" + var + "," + stringName + ")){\n" + "cout << " + stringName + ";\n}";
                             index++;
                             break;
                         }
