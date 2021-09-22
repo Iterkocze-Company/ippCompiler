@@ -286,7 +286,7 @@ namespace ippCompiler
                         {
                             string fileName = line.Substring(line.IndexOf(".Open")+5).Replace(" ", "").Replace("\t", "");
                             string fileObjName = line.Substring(0, line.IndexOf( ".Open")).Replace(" ", "").Replace("\t", "");
-                            GeneratedCode[index] += var + ".open(" + fileName + ");";
+                            GeneratedCode[index] += fileObjName + ".open(" + fileName + ");";
                             index++;
                             break;
                         }
@@ -294,15 +294,17 @@ namespace ippCompiler
                         if (line.Contains(".Write"))
                         {
                             string textToWrite = line.Substring(line.IndexOf(".Write") + 6).Replace(" ", "").Replace("\t", "");
-                            GeneratedCode[index] += var + " << " + textToWrite + ";";
                             string fileObjName = line.Substring(0, line.IndexOf(".Write")).Replace(" ", "").Replace("\t", "");
+                            GeneratedCode[index] += fileObjName + " << " + textToWrite + ";";
+                            
                             index++;
                             break;
                         }
 
                         if (line.Contains(".Close"))
                         {
-                            GeneratedCode[index] += var + ".close();";
+                            string fileObjName = line.Substring(0, line.IndexOf(".Close")).Replace(" ", "").Replace("\t", "");
+                            GeneratedCode[index] += fileObjName + ".close();";
                             index++;
                             break;
                         }
@@ -317,16 +319,16 @@ namespace ippCompiler
                             {
                                 stringName = line.Substring(line.IndexOf(".ReadByLine") + 15).Replace(" ", "").Replace("\t", "");
                                 fileObjName = line.Substring(0, line.IndexOf(".ReadByLine")).Replace(" ", "").Replace("\t", "");
-                                GeneratedCode[index] += "while (getline(" + var + "," + stringName + ")){\n" + "cout << " + stringName + ";\n}";
+                                GeneratedCode[index] += "while (getline(" + fileObjName + "," + stringName + ")){\n" + "cout << " + stringName + ";\n}";
                             }
                                     
                             else
                             {
                                 stringName = line.Substring(line.IndexOf(".ReadByLine") + 11).Replace(" ", "").Replace("\t", "");
                                 fileObjName = line.Substring(0, line.IndexOf(".ReadByLine")).Replace(" ", "").Replace("\t", "");
-                                GeneratedCode[index] += "while (getline(" + var + "," + stringName + ")){\n}";
+                                GeneratedCode[index] += "while (getline(" + fileObjName + "," + stringName + ")){\n}";
                             }
-                                index++;
+                            index++;
                             break;
                         }
 
