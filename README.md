@@ -63,12 +63,12 @@ Funkcje mogą przyjmować też argumenty. Na przykład `def int test(int x, int 
 ### Twój Pierwszy Program w Języku i++
 Aby pomyślnie wykompilować program, musisz zdefiniować funkcję main za pomocą `def int main;`. Oto program Hello World w i++: <br>
 `def int main;` <br>
-`echoLine "Hello, World!";` <br>
+`EchoLine "Hello, World!";` <br>
 `end;` <br> <br>
 
 Aby wywołać funkcję, zwyczajnie wpisz jej nazwę zakończoną klamrami. Oto przykładowy program demonstrujący wywoływanie zadeklarowanej funkcji: <br>
 `def int test;` <br>
-`echoLine "Funkcja";` <br>
+`EchoLine "Funkcja";` <br>
 `end;` <br>
 `def int main;` <br>
 `test();` <br>
