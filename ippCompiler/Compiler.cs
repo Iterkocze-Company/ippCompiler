@@ -190,26 +190,10 @@ namespace ippCompiler
                             index++;
                             break;
 
-                        //case "FileR":
-                        /*case "FileW":
-                            bool isReadFile = false;
-                            if (line.Contains("FileR")) isReadFile = true; 
-                            string fileName = line.Substring(line.IndexOf("File")+5).Replace(" ", "").Replace("\t", "");
-                            if (isReadFile)
-                            {
-                                GeneratedCode[index] = "ofstream " + fileName + ";";
-                            }
-                            else
-                            {
-                                GeneratedCode[index] = "ifstream " + fileName + ";";
-                            }
-                            VARS.Add(fileName);
-                            index++;
-                            break;*/
                         case "File":
-                            FILE_LAST_INDEX = index;
                             string fileName = line.Substring(line.IndexOf("File") + 5).Replace(" ", "").Replace("\t", "");
                             VARS.Add(fileName);
+                            GeneratedCode[index] = "fstream " + fileName + ";";
                             index++;
                             break;
 
@@ -237,15 +221,14 @@ namespace ippCompiler
                     if (var != "")
                     if (line.Contains(var) && line.Replace(" ", "").Replace("\t", "").StartsWith(var[0]))
                     {
-                            try
-                            {
-                                numericArgs = line.Remove(0, line.IndexOf("(")).Replace("(", "").Replace(")", "");
-                            }
-                            catch
-                            {
+                        try
+                        {
+                            numericArgs = line.Remove(0, line.IndexOf("(")).Replace("(", "").Replace(")", "");
+                        }
+                        catch
+                        {
                                 
-                            }
-                            
+                        }
                         
                         if (line.EndsWith("ReadKey"))
                         {
@@ -301,11 +284,9 @@ namespace ippCompiler
 
                         if (line.Contains(".Open"))
                         {
-                            FILE_IS_READ = true;
                             string fileName = line.Substring(line.IndexOf(".Open")+5).Replace(" ", "").Replace("\t", "");
                             string fileObjName = line.Substring(0, line.IndexOf( ".Open")).Replace(" ", "").Replace("\t", "");
                             GeneratedCode[index] += var + ".open(" + fileName + ");";
-                            DefineFile(fileObjName);
                             index++;
                             break;
                         }
@@ -315,7 +296,6 @@ namespace ippCompiler
                             string textToWrite = line.Substring(line.IndexOf(".Write") + 6).Replace(" ", "").Replace("\t", "");
                             GeneratedCode[index] += var + " << " + textToWrite + ";";
                             string fileObjName = line.Substring(0, line.IndexOf(".Write")).Replace(" ", "").Replace("\t", "");
-                            DefineFile(fileObjName);
                             index++;
                             break;
                         }
@@ -329,7 +309,6 @@ namespace ippCompiler
 
                         if (line.Contains(".ReadByLine"))
                         {
-                            FILE_IS_READ = true;
                             bool isEcho = false;
                             string stringName = "";
                             string fileObjName = "";
@@ -347,7 +326,6 @@ namespace ippCompiler
                                 fileObjName = line.Substring(0, line.IndexOf(".ReadByLine")).Replace(" ", "").Replace("\t", "");
                                 GeneratedCode[index] += "while (getline(" + var + "," + stringName + ")){\n}";
                             }
-                                DefineFile(fileObjName);
                                 index++;
                             break;
                         }
