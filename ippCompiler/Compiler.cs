@@ -302,8 +302,20 @@ namespace ippCompiler
 
                         if (line.Contains(".ReadByLine"))
                         {
-                            string stringName = line.Substring(line.IndexOf(".ReadByLine")+11).Replace(" ", "").Replace("\t", "");
-                            GeneratedCode[index] += "while (getline(" + var + "," + stringName + ")){\n" + "cout << " + stringName + ";\n}";
+                            bool isEcho = false;
+                            string stringName = "";
+                            if (line.Contains(".ReadByLineEcho")) isEcho = true;
+                            if (isEcho)
+                            {
+                                stringName = line.Substring(line.IndexOf(".ReadByLine") + 15).Replace(" ", "").Replace("\t", "");
+                                GeneratedCode[index] += "while (getline(" + var + "," + stringName + ")){\n" + "cout << " + stringName + ";\n}";
+                            }
+                                    
+                            else
+                            {
+                                stringName = line.Substring(line.IndexOf(".ReadByLine") + 11).Replace(" ", "").Replace("\t", "");
+                                GeneratedCode[index] += "while (getline(" + var + "," + stringName + ")){\n}";
+                            }
                             index++;
                             break;
                         }
