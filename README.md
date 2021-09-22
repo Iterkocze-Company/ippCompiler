@@ -22,6 +22,11 @@ Kompilator języka i++
 `for` Na przykład: `for int i = 1; i < 10; i++;`. <br>
 `while` Na przykład: `while 1==1;`. <br>
 
+#### Obsługa Plików w Języku i++
+`File` Aby stworzyć obiekt pliku. Na przykład `File mojPlik;`. <br>
+`File.open` Aby otworzyć plik. Na przykład `mojPlik.open "plik.txt";`. <br>
+`File.write`Aby zapisać dane w pliku. Na przykład `mojPlik.write "tekst";`. <br>
+
 Wszystkie spójniki logiczne są identyczne do tych, spotykanych w językach C/C++. <br> <br>
 
 ### Operatory w Języku i++
