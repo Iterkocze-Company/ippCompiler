@@ -61,7 +61,7 @@ namespace ippCompiler
                     //switch (line.Split(" ")[0])
                     switch (parts[a].Replace("\t", ""))
                     {
-                        case "echoLine":
+                        case "EchoLine":
                             GeneratedCode[index] = "cout << ";
                             
                             foreach (char ch in afterFirst)
@@ -84,7 +84,7 @@ namespace ippCompiler
                             index++;
                             break;
 
-                        case "echo":
+                        case "Echo":
                             GeneratedCode[index] = "cout << ";
                             
                             foreach (char ch in afterFirst) 
@@ -147,7 +147,7 @@ namespace ippCompiler
                             index++;
                             break;
 
-                        case "readKey":
+                        case "ReadKey":
                             GeneratedCode[index] = "getch();";
                             index++;
                             break;
@@ -184,6 +184,13 @@ namespace ippCompiler
                             index++;
                             break;
 
+                        case "File":
+                            string fileName = line.Substring(line.IndexOf("File")+4).Replace(" ", "").Replace("\t", "");
+                            GeneratedCode[index] = "ofstream " + fileName + ";";
+                            VARS.Add(fileName);
+                            index++;
+                            break;
+
                         default:
                             break;
                     }
@@ -192,7 +199,6 @@ namespace ippCompiler
 
                 foreach (string var in VARS)
                 {
-                    
                     string numericArgs = "";
                     
                     if (var != "")
@@ -208,14 +214,14 @@ namespace ippCompiler
                             }
                             
                         
-                        if (line.EndsWith("readKey"))
+                        if (line.EndsWith("ReadKey"))
                         {
                             GeneratedCode[index] = var + " = getch();";
                             index++;
                             break;
                         }
 
-                        if (line.EndsWith("readString"))
+                        if (line.EndsWith("ReadString"))
                         {
                             GeneratedCode[index] = "cin >> " + var + ";";
                             index++;
@@ -260,13 +266,26 @@ namespace ippCompiler
                             break;
                         }
 
-                        if (!line.Contains("int") && !line.Contains("string") && var != lastVar)
+                        if (line.Contains(".Open"))
+                        {
+                            string fileName = line.Substring(line.IndexOf(".Open")+5).Replace(" ", "").Replace("\t", "");
+                            GeneratedCode[index] += var + ".open(" + fileName + ");";
+                            index++;
+                        }
+
+                        if (line.Contains(".Write"))
+                        {
+                            string textToWrite = line.Substring(line.IndexOf(".Write") + 6).Replace(" ", "").Replace("\t", "");
+                            GeneratedCode[index] += var + " << " + textToWrite + ";";
+                            index++;
+                        }
+
+                        if (!line.Contains("int") && !line.Contains("string") && !line.Contains(".Open") && !line.Contains(".Write") && var != lastVar)
                         {
                             string val = line.Substring(line.IndexOf('=') + 1);
                             val = val.Replace(" ", "");
                             GeneratedCode[index] = var + "=" + (string)val + ";";
                             index++;
-                               
                         }
                     }
                 }
@@ -376,7 +395,7 @@ namespace ippCompiler
             }
 
             File.WriteAllText("genCode.cpp", "");
-            File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <conio.h>\n\nusing namespace std;\n");
+            File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <conio.h>\n#include <fstream>\n\nusing namespace std;\n");
 
             for (int i = 0; i < GeneratedCode.Length; i++)
                 File.AppendAllText("genCode.cpp", "\n" + GeneratedCode[i]);
