@@ -13,6 +13,12 @@ namespace ippCompiler
         public static List<string> VARS = new List<string>(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
         public static string lastVar = "";
+
+        public static int FILE_LAST_INDEX = 0;
+
+        public static bool FILE_IS_READ;
+
+        
         public static string[] ReadFileContents(string pathToFile)
         {
             return File.ReadAllText(pathToFile).Replace("\r\n", "").Split(";");
@@ -184,8 +190,8 @@ namespace ippCompiler
                             index++;
                             break;
 
-                        case "FileR":
-                        case "FileW":
+                        //case "FileR":
+                        /*case "FileW":
                             bool isReadFile = false;
                             if (line.Contains("FileR")) isReadFile = true; 
                             string fileName = line.Substring(line.IndexOf("File")+5).Replace(" ", "").Replace("\t", "");
@@ -199,13 +205,30 @@ namespace ippCompiler
                             }
                             VARS.Add(fileName);
                             index++;
+                            break;*/
+                        case "File":
+                            FILE_LAST_INDEX = index;
+                            string fileName = line.Substring(line.IndexOf("File") + 5).Replace(" ", "").Replace("\t", "");
+                            VARS.Add(fileName);
+                            index++;
                             break;
 
                         default:
                             break;
                     }
                 }
-                
+
+                void DefineFile(string fileName)
+                {
+                    if (FILE_IS_READ)
+                    {
+                        GeneratedCode[FILE_LAST_INDEX] = "ifstream " + fileName + ";";
+                    }
+                    else
+                    {
+                        GeneratedCode[FILE_LAST_INDEX] = "ofstream " + fileName + ";";
+                    }
+                }
 
                 foreach (string var in VARS)
                 {
@@ -278,8 +301,11 @@ namespace ippCompiler
 
                         if (line.Contains(".Open"))
                         {
+                            FILE_IS_READ = true;
                             string fileName = line.Substring(line.IndexOf(".Open")+5).Replace(" ", "").Replace("\t", "");
+                            string fileObjName = line.Substring(0, line.IndexOf( ".Open")).Replace(" ", "").Replace("\t", "");
                             GeneratedCode[index] += var + ".open(" + fileName + ");";
+                            DefineFile(fileObjName);
                             index++;
                             break;
                         }
@@ -288,13 +314,14 @@ namespace ippCompiler
                         {
                             string textToWrite = line.Substring(line.IndexOf(".Write") + 6).Replace(" ", "").Replace("\t", "");
                             GeneratedCode[index] += var + " << " + textToWrite + ";";
+                            string fileObjName = line.Substring(0, line.IndexOf(".Write")).Replace(" ", "").Replace("\t", "");
+                            DefineFile(fileObjName);
                             index++;
                             break;
                         }
 
                         if (line.Contains(".Close"))
                         {
-                            string fileName = line.Substring(line.IndexOf(".Write") + 5).Replace(" ", "").Replace("\t", "");
                             GeneratedCode[index] += var + ".close();";
                             index++;
                             break;
@@ -302,21 +329,26 @@ namespace ippCompiler
 
                         if (line.Contains(".ReadByLine"))
                         {
+                            FILE_IS_READ = true;
                             bool isEcho = false;
                             string stringName = "";
+                            string fileObjName = "";
                             if (line.Contains(".ReadByLineEcho")) isEcho = true;
                             if (isEcho)
                             {
                                 stringName = line.Substring(line.IndexOf(".ReadByLine") + 15).Replace(" ", "").Replace("\t", "");
+                                fileObjName = line.Substring(0, line.IndexOf(".ReadByLine")).Replace(" ", "").Replace("\t", "");
                                 GeneratedCode[index] += "while (getline(" + var + "," + stringName + ")){\n" + "cout << " + stringName + ";\n}";
                             }
                                     
                             else
                             {
                                 stringName = line.Substring(line.IndexOf(".ReadByLine") + 11).Replace(" ", "").Replace("\t", "");
+                                fileObjName = line.Substring(0, line.IndexOf(".ReadByLine")).Replace(" ", "").Replace("\t", "");
                                 GeneratedCode[index] += "while (getline(" + var + "," + stringName + ")){\n}";
                             }
-                            index++;
+                                DefineFile(fileObjName);
+                                index++;
                             break;
                         }
 
