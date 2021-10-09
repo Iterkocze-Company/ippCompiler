@@ -1,9 +1,12 @@
-﻿using System;
+﻿/*  This file is part of Iterkocze ippCompiler and it's under BSD-3-Clause License.
+    Copyright (c) 2021, Iterkocze-Company
+    All rights reserved.
+    https://github.com/Iterkocze-Company/ippCompiler
+*/
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace ippCompiler

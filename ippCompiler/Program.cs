@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*  This file is part of Iterkocze ippCompiler and it's under BSD-3-Clause License.
+    Copyright (c) 2021, Iterkocze-Company
+    All rights reserved.
+    https://github.com/Iterkocze-Company/ippCompiler
+*/
+using System;
 using System.IO;
 using System.Linq;
 
