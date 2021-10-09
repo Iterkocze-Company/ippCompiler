@@ -51,7 +51,15 @@ namespace ippCompiler
             if (flags.Contains("run")) FLAG_RUN = true;
             if (flags.Contains("name"))
             {
-                FLAG_NAME = flags.Substring(flags.IndexOf('=')+1);
+                int i = 0;
+                foreach (char c in flags)
+                {
+                    i++;
+                    if (c == ' ')
+                        break;
+                    else if (i >= 5)
+                        FLAG_NAME += c;
+                }
             }
         }
 
