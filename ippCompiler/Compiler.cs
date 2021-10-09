@@ -10,32 +10,17 @@ namespace ippCompiler
 {
     public static class Compiler
     {
-        public static List<string> VARS = new List<string>(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
+        static List<string> VARS = new List<string>(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
-        public static string lastVar = "";
+        static string lastVar = "";
 
-        public static int FILE_LAST_INDEX = 0;
+        static bool IS_DOWHILE = false;
 
-        public static bool FILE_IS_READ;
+        static string DoWhileCondition = "";
 
-        
         public static string[] ReadFileContents(string pathToFile)
         {
             return File.ReadAllText(pathToFile).Replace("\r\n", "").Split(";");
-        }
-
-        public static string deleteFirstArg(string str)
-        {
-            string opt = "";
-            bool firstSpace = false;
-
-            foreach(char ch in str)
-            {
-                if (firstSpace) opt = opt + ch;
-                if (ch == ' ') firstSpace = true;
-            }
-
-            return opt;
         }
 
         public static void Compile()
@@ -44,7 +29,7 @@ namespace ippCompiler
             string[] GeneratedCode = new string[Program.FILE_LEN+4];
             int index = 0;
 
-            for (int i = 0; i < lines.Length; i = i + 1)
+            for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i].Replace("\n", "").Replace("\t", "");
                 
@@ -64,7 +49,6 @@ namespace ippCompiler
                     }
                     afterFirst = afterFirst.Replace(toFirst, "");
 
-                    //switch (line.Split(" ")[0])
                     switch (parts[a].Replace("\t", ""))
                     {
                         case "EchoLine":
@@ -150,6 +134,11 @@ namespace ippCompiler
 
                         case "end":
                             GeneratedCode[index] = "}";
+                            if (IS_DOWHILE)
+                            {
+                                GeneratedCode[index] += "while(" + DoWhileCondition + ");";
+                                IS_DOWHILE = false;
+                            }
                             index++;
                             break;
 
@@ -169,6 +158,14 @@ namespace ippCompiler
                             GeneratedCode[index] = lines[index].Replace("while", "while (").Replace(":--", "==").Replace("!:--", "!=").Replace("<:-", "<=").Replace(">:-", ">=");
                             GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
+                            index++;
+                            break;
+
+                        case "DoWhile":
+                            DoWhileCondition = line.Replace("DoWhile", "").Trim();
+                            GeneratedCode[index] = line.Replace("DoWhile", "do{").Replace(DoWhileCondition, "");
+                            //GeneratedCode[index] += "while(" + DoWhileStr + ")";
+                            IS_DOWHILE = true;
                             index++;
                             break;
 
@@ -199,18 +196,6 @@ namespace ippCompiler
 
                         default:
                             break;
-                    }
-                }
-
-                void DefineFile(string fileName)
-                {
-                    if (FILE_IS_READ)
-                    {
-                        GeneratedCode[FILE_LAST_INDEX] = "ifstream " + fileName + ";";
-                    }
-                    else
-                    {
-                        GeneratedCode[FILE_LAST_INDEX] = "ofstream " + fileName + ";";
                     }
                 }
 
