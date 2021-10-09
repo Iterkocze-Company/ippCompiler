@@ -62,7 +62,7 @@ Funkcje mogą przyjmować też argumenty. Na przykład `def int test(int x, int 
 
 ### Flagi Kompilatora
 `name=example` Dodanie tej flagi spowoduje zmianę nazwy wykompilowanego pliku .exe na 'example'. <br> <br>
-`run` Uruchamia program po jego kompilacji. Flaga `run` powinna być zawsze pierwsza (jeśli chcesz jej użyć). <br> <br>
+`run` Uruchamia program po jego kompilacji. <br> <br>
 
 ### Twój Pierwszy Program w Języku i++
 Aby pomyślnie wykompilować program, musisz zdefiniować funkcję main za pomocą `def int main;`. Oto program Hello World w i++: <br>
