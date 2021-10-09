@@ -9,7 +9,8 @@ namespace ippCompiler
         public static string CODE_FILE_PATH = "";
         public static int FILE_LEN = 0;
         public static bool FLAG_RUN;
-        public static string FLAG_NAME = "a";
+        public static string FLAG_NAME = "";
+        public static bool FLAG_IS_LINUX;
 
         public static void Error(string str)
         {
@@ -57,10 +58,22 @@ namespace ippCompiler
                     i++;
                     if (c == ' ')
                         break;
-                    else if (i >= 5)
+                    else if (i >= 6)
                         FLAG_NAME += c;
                 }
             }
+            if (!flags.Contains("name"))
+                FLAG_NAME = "a";
+        }
+
+        private static bool IsLinux()
+        {
+            Console.WriteLine("Wykompilować plik wykonywalny na platformę Linux? Jeśli tak, wpisz cokolwiek ");
+            string ans = Console.ReadLine();
+            if (ans.Length != 0)
+                return true;
+            else
+                return false;
         }
 
         public static void Main(string[] args)
@@ -71,6 +84,7 @@ namespace ippCompiler
                 Console.Write("Wprowadź ścieżkę do pliku języka i++ (relatywną): ");
                 bool opt = SetFilePath(Console.ReadLine());
                 if (opt) HandleCompilerFlags();
+                if (opt) FLAG_IS_LINUX = IsLinux();
                 if (opt) Compiler.Compile();
             }
         }

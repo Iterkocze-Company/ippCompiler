@@ -442,12 +442,18 @@ namespace ippCompiler
             
             args = args + $"{"-o " + Program.FLAG_NAME}";
             Process.Start("g++", $"{args} -O2 -s genCode.cpp");
-            var startInfo = new ProcessStartInfo
+            var startInfo = new ProcessStartInfo();
+            if (Program.FLAG_IS_LINUX)
             {
-                WorkingDirectory = Directory.GetCurrentDirectory(),
-                FileName = Program.FLAG_NAME + ".exe"
-            };
-
+                startInfo.WorkingDirectory = Directory.GetCurrentDirectory();
+                startInfo.FileName = Program.FLAG_NAME + ".out";
+            }
+            else
+            {
+                startInfo.WorkingDirectory = Directory.GetCurrentDirectory();
+                startInfo.FileName = Program.FLAG_NAME + ".exe";
+            }
+            
             Process.Start("g++", "-O2 -s genCode.cpp");
             
             Console.WriteLine("Gotowe");
