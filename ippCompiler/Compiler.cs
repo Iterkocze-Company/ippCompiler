@@ -460,7 +460,16 @@ namespace ippCompiler
             if (Program.FLAG_RUN)
             {
                 Thread.Sleep(2000);
-                Process.Start(startInfo);
+                try
+                {
+                    Process.Start(startInfo);
+                }
+                catch
+                {
+                    Program.Error("Wystąpił błąd podczas uruchamiania pliku! Czy jesteś pewien, że wybrałeś odpowiednią platformę?");
+                    Console.ReadLine();
+                    Environment.Exit(1);
+                }
             }
             else
                 Console.ReadKey();
