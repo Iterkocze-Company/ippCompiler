@@ -21,6 +21,10 @@ Kompilator języka i++
 
 `for` Na przykład: `for int i = 1; i < 10; i++;`. <br>
 `while` Na przykład: `while 1==1;`. <br>
+`DoWhile` Na przykład:
+`DoWhile 1==1;`
+`EchoLine "Helo";`
+`end;` <br>
 
 Wszystkie spójniki logiczne są identyczne do tych, spotykanych w językach C/C++. <br> <br>
 
