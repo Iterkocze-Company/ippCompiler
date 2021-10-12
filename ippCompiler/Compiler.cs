@@ -210,7 +210,7 @@ namespace ippCompiler
                             if (quit) break;
 
                             Program.Error("Błąd składni:");
-                            Console.WriteLine(" " + line);
+                            Console.WriteLine(" " + line.Trim());
                             errors++;
                             break;
                     }
