@@ -55,6 +55,7 @@ namespace ippCompiler
             Console.Write("Podaj flagi kompilatora: ");
             string flags = Console.ReadLine();
             if (flags.Contains("run")) FLAG_RUN = true;
+            if (flags.Contains("linux")) FLAG_IS_LINUX = true;
             if (flags.Contains("name"))
             {
                 int i = 0;
@@ -71,16 +72,6 @@ namespace ippCompiler
                 FLAG_NAME = "a";
         }
 
-        private static bool IsLinux()
-        {
-            Console.WriteLine("Wykompilować plik wykonywalny na platformę Linux? Jeśli tak, wpisz cokolwiek ");
-            string ans = Console.ReadLine();
-            if (ans.Length != 0)
-                return true;
-            else
-                return false;
-        }
-
         public static void Main(string[] args)
         {
             if (args.Length == 0)
@@ -89,7 +80,6 @@ namespace ippCompiler
                 Console.Write("Wprowadź ścieżkę do pliku języka i++ (relatywną): ");
                 bool opt = SetFilePath(Console.ReadLine());
                 if (opt) HandleCompilerFlags();
-                if (opt) FLAG_IS_LINUX = IsLinux();
                 if (opt) Compiler.Compile();
             }
         }
