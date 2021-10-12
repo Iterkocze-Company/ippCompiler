@@ -58,7 +58,13 @@ Wszystkie spójniki logiczne są identyczne do tych, spotykanych w językach C/C
 `void` Dozwolony przy deklarowaniu funkcji. Na przykład `def void test;`. Oznacza brak zwracanego typu. <br> <br>
 
 ### Deklarowanie Funkcji w Języku i++
-Użyj słowa kluczowego `def`, aby zadeklarować funkcję. Po słowie kluczowyn `def` wpisz typ zwracany przez funkcję. Na przykład `def int test;`. Po zakończeniu pracy z funkcją, wpisz słowo kluczowe `end`. Przykładowa deklaracja funkcji: <br> `def int test;` <br> `echoLine "Helo z funkcji!";` <br> `end;` <br> <br> 
+Użyj słowa kluczowego `def`, aby zadeklarować funkcję. Po słowie kluczowyn `def` wpisz typ zwracany przez funkcję. Na przykład `def int test();`. Po zakończeniu pracy z funkcją, wpisz słowo kluczowe `end`. Przykładowa deklaracja funkcji:
+```
+def int test();
+  echoLine "Helo z funkcji!";
+end;
+```
+
 Funkcje mogą przyjmować też argumenty. Na przykład `def int test(int x, int y);`.
 
 ### Flagi Kompilatora
