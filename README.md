@@ -12,12 +12,14 @@ Kompilator języka i++
 `return` Zwraca wartość po wykonaniu funkcji. Na przykład `return 4;`. <br>
 
 `if` oraz `else` Służy do podejmowania decyzji na podstawie konkretnego warunku/warunków. Na przykład `if (x == 1);`. Aby zakończyć instrukcję `if`, użyj słowa kluczowego `end`. Możesz też użyć `else` razem, z instrukcją `if` w następujący sposób: <br>
-`if x == 1;` <br>
-`echoLine x;` <br>
-`end;` <br>
-`else;` <br>
-`echoLine "else";` <br>
-`end;` <br>
+```
+if x == 1;
+  echoLine x; 
+end; 
+else; 
+  echoLine "else"; 
+end;
+``` 
 
 `for` Na przykład: `for int i = 1; i < 10; i++;`. <br>
 `while` Na przykład: `while 1==1;`. <br>
