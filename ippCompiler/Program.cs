@@ -16,12 +16,13 @@ namespace ippCompiler
         public static bool FLAG_RUN;
         public static string FLAG_NAME = "";
         public static bool FLAG_IS_LINUX;
+        public static bool FLAG_FORCE_COMPILE;
 
         public static void Error(string str)
         {
             Console.BackgroundColor = ConsoleColor.Red;
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.WriteLine(str);
+            Console.Write(str);
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
         }
@@ -56,6 +57,7 @@ namespace ippCompiler
             string flags = Console.ReadLine();
             if (flags.Contains("run")) FLAG_RUN = true;
             if (flags.Contains("linux")) FLAG_IS_LINUX = true;
+            if (flags.Contains("force")) FLAG_FORCE_COMPILE = true;
             if (flags.Contains("name"))
             {
                 int i = 0;
@@ -76,7 +78,7 @@ namespace ippCompiler
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("Witaj w kompilatorze dla języka i++");
+                Console.WriteLine("Witaj w kompilatorze języka i++");
                 Console.Write("Wprowadź ścieżkę do pliku języka i++ (relatywną): ");
                 bool opt = SetFilePath(Console.ReadLine());
                 if (opt) HandleCompilerFlags();

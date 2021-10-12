@@ -21,6 +21,8 @@ namespace ippCompiler
 
         static string DoWhileCondition = "";
 
+        static int errors = 0;
+
         public static string[] ReadFileContents(string pathToFile)
         {
             return File.ReadAllText(pathToFile).Replace("\r\n", "").Split(";");
@@ -198,6 +200,18 @@ namespace ippCompiler
                             break;
 
                         default:
+                            bool quit = false;
+                            if (line.Contains("def")) break;
+                            foreach (string var in VARS)
+                            {
+                                if (line.Contains(var) && var != "")
+                                    quit = true;
+                            }
+                            if (quit) break;
+
+                            Program.Error("Błąd składni:");
+                            Console.WriteLine(" " + line);
+                            errors++;
                             break;
                     }
                 }
@@ -440,6 +454,16 @@ namespace ippCompiler
             for (int i = 0; i < GeneratedCode.Length; i++)
                 File.AppendAllText("genCode.cpp", "\n" + GeneratedCode[i]);
 
+            if (errors != 0 && Program.FLAG_FORCE_COMPILE != true)
+            {
+                Program.Debug("Program nie zostanie wykompilowany, ponieważ wykryo " + errors.ToString() + " błedów składni.");
+                Console.ReadLine();
+                Environment.Exit(1);
+            }
+            if (Program.FLAG_FORCE_COMPILE)
+            {
+                Program.Debug("Wykryto " + errors.ToString() + " błędów składni. Kompilacja wymuszona przez flagę.");
+            }
             Console.WriteLine("Kompiluję...");
             string args = "";
             
