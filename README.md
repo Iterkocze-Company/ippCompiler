@@ -77,6 +77,7 @@ Funkcje mogą przyjmować też argumenty. Na przykład `def int test(int x, int 
 `linux` Dodaj tę flagę, jeśli używasz ippCompiler na Linuxie. <br> <br>
 `force` Dodaj tę flagę, aby wykompilować program pomomo błędów wykrytych przez ippCompiler. <br> <br>
 `macros` Pobiera pliki wymagane przez ippCompiler. <br> <br>
+Przykładowy sposób użycia flag kompilatora: `name=hello, run, force` <br>
 
 ### Dostępne Makra
 `bool MacroContains(string s1, string s2)` Zwraca true, jeśli s1 zawiera s2, jeśli nie, false.
