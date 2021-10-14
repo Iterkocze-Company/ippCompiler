@@ -55,6 +55,9 @@ Wszystkie spójniki logiczne są identyczne do tych, spotykanych w językach C/C
 ### Typy w Języku i++
 `int` Deklaruje zmienną typu Int32 lub Int64, zależnie od platformy. Można tej zmiennej przypisać wartość w tej samej linijce, zaraz po deklaracji, lub później za pomocą operatora przypisania `=`. <br> <br>
 `string` Deklaruje zmienną typu String. Na przykład `string s;` lub `string s = "helo";`. <br> 
+`char` <br>
+`float` <br>
+`double` <br>
 `void` Dozwolony przy deklarowaniu funkcji. Na przykład `def void test;`. Oznacza brak zwracanego typu. <br> <br>
 
 ### Deklarowanie Funkcji w Języku i++
