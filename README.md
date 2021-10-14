@@ -1,6 +1,7 @@
 # ippCompiler
 Kompilator języka i++
-##### Aby używać kompilatora, musisz mieć działający kompilator GNU G++ w zmiennej PATH. <br> <br>
+##### Aby używać kompilatora, musisz mieć działający kompilator GNU G++ w zmiennej PATH. <br>
+##### Podczas pierwszego użycia kompilatora wprowadź flagę `macros`, aby pobrać niezbedne pliki. <br> <br>
 
 ### Instrukcje Języka i++
 `Echo "helo"` Lub 'echoLine "helo"' Powoduje wypisanie ciągu znaków w konsoli. Można użyć z operatorem '+'. <br> <br>
@@ -75,6 +76,7 @@ Funkcje mogą przyjmować też argumenty. Na przykład `def int test(int x, int 
 `run` Uruchamia program po jego kompilacji. <br> <br>
 `linux` Dodaj tę flagę, jeśli używasz ippCompiler na Linuxie. <br> <br>
 `force` Dodaj tę flagę, aby wykompilować program pomomo błędów wykrytych przez ippCompiler. <br> <br>
+`macros` Pobiera pliki wymagane przez ippCompiler. <br> <br>
 
 ### Twój Pierwszy Program w Języku i++
 Aby pomyślnie wykompilować program, musisz zdefiniować funkcję main za pomocą `def int main;`. Oto program Hello World w i++: <br>
