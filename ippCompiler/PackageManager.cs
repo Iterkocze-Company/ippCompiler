@@ -12,7 +12,7 @@ namespace ippCompiler
         public static void DownloadMacros()
         {
             WebClient client = new();
-            client.DownloadFile("https://nfpm.xlx.pl/Macros/Macros.cpp", "nfpm.txt");
+            client.DownloadFile("https://nfpm.xlx.pl/Macros/Macros.cpp", "Macros.cpp");
         }
     }
 }
