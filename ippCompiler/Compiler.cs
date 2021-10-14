@@ -13,7 +13,7 @@ namespace ippCompiler
 {
     public static class Compiler
     {
-        static List<string> VARS = new List<string>(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
+        public static List<string> VARS = new List<string>(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
         static string lastVar = "";
 
@@ -23,6 +23,10 @@ namespace ippCompiler
 
         static int errors = 0;
 
+        public static string[] lines = ReadFileContents(Program.CODE_FILE_PATH);
+
+        public static string[] GeneratedCode = new string[Program.FILE_LEN + 4];
+
         public static string[] ReadFileContents(string pathToFile)
         {
             return File.ReadAllText(pathToFile).Replace("\r\n", "").Split(";");
@@ -30,8 +34,7 @@ namespace ippCompiler
 
         public static void Compile()
         {
-            string[] lines = ReadFileContents(Program.CODE_FILE_PATH);
-            string[] GeneratedCode = new string[Program.FILE_LEN+4];
+            
             int index = 0;
 
             for (int i = 0; i < lines.Length; i++)
@@ -103,37 +106,11 @@ namespace ippCompiler
                             break;
 
                         case "int":
-                            GeneratedCode[index] = "int ";
-                            if (line.EndsWith("readKey"))
-                            {
-                                string nameRead = lines[index].Substring(lines[index].IndexOf(' ')).Replace(" ", "");
-                                nameRead = nameRead.Substring(0, nameRead.IndexOf('='));
-                                GeneratedCode[index] = $"int {nameRead} =  getch();";
-                                index++;
-                                break;
-                            }
-                            string name = afterFirst.Substring(afterFirst.IndexOf(' ')).Replace(" ", "");
-
-                            GeneratedCode[index] = GeneratedCode[index] + name + ";";
-
-                            if (name.Contains('='))
-                                name = name.Substring(0, name.IndexOf('='));
-
-                            VARS.Add(name);
-
-                            index++;
-                            break;
-
+                        case "float":
+                        case "double":
+                        case "char":
                         case "string":
-                            GeneratedCode[index] = "string ";
-
-                            string nameStr = line.Substring(line.IndexOf(' ')).Replace(" ", "");
-                            GeneratedCode[index] = GeneratedCode[index] + nameStr + ";";
-                            if (nameStr.Contains('='))
-                                nameStr = nameStr.Substring(0, nameStr.IndexOf('='));
-
-                            VARS.Add(nameStr);
-
+                            VariableGenerator.Analyse(line, index);
                             index++;
                             break;
 
@@ -334,7 +311,7 @@ namespace ippCompiler
                             break;
                         }
 
-                        if (!line.Contains("int") && !line.Contains("string") && var != lastVar)
+                        if (!line.Contains("int") && !line.Contains("string") && !line.Contains("char") && !line.Contains("float") && !line.Contains("double") && var != lastVar)
                         {
                             string val = line.Substring(line.IndexOf('=') + 1);
                             val = val.Replace(" ", "");
@@ -378,6 +355,117 @@ namespace ippCompiler
                                 }
                             }
                             GeneratedCode[index] += "int ";
+                            GeneratedCode[index] += funcName + "(";
+                            foreach (string arg in listOfArgumentsFinal)
+                            {
+                                if (arg != null)
+                                {
+                                    GeneratedCode[index] += "int " + arg;
+                                    if (argumentsIntIndex > 1)
+                                        GeneratedCode[index] += ", ";
+                                    VARS.Add(arg);
+                                }
+                            }
+
+                            if (argumentsIntIndex > 1)
+                                GeneratedCode[index] = GeneratedCode[index].Remove(GeneratedCode[index].Length - 2);
+
+                            GeneratedCode[index] += ")";
+                            GeneratedCode[index] += "{";
+                            index++;
+                        }
+                        if (lineDef.Contains("float") && funcName != lastFuncName)
+                        {
+                            lastFuncName = funcName;
+
+                            string listOfArgumentsInt = lines[index].Substring(lines[index].IndexOf('(')).Replace("(", "").Replace(")", "");
+                            listOfArgumentsInt = listOfArgumentsInt.Replace("string", "").Replace("int", "").Replace(",", "");
+                            string[] listOfArgumentsFinal = new string[8];
+                            int argumentsIntIndex = 0;
+                            foreach (char c in listOfArgumentsInt)
+                            {
+                                if (c != ' ')
+                                {
+                                    listOfArgumentsFinal[argumentsIntIndex] += c;
+                                    if (c == ',')
+                                        argumentsIntIndex++;
+                                }
+                            }
+                            GeneratedCode[index] += "float ";
+                            GeneratedCode[index] += funcName + "(";
+                            foreach (string arg in listOfArgumentsFinal)
+                            {
+                                if (arg != null)
+                                {
+                                    GeneratedCode[index] += "int " + arg;
+                                    if (argumentsIntIndex > 1)
+                                        GeneratedCode[index] += ", ";
+                                    VARS.Add(arg);
+                                }
+                            }
+
+                            if (argumentsIntIndex > 1)
+                                GeneratedCode[index] = GeneratedCode[index].Remove(GeneratedCode[index].Length - 2);
+
+                            GeneratedCode[index] += ")";
+                            GeneratedCode[index] += "{";
+                            index++;
+                        }
+                        if (lineDef.Contains("double") && funcName != lastFuncName)
+                        {
+                            lastFuncName = funcName;
+
+                            string listOfArgumentsInt = lines[index].Substring(lines[index].IndexOf('(')).Replace("(", "").Replace(")", "");
+                            listOfArgumentsInt = listOfArgumentsInt.Replace("string", "").Replace("int", "").Replace(",", "");
+                            string[] listOfArgumentsFinal = new string[8];
+                            int argumentsIntIndex = 0;
+                            foreach (char c in listOfArgumentsInt)
+                            {
+                                if (c != ' ')
+                                {
+                                    listOfArgumentsFinal[argumentsIntIndex] += c;
+                                    if (c == ',')
+                                        argumentsIntIndex++;
+                                }
+                            }
+                            GeneratedCode[index] += "double ";
+                            GeneratedCode[index] += funcName + "(";
+                            foreach (string arg in listOfArgumentsFinal)
+                            {
+                                if (arg != null)
+                                {
+                                    GeneratedCode[index] += "int " + arg;
+                                    if (argumentsIntIndex > 1)
+                                        GeneratedCode[index] += ", ";
+                                    VARS.Add(arg);
+                                }
+                            }
+
+                            if (argumentsIntIndex > 1)
+                                GeneratedCode[index] = GeneratedCode[index].Remove(GeneratedCode[index].Length - 2);
+
+                            GeneratedCode[index] += ")";
+                            GeneratedCode[index] += "{";
+                            index++;
+                        }
+                        if (lineDef.Contains("char") && funcName != lastFuncName)
+                        {
+                            lastFuncName = funcName;
+
+                            string listOfArgumentsInt = lines[index].Substring(lines[index].IndexOf('(')).Replace("(", "").Replace(")", "");
+                            listOfArgumentsInt = listOfArgumentsInt.Replace("string", "").Replace("int", "").Replace(",", "");
+                            string[] listOfArgumentsFinal = new string[8];
+                            int argumentsIntIndex = 0;
+                            foreach (char c in listOfArgumentsInt)
+                            {
+                                if (c != ' ')
+                                {
+                                    listOfArgumentsFinal[argumentsIntIndex] += c;
+                                    if (c == ',')
+                                        argumentsIntIndex++;
+                                }
+                            }
+                            GeneratedCode[index] += "char ";
                             GeneratedCode[index] += funcName + "(";
                             foreach (string arg in listOfArgumentsFinal)
                             {
