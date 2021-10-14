@@ -18,29 +18,11 @@ namespace ippCompiler
         public static bool FLAG_IS_LINUX;
         public static bool FLAG_FORCE_COMPILE;
 
-        public static void Error(string str)
-        {
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.Write(str);
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-
-        public static void Debug(string str)
-        {
-            Console.BackgroundColor = ConsoleColor.Blue;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(str);
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-
         private static bool SetFilePath(string path)
         {
             if (!File.Exists(path))
             {
-                Error("Wystąpił błąd podczas wczytywania pliku kodu! Upewnij się, że podełeś jego prawidłową lokalizację.");
+                Log.Error("Wystąpił błąd podczas wczytywania pliku kodu! Upewnij się, że podełeś jego prawidłową lokalizację.");
                 Console.ReadLine();
                 return false;
             }
@@ -53,11 +35,23 @@ namespace ippCompiler
                 
         }
 
+        private static void CheckMacrosDownloaded()
+        {
+            if (!File.Exists("Macros.cpp"))
+            {
+                Log.Debug("Wygląda na to, że nie masz pobranych dodatkowych plików wymaganych przez ippCompiler. Czy chcesz je pobrać teraz? [T/N]");
+                if (Console.ReadLine().Trim().ToLower() == "t")
+                {
+                    PackageManager.DownloadMacros();
+                }
+            }
+        }
+
         private static void HandleCompilerFlags()
         {
             Console.Write("Podaj flagi kompilatora: ");
             string flagsStringBig = Console.ReadLine();
-            string[] flags = flagsStringBig.Split(","); 
+            string[] flags = flagsStringBig.Split(",");
             foreach (string flag in flags)
             {
                 if (flag.Trim() == "run") FLAG_RUN = true;
@@ -85,6 +79,7 @@ namespace ippCompiler
 
         public static void Main(string[] args)
         {
+            CheckMacrosDownloaded();
             if (args.Length == 0)
             {
                 Console.WriteLine("Witaj w kompilatorze języka i++");

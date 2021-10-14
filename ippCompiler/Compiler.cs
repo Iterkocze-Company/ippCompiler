@@ -194,7 +194,7 @@ namespace ippCompiler
                             }
                             if (quit) break;
 
-                            Program.Error("Błąd składni:");
+                            Log.Error("Błąd składni:");
                             Console.WriteLine(" " + line.Trim());
                             errors++;
                             break;
@@ -404,13 +404,13 @@ namespace ippCompiler
 
             if (errors != 0 && Program.FLAG_FORCE_COMPILE != true)
             {
-                Program.Debug("Program nie zostanie wykompilowany, ponieważ wykryo " + errors.ToString() + " błedów składni.");
+                Log.Debug("Program nie zostanie wykompilowany, ponieważ wykryo " + errors.ToString() + " błedów składni.");
                 Console.ReadLine();
                 Environment.Exit(1);
             }
             if (Program.FLAG_FORCE_COMPILE)
             {
-                Program.Debug("Wykryto " + errors.ToString() + " błędów składni. Kompilacja wymuszona przez flagę.");
+                Log.Debug("Wykryto " + errors.ToString() + " błędów składni. Kompilacja wymuszona przez flagę.");
             }
             Console.WriteLine("Kompiluję...");
             string args = "";
@@ -441,7 +441,7 @@ namespace ippCompiler
                 }
                 catch
                 {
-                    Program.Error("Wystąpił błąd podczas uruchamiania pliku! Czy jesteś pewien, że wybrałeś odpowiednią platformę?");
+                    Log.Error("Wystąpił błąd podczas uruchamiania pliku! Czy jesteś pewien, że wybrałeś odpowiednią platformę?");
                     Console.ReadLine();
                     Environment.Exit(1);
                 }
