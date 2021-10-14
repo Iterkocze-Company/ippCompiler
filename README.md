@@ -79,6 +79,8 @@ Funkcje mogą przyjmować też argumenty. Na przykład `def int test(int x, int 
 `macros` Pobiera pliki wymagane przez ippCompiler. <br> <br>
 Przykładowy sposób użycia flag kompilatora: `name=hello, run, force` <br>
 
+Mozesz też wprowadzić flagi z poziomu konsoli systemowej. np. `ippCompiler.exe kod.ipp run`
+
 ### Dostępne Makra
 `bool MacroContains(string s1, string s2)` Zwraca true, jeśli s1 zawiera s2, jeśli nie, false.
 
