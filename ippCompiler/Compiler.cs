@@ -423,8 +423,6 @@ namespace ippCompiler
                 startInfo.FileName = Program.FLAG_NAME + ".exe";
             }
             
-            Process.Start("g++", "-O2 -s genCode.cpp");
-            
             Console.WriteLine("Gotowe");
             if (Program.FLAG_RUN)
             {
