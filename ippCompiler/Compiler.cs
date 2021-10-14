@@ -176,9 +176,16 @@ namespace ippCompiler
                             index++;
                             break;
 
+                        case "MacroTest()":
+                            Console.WriteLine("macro!");
+                            GeneratedCode[index] = "MacroTest();";
+                            index++;
+                            break;
+
                         default:
                             bool quit = false;
                             if (line.Contains("def")) break;
+                            if (line.Contains("Macro")) break;
                             foreach (string var in VARS)
                             {
                                 if (line.Contains(var) && var != "")
@@ -354,6 +361,8 @@ namespace ippCompiler
                                 GeneratedCode[index] += "char ";
                             if (line.Remove(line.IndexOf("(")).Contains("string"))
                                 GeneratedCode[index] += "string ";
+                            if (line.Remove(line.IndexOf("(")).Contains("bool"))
+                                GeneratedCode[index] += "bool ";
                             GeneratedCode[index] += funcName + "(";
 
 
@@ -387,7 +396,7 @@ namespace ippCompiler
             }
 
             File.WriteAllText("genCode.cpp", "");
-            File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <conio.h>\n#include <fstream>\n\nusing namespace std;\n");
+            File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <conio.h>\n#include <fstream>\n#include \"Macros.cpp\"\n\nusing namespace std;\n");
 
             for (int i = 0; i < GeneratedCode.Length; i++)
                 File.AppendAllText("genCode.cpp", "\n" + GeneratedCode[i]);

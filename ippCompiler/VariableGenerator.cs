@@ -79,6 +79,17 @@ namespace ippCompiler
 
                 Compiler.VARS.Add(nameStr);
             }
+            if (line.Contains("bool"))
+            {
+                Compiler.GeneratedCode[index] = "bool ";
+
+                string nameStr = line.Substring(line.IndexOf(' ')).Replace(" ", "");
+                Compiler.GeneratedCode[index] = Compiler.GeneratedCode[index] + nameStr + ";";
+                if (nameStr.Contains('='))
+                    nameStr = nameStr.Substring(0, nameStr.IndexOf('='));
+
+                Compiler.VARS.Add(nameStr);
+            }
         }
     }
 }

@@ -58,6 +58,7 @@ namespace ippCompiler
             if (flags.Contains("run")) FLAG_RUN = true;
             if (flags.Contains("linux")) FLAG_IS_LINUX = true;
             if (flags.Contains("force")) FLAG_FORCE_COMPILE = true;
+            if (flags.Contains("macros")) PackageManager.DownloadMacros();
             if (flags.Contains("name"))
             {
                 int i = 0;
