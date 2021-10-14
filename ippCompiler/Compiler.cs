@@ -177,12 +177,6 @@ namespace ippCompiler
                             index++;
                             break;
 
-                        case "MacroTest()":
-                            Console.WriteLine("macro!");
-                            GeneratedCode[index] = "MacroTest();";
-                            index++;
-                            break;
-
                         default:
                             bool quit = false;
                             if (line.Contains("def")) break;
