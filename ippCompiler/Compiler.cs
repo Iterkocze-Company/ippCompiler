@@ -25,7 +25,8 @@ namespace ippCompiler
 
         public static string[] lines = ReadFileContents(Program.CODE_FILE_PATH);
 
-        public static string[] GeneratedCode = new string[Program.FILE_LEN + 4];
+        public static string[] GeneratedCode = new string[Program.FILE_LEN + 8];
+        //public static List<string> GeneratedCode = new();
 
         public static string[] ReadFileContents(string pathToFile)
         {

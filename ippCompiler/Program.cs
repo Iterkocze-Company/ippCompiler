@@ -100,7 +100,6 @@ namespace ippCompiler
                     if (arg.Contains(".ipp"))
                     {
                         CODE_FILE_PATH = arg;
-                        break;
                     }
 
                     if (arg.Trim() == "run") FLAG_RUN = true;
