@@ -78,6 +78,9 @@ Funkcje mogą przyjmować też argumenty. Na przykład `def int test(int x, int 
 `force` Dodaj tę flagę, aby wykompilować program pomomo błędów wykrytych przez ippCompiler. <br> <br>
 `macros` Pobiera pliki wymagane przez ippCompiler. <br> <br>
 
+### Dostępne Makra
+`bool MacroContains(string s1, string s2)` Zwraca true, jeśli s1 zawiera s2, jeśli nie, false.
+
 ### Twój Pierwszy Program w Języku i++
 Aby pomyślnie wykompilować program, musisz zdefiniować funkcję main za pomocą `def int main;`. Oto program Hello World w i++: <br>
 `def int main;` <br>
