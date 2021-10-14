@@ -1,7 +1,6 @@
 # ippCompiler
 Kompilator języka i++
 ##### Aby używać kompilatora, musisz mieć działający kompilator GNU G++ w zmiennej PATH. <br>
-##### Podczas pierwszego użycia kompilatora wprowadź flagę `macros`, aby pobrać niezbedne pliki. <br> <br>
 
 ### Instrukcje Języka i++
 `Echo "helo"` Lub 'echoLine "helo"' Powoduje wypisanie ciągu znaków w konsoli. Można użyć z operatorem '+'. <br> <br>
