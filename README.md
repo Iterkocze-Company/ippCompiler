@@ -17,7 +17,7 @@ if x == 1;
   echoLine x; 
 end; 
 else; 
-  echoLine "else"; 
+  EchoLine "else"; 
 end;
 ``` 
 
