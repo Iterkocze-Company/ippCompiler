@@ -37,6 +37,12 @@ Wszystkie spójniki logiczne są identyczne do tych, spotykanych w językach C/C
 `File.Close` Aby zamknąć plik. Na przykład `mojPlik.Close;`. <br>
 `File.ReadByLine 'string output'` lub `File.ReadByLineEcho` Aby wczytać zawartość pliku. Na przykład `mojPlik.ReadByLine str;`. <br>
 
+### Możliwości
+Można wybrać pojedynczy znak ze stringa:
+```
+string s = "text";
+EchoLine s[0];
+```
 ### Operatory w Języku i++
 `+` Operator Konkatenacji. Można użyć go razem z instrukcją `echo` Lub `echoLine`, aby połączyć dwa (lub więcej) napisów w jeden. <br> <br>
 `=` Operator Przypisania. Używa się go, aby przypisać wartość do zadeklarowanej zmiennej. Na przykład `int helo = 123;`. Podczas używania operatora przypisania, należy dodać jeden odstęp (` `) po nazwie zmiennej. <br> <br>
@@ -58,7 +64,7 @@ Wszystkie spójniki logiczne są identyczne do tych, spotykanych w językach C/C
 `char` <br>
 `float` <br>
 `double` <br>
-`void` Dozwolony przy deklarowaniu funkcji. Na przykład `def void test;`. Oznacza brak zwracanego typu. <br> <br>
+`void` Dozwolony przy deklarowaniu funkcji. Na przykład `def void test();`. Oznacza brak zwracanego typu. <br> <br>
 
 ### Deklarowanie Funkcji w Języku i++
 Użyj słowa kluczowego `def`, aby zadeklarować funkcję. Po słowie kluczowyn `def` wpisz typ zwracany przez funkcję. Na przykład `def int test();`. Po zakończeniu pracy z funkcją, wpisz słowo kluczowe `end`. Przykładowa deklaracja funkcji:
@@ -78,7 +84,7 @@ Funkcje mogą przyjmować też argumenty. Na przykład `def int test(int x, int 
 `macros` Pobiera pliki wymagane przez ippCompiler. <br> <br>
 Przykładowy sposób użycia flag kompilatora: `name=hello, run, force` <br>
 
-Mozesz też wprowadzić flagi z poziomu konsoli systemowej. np. `ippCompiler.exe kod.ipp run`
+Mozesz też wprowadzić flagi z poziomu konsoli systemowej. np. `ippCompiler.exe kod.ipp run` lub `ippCompiler.exe kod.ipp -run`
 
 ### Dostępne Makra
 `bool MacroContains(string s1, string s2)` Zwraca true, jeśli s1 zawiera s2, jeśli nie, false.
