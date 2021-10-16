@@ -35,7 +35,6 @@ namespace ippCompiler
 
         public static void Compile()
         {
-            
             int index = 0;
 
             for (int i = 0; i < lines.Length; i++)
@@ -325,68 +324,8 @@ namespace ippCompiler
 
                 if (line.ToLower().Contains("def")) //Obsługa funkcji.
                 {
-                    string lastFuncName = "";
-                    string[] splitted = line.Split();
-                    string funcName = "";
-                    if (!splitted[2].Contains("main"))
-                        funcName = splitted[2].Substring(0, splitted[2].IndexOf("("));
-                    if (splitted[2].Contains("main"))
-                    {
-                        GeneratedCode[index] += "int main(){";
-                        index++;
-                    }
-                    VARS.Add(funcName);
-
-                    foreach (string lineDef in splitted)
-                    {
-                        if ((lineDef.Contains("int") || lineDef.Contains("float")) && funcName != lastFuncName)
-                        {
-                            lastFuncName = funcName;
-
-                            string listOfArguments = line.Substring(line.IndexOf('(')).Replace("(", "").Replace(")", "");
-                            string[] listOfArgumentsFinal = new string[8];
-                            int argumentsIntIndex = 0;
-                            if (line.Remove(line.IndexOf("(")).Contains("int"))
-                                GeneratedCode[index] += "int ";
-                            if (line.Remove(line.IndexOf("(")).Contains("float"))
-                                GeneratedCode[index] += "float ";
-                            if (line.Remove(line.IndexOf("(")).Contains("double"))
-                                GeneratedCode[index] += "double ";
-                            if (line.Remove(line.IndexOf("(")).Contains("char"))
-                                GeneratedCode[index] += "char ";
-                            if (line.Remove(line.IndexOf("(")).Contains("string"))
-                                GeneratedCode[index] += "string ";
-                            if (line.Remove(line.IndexOf("(")).Contains("bool"))
-                                GeneratedCode[index] += "bool ";
-                            GeneratedCode[index] += funcName + "(";
-
-
-                            string[] argNames = listOfArguments.Replace("float", "").Split(',');
-                            GeneratedCode[index] += listOfArguments;
-                            if (argumentsIntIndex > 1)
-                                GeneratedCode[index] += ", ";
-                            foreach (string var in argNames)
-                            {
-                                VARS.Add(var.Trim());
-                            }
-
-                            if (argumentsIntIndex > 1)
-                                GeneratedCode[index] = GeneratedCode[index].Remove(GeneratedCode[index].Length - 2);
-
-                            GeneratedCode[index] += ")";
-                            GeneratedCode[index] += "{";
-                            index++;
-                            break;
-                        }
-
-                        if (lineDef.Contains("void"))
-                        {
-                            GeneratedCode[index] += "void ";
-                            GeneratedCode[index] += funcName + "()";
-                            GeneratedCode[index] += "{";
-                            index++;
-                        }
-                    }
+                    FunctionsGenerator.Analyse(line, index);
+                    index++;
                 }
             }
 
@@ -429,6 +368,8 @@ namespace ippCompiler
                 Thread.Sleep(2000);
                 try
                 {
+                    Console.WriteLine("Aby uruchomić program, naciśnij dowolny przycisk.");
+                    Console.ReadLine();
                     Process.Start(startInfo);
                 }
                 catch

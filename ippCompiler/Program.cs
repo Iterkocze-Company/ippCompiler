@@ -47,17 +47,22 @@ namespace ippCompiler
             }
         }
 
-        private static void HandleCompilerFlags()
+        private static void HandleCompilerFlags(bool isCommandLine, string[] flags)
         {
-            Console.Write("Podaj flagi kompilatora: ");
-            string flagsStringBig = Console.ReadLine();
-            string[] flags = flagsStringBig.Split(",");
+            if (isCommandLine == false)
+            {
+                Console.Write("Podaj flagi kompilatora: ");
+                string flagsStringBig = Console.ReadLine();
+                flags = flagsStringBig.Split(",");
+            }
+            
             foreach (string flag in flags)
             {
-                if (flag.Trim() == "run") FLAG_RUN = true;
-                if (flag.Trim() == "linux") FLAG_IS_LINUX = true;
-                if (flag.Trim() == "force") FLAG_FORCE_COMPILE = true;
-                if (flag.Trim() == "macros") PackageManager.DownloadMacros();
+                if (flag.Trim().Contains(".ipp")) CODE_FILE_PATH = flag;
+                if (flag.Replace("-", "").Trim() == "run") FLAG_RUN = true;
+                if (flag.Replace("-", "").Trim() == "linux") FLAG_IS_LINUX = true;
+                if (flag.Replace("-", "").Trim() == "force") FLAG_FORCE_COMPILE = true;
+                if (flag.Replace("-", "").Trim() == "macros") PackageManager.DownloadMacros();
                 if (flag.Contains("name"))
                 {
                     FLAG_NAME = "";
@@ -85,40 +90,12 @@ namespace ippCompiler
                 Console.WriteLine("Witaj w kompilatorze języka i++");
                 Console.Write("Wprowadź ścieżkę do pliku języka i++ (relatywną): ");
                 bool opt = SetFilePath(Console.ReadLine());
-                if (opt) HandleCompilerFlags();
+                if (opt) HandleCompilerFlags(false, args);
                 if (opt) Compiler.Compile();
             }
             else
             {
-                foreach (string arg in args)
-                {
-                    if (arg.Contains(".ipp"))
-                    {
-                        CODE_FILE_PATH = arg;
-                    }
-
-                    if (arg.Trim() == "run") FLAG_RUN = true;
-                    if (arg.Trim() == "linux") FLAG_IS_LINUX = true;
-                    if (arg.Trim() == "force") FLAG_FORCE_COMPILE = true;
-                    if (arg.Trim() == "macros") PackageManager.DownloadMacros();
-                    if (arg.Contains("name"))
-                    {
-                        FLAG_NAME = "";
-                        string GoodFlag = arg.Trim();
-                        int i = 0;
-                        foreach (char c in GoodFlag)
-                        {
-                            i++;
-                            if (c == ' ')
-                                break;
-                            else if (i >= 6)
-                                FLAG_NAME += c;
-                        }
-                    }
-                    if (!arg.Contains("name") && FLAG_NAME == "")
-                        FLAG_NAME = "a";
-                    
-                }
+                HandleCompilerFlags(true, args);
                 Compiler.Compile();
             }
         }
