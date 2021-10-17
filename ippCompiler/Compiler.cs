@@ -356,11 +356,11 @@ namespace ippCompiler
 
             foreach (string includeName in includes)
             {
-                string includeName2 = "#include " + "\"" + includeName.Replace(".ipp", ".cpp") + "\"\n";
                 string codeFilename = "gen" + includeName.Replace(".ipp", "") + ".cpp";
                 File.WriteAllText(codeFilename, "");
                 File.AppendAllText("genCode.cpp", "#include \"" + codeFilename + "\"\n");
-                Process.Start("ippCompiler.exe", $"{includeName} -SelfInvoke");
+                Process p = Process.Start("ippCompiler.exe", $"{includeName} -SelfInvoke");
+                p.WaitForExit();
             }
 
             if (Program.FLAG_IS_LINUX)
@@ -389,8 +389,9 @@ namespace ippCompiler
             Console.WriteLine("Kompiluję...");
             string args = "";
             
-            args = args + $"{"-o " + Program.FLAG_NAME}";
-            Process.Start("g++", $"{args} -O2 -s genCode.cpp");
+            args += $"{"-o " + Program.FLAG_NAME}";
+            Process gpp = Process.Start("g++", $"{args} -O2 -s genCode.cpp");
+            gpp.WaitForExit();
             var startInfo = new ProcessStartInfo();
             if (Program.FLAG_IS_LINUX)
             {
@@ -406,7 +407,6 @@ namespace ippCompiler
             Console.WriteLine("Gotowe");
             if (Program.FLAG_RUN)
             {
-                Thread.Sleep(2000);
                 try
                 {
                     Console.WriteLine("Aby uruchomić program, naciśnij dowolny przycisk.");
