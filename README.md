@@ -48,8 +48,10 @@ EchoLine s[0];
 `=` Operator Przypisania. Używa się go, aby przypisać wartość do zadeklarowanej zmiennej. Na przykład `int helo = 123;`. Podczas używania operatora przypisania, należy dodać jeden odstęp (` `) po nazwie zmiennej. <br> <br>
 
 #### Operatory Arytmetyczne w Języku i++
-##### Należy używać ich w instrukcji `echo` lub `echoLine`. Na przykład `echoLine x*2;`
+##### Należy używać ich w instrukcji `Echo` lub `EchoLine`. Na przykład `EchoLine x*2;`
 `+` Dodawanie <br>
+`-` Odejmowanie <br>
+`~` Łączenie napisów. Np. `EchoLine "Hello" ~ " World";` <br>
 `*` Mnożenie <br>
 `/` Dzielenie <br>
 `%` Dzielenie Modulo <br>
