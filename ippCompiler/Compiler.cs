@@ -65,7 +65,7 @@ namespace ippCompiler
                             
                             foreach (char ch in afterFirst)
                             {
-                                if (ch == '+')
+                                if (ch == '~')
                                     GeneratedCode[index] = GeneratedCode[index] + " << ";
                                 else
                                 {
