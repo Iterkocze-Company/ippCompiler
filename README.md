@@ -74,6 +74,16 @@ def int test();
 end;
 ```
 
+### Używanie innych plików .ipp
+Aby dołączyć plik .ipp do innego pliku kodu .ipp należy użyć `use`. Na przykład:
+```
+use "kod.ipp";
+
+def int main();
+  EchoLine "Hello";
+end;
+```
+
 Funkcje mogą przyjmować też argumenty. Na przykład `def int test(int x, int y);`.
 
 ### Flagi Kompilatora
@@ -91,9 +101,11 @@ Mozesz też wprowadzić flagi z poziomu konsoli systemowej. np. `ippCompiler.exe
 
 ### Twój Pierwszy Program w Języku i++
 Aby pomyślnie wykompilować program, musisz zdefiniować funkcję main za pomocą `def int main;`. Oto program Hello World w i++: <br>
-`def int main;` <br>
-`EchoLine "Hello, World!";` <br>
-`end;` <br> <br>
+```
+def int main();
+  EchoLine "Hello, World!";
+end;
+```
 
 Aby wywołać funkcję, zwyczajnie wpisz jej nazwę zakończoną klamrami. Oto przykładowy program demonstrujący wywoływanie zadeklarowanej funkcji: <br>
 ```
