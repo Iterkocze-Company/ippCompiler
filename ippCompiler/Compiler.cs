@@ -26,7 +26,8 @@ namespace ippCompiler
         public static string[] lines = ReadFileContents(Program.CODE_FILE_PATH);
 
         public static string[] GeneratedCode = new string[Program.FILE_LEN + 8];
-        //public static List<string> GeneratedCode = new();
+
+        public static List<string> includes = new();
 
         public static string[] ReadFileContents(string pathToFile)
         {
@@ -164,6 +165,12 @@ namespace ippCompiler
                             index += 3;
                             break;
 
+                        case "use":
+                            string includeName = line.Replace("use", "").Replace("\"", "").Trim();
+                            includes.Add(includeName);
+                            index++;
+                            break;
+
                         case "return":
                             GeneratedCode[index] = line + ";";
                             index++;
@@ -180,6 +187,12 @@ namespace ippCompiler
                             bool quit = false;
                             if (line.Contains("def")) break;
                             if (line.Contains("Macro")) break;
+                            if (line.EndsWith(")"))
+                            {
+                                GeneratedCode[index] = line + ";";
+                                index++;
+                                break;
+                            }
                             foreach (string var in VARS)
                             {
                                 if (line.Contains(var) && var != "")
@@ -329,8 +342,36 @@ namespace ippCompiler
                 }
             }
 
-            File.WriteAllText("genCode.cpp", "");
-            File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <conio.h>\n#include <fstream>\n#include \"Macros.cpp\"\n\nusing namespace std;\n");
+            if (Program.FLAG_SELF_INVOKE != true)
+                File.WriteAllText("genCode.cpp", "");
+
+            if (Program.FLAG_SELF_INVOKE)
+            {
+                File.AppendAllText("gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp"), "\n" + "#include <iostream>\n\nusing namespace std;\n\n");
+
+                for (int i = 0; i < GeneratedCode.Length; i++)
+                    File.AppendAllText("gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp"), "\n" + GeneratedCode[i]);
+                Environment.Exit(0);
+            }
+
+            foreach (string includeName in includes)
+            {
+                string includeName2 = "#include " + "\"" + includeName.Replace(".ipp", ".cpp") + "\"\n";
+                string codeFilename = "gen" + includeName.Replace(".ipp", "") + ".cpp";
+                File.WriteAllText(codeFilename, "");
+                File.AppendAllText("genCode.cpp", "#include \"" + codeFilename + "\"\n");
+                Process.Start("ippCompiler.exe", $"{includeName} -SelfInvoke");
+            }
+
+            if (Program.FLAG_IS_LINUX)
+            {
+                File.AppendAllText("genCode.cpp", "#include <curses.h>\n");
+            }
+            else
+            {
+                File.AppendAllText("genCode.cpp", "#include <conio.h>\n");
+            }
+            File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <fstream>\n#include \"Macros.cpp\"\n\nusing namespace std;\n");
 
             for (int i = 0; i < GeneratedCode.Length; i++)
                 File.AppendAllText("genCode.cpp", "\n" + GeneratedCode[i]);

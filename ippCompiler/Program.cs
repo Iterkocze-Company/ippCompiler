@@ -12,11 +12,13 @@ namespace ippCompiler
     public static class Program
     {
         public static string CODE_FILE_PATH = "";
+        public static string INCLUDES_PATH = "";
         public static int FILE_LEN = 0;
         public static bool FLAG_RUN;
         public static string FLAG_NAME = "";
         public static bool FLAG_IS_LINUX;
         public static bool FLAG_FORCE_COMPILE;
+        public static bool FLAG_SELF_INVOKE;
 
         private static bool SetFilePath(string path)
         {
@@ -60,6 +62,7 @@ namespace ippCompiler
             {
                 if (flag.Trim().Contains(".ipp")) CODE_FILE_PATH = flag;
                 if (flag.Replace("-", "").Trim() == "run") FLAG_RUN = true;
+                if (flag.Replace("-", "").Trim() == "SelfInvoke") FLAG_SELF_INVOKE = true;
                 if (flag.Replace("-", "").Trim() == "linux") FLAG_IS_LINUX = true;
                 if (flag.Replace("-", "").Trim() == "force") FLAG_FORCE_COMPILE = true;
                 if (flag.Replace("-", "").Trim() == "macros") PackageManager.DownloadMacros();
