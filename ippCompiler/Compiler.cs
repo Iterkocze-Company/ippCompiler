@@ -187,7 +187,7 @@ namespace ippCompiler
                             bool quit = false;
                             if (line.Contains("def")) break;
                             if (line.Contains("Macro")) break;
-                            if (line.EndsWith(")"))
+                            if (line.EndsWith(")")) //Do rozpoznawania funkcji z innego pliku
                             {
                                 GeneratedCode[index] = line + ";";
                                 index++;
@@ -195,7 +195,7 @@ namespace ippCompiler
                             }
                             foreach (string var in VARS)
                             {
-                                if (line.Contains(var) && var != "")
+                                if (line.Trim() == var && var != "")
                                     quit = true;
                             }
                             if (quit) break;
