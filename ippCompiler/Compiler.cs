@@ -81,6 +81,7 @@ namespace ippCompiler
                             }
                             GeneratedCode[index] += " << endl;";
                             index++;
+                            skip = true;
                             break;
 
                         case "Echo":
@@ -104,6 +105,7 @@ namespace ippCompiler
                             }
                             GeneratedCode[index] += " ;";
                             index++;
+                            skip = true;
                             break;
 
                         case "int":
@@ -124,11 +126,13 @@ namespace ippCompiler
                                 IS_DOWHILE = false;
                             }
                             index++;
+                            skip = true;
                             break;
 
                         case "ReadKey":
                             GeneratedCode[index] = "getch();";
                             index++;
+                            skip = true;
                             break;
 
                         case "if":
@@ -136,6 +140,7 @@ namespace ippCompiler
                             GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
                             index++;
+                            skip = true;
                             break;
 
                         case "while":
@@ -143,6 +148,7 @@ namespace ippCompiler
                             GeneratedCode[index] += ")";
                             GeneratedCode[index] += "{";
                             index++;
+                            skip = true;
                             break;
 
                         case "DoWhile":
@@ -150,11 +156,13 @@ namespace ippCompiler
                             GeneratedCode[index] = line.Replace("DoWhile", "do{").Replace(DoWhileCondition, "");
                             IS_DOWHILE = true;
                             index++;
+                            skip = true;
                             break;
 
                         case "else":
                             GeneratedCode[index] += "else{";
                             index++;
+                            skip = true;
                             break;
 
                         case "for":
@@ -163,17 +171,20 @@ namespace ippCompiler
                             GeneratedCode[index] += lines[index + 1] + ";";
                             GeneratedCode[index] += lines[index + 2] + "){";
                             index += 3;
+                            skip = true;
                             break;
 
                         case "use":
                             string includeName = line.Replace("use", "").Replace("\"", "").Trim();
                             includes.Add(includeName);
                             index++;
+                            skip = true;
                             break;
 
                         case "return":
                             GeneratedCode[index] = line + ";";
                             index++;
+                            skip = true;
                             break;
 
                         case "File":
@@ -181,6 +192,7 @@ namespace ippCompiler
                             VARS.Add(fileName);
                             GeneratedCode[index] = "fstream " + fileName + ";";
                             index++;
+                            skip = true;
                             break;
 
                         default: //Wykrywanie błędów było błędem. I tak pokazywało tylko proste literówki, a powodowało więcej problemów, niż to warte.
