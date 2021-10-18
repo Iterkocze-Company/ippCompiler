@@ -1,5 +1,9 @@
 # ippCompiler
 Kompilator języka i++
+
+#### 
+      "i made it, and it work" 
+                        ~Michał 2021
 ##### Aby używać kompilatora, musisz mieć działający kompilator GNU G++ w zmiennej PATH. <br>
 
 ### Instrukcje Języka i++
