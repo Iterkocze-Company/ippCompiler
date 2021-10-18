@@ -183,26 +183,28 @@ namespace ippCompiler
                             index++;
                             break;
 
-                        default:
-                            bool quit = false;
+                        default: //Wykrywanie błędów było błędem. I tak pokazywało tylko proste literówki, a powodowało więcej problemów, niż to warte.
+                            /*bool quit = false;
                             if (line.Contains("def")) break;
                             if (line.Contains("Macro")) break;
-                            if (line.EndsWith(")")) //Do rozpoznawania funkcji z innego pliku
-                            {
-                                GeneratedCode[index] = line + ";";
-                                index++;
-                                break;
-                            }
+                            
                             foreach (string var in VARS)
                             {
                                 if (line.Trim() == var && var != "")
                                     quit = true;
+
+                                if (line.EndsWith(")") && line.Contains(var)) //Do rozpoznawania funkcji z innego pliku
+                                {
+                                    GeneratedCode[index] = line + ";";
+                                    index++;
+                                    break;
+                                }
                             }
                             if (quit) break;
 
                             Log.Error("Błąd składni:");
                             Console.WriteLine(" " + line.Trim());
-                            errors++;
+                            errors++;*/
                             break;
                     }
                 }
