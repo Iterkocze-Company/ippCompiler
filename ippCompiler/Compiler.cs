@@ -7,13 +7,12 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace ippCompiler
 {
     public static class Compiler
     {
-        public static List<string> VARS = new List<string>(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
+        public static List<string> VARS = new(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
         static string lastVar = "";
 
@@ -21,7 +20,7 @@ namespace ippCompiler
 
         static string DoWhileCondition = "";
 
-        static int errors = 0;
+        private static int errors = 0;
 
         public static string[] lines = ReadFileContents(Program.CODE_FILE_PATH);
 
@@ -40,6 +39,7 @@ namespace ippCompiler
 
             for (int i = 0; i < lines.Length; i++)
             {
+                bool skip = false;
                 string line = lines[i].Replace("\n", "").Replace("\t", "");
                 
                 if (line != lines[lines.Length - 1])
@@ -113,6 +113,7 @@ namespace ippCompiler
                         case "string":
                             VariableGenerator.Analyse(line, index);
                             index++;
+                            skip = true;
                             break;
 
                         case "end":
@@ -147,7 +148,6 @@ namespace ippCompiler
                         case "DoWhile":
                             DoWhileCondition = line.Replace("DoWhile", "").Trim();
                             GeneratedCode[index] = line.Replace("DoWhile", "do{").Replace(DoWhileCondition, "");
-                            //GeneratedCode[index] += "while(" + DoWhileStr + ")";
                             IS_DOWHILE = true;
                             index++;
                             break;
@@ -209,6 +209,7 @@ namespace ippCompiler
                     }
                 }
 
+                if (skip != true)
                 foreach (string var in VARS)
                 {
                     string numericArgs = "";

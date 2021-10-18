@@ -18,17 +18,19 @@ namespace ippCompiler
             string afterFirst = line;
             if (line.Contains("int"))
             {
+                bool hasEnd = false;
                 Compiler.GeneratedCode[index] = "int ";
-                if (line.EndsWith("readKey"))
+                if (line.EndsWith("ReadKey"))
                 {
                     string nameRead = Compiler.lines[index].Substring(Compiler.lines[index].IndexOf(' ')).Replace(" ", "");
                     nameRead = nameRead.Substring(0, nameRead.IndexOf('='));
                     Compiler.GeneratedCode[index] = $"int {nameRead} =  getch();";
                     index++;
+                    hasEnd = true;
                 }
                 string name = afterFirst.Substring(afterFirst.IndexOf(' ')).Replace(" ", "");
-
-                Compiler.GeneratedCode[index] = Compiler.GeneratedCode[index] + name + ";";
+                if (hasEnd == false)
+                    Compiler.GeneratedCode[index] = Compiler.GeneratedCode[index] + name + ";";
 
                 if (name.Contains('='))
                     name = name.Substring(0, name.IndexOf('='));
