@@ -10,6 +10,11 @@ using System.Collections.Generic;
 
 namespace ippCompiler
 {
+     /* Kody zakończenia programu
+           1 - Wykryto błędy w kodzie .ipp, a flaga nie wymusiła kompilacji.
+           2 - Nie udało się uruchomić G++.
+           3 - Nie udało się uruchomić wykompilowanego pliku.
+     */
     public static class Compiler
     {
         public static List<string> VARS = new(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
@@ -413,6 +418,7 @@ namespace ippCompiler
             catch
             {
                 Log.Error("Nie udało się uruchomić G++. Czy jesteś pewien, że masz go w zmiennej PATH?");
+                Environment.Exit(2);
             }
             var startInfo = new ProcessStartInfo();
             if (Program.FLAG_IS_LINUX)
@@ -439,7 +445,7 @@ namespace ippCompiler
                 {
                     Log.Error("Wystąpił błąd podczas uruchamiania pliku! Czy jesteś pewien, że wybrałeś odpowiednią platformę?");
                     Console.ReadLine();
-                    Environment.Exit(1);
+                    Environment.Exit(3);
                 }
             }
             else
