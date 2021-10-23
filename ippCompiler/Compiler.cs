@@ -405,8 +405,15 @@ namespace ippCompiler
             string args = "";
             
             args += $"{"-o " + Program.FLAG_NAME}";
-            Process gpp = Process.Start("g++", $"{args} -O2 -s genCode.cpp");
-            gpp.WaitForExit();
+            try
+            {
+                Process gpp = Process.Start("g++", $"{args} -O2 -s genCode.cpp");
+                gpp.WaitForExit();
+            }
+            catch
+            {
+                Log.Error("Nie udało się uruchomić G++. Czy jesteś pewien, że masz go w zmiennej PATH?");
+            }
             var startInfo = new ProcessStartInfo();
             if (Program.FLAG_IS_LINUX)
             {
