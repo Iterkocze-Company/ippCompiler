@@ -6,6 +6,7 @@ Kompilator języka i++
                         ~Michał 2021
 
 ##### Aby używać kompilatora, musisz mieć działający kompilator GNU G++ w zmiennej PATH. <br>
+##### Dla bezpieczeństwa należy używać w kodzie tylko tabów, bez spacji. <br>
 
 ### Instrukcje Języka i++
 `Echo "helo"` Lub 'echoLine "helo"' Powoduje wypisanie ciągu znaków w konsoli. Można użyć z operatorem '+'. <br> <br>
