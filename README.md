@@ -40,7 +40,7 @@ Wszystkie spójniki logiczne są identyczne do tych, spotykanych w językach C/C
 `File.Open` Aby otworzyć plik. Na przykład `mojPlik.Open "plik.txt";`. <br>
 `File.Write` Aby zapisać dane w pliku. Na przykład `mojPlik.Write "tekst";`. <br>
 `File.Close` Aby zamknąć plik. Na przykład `mojPlik.Close;`. <br>
-`File.ReadByLine 'string output'` lub `File.ReadByLineEcho` Aby wczytać zawartość pliku. Na przykład `mojPlik.ReadByLine str;`. <br>
+`File.ReadByLine 'string output'` lub `File.ReadByLineEcho` Aby wczytać zawartość pliku. Na przykład `mojPlik.ReadByLine str;`. `File.ReadByLine` oraz `File.ReadBylineEcho` są pętlami i muszą być zakończone `end;`. <br>
 
 ### Możliwości
 Można wybrać pojedynczy znak ze stringa:
