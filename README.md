@@ -96,7 +96,7 @@ Funkcje mogą przyjmować też argumenty. Na przykład `def int test(int x, int 
 
 ### Flagi Kompilatora
 `name=example` Dodanie tej flagi spowoduje zmianę nazwy wykompilowanego pliku .exe na 'example'. <br> <br>
-`run` Uruchamia program po jego kompilacji. <br> <br>
+`run` Uruchamia program po jego kompilacji. Uwaga. Ta flaga może nie zawsze przynosić porządane efekty. Zawsze lepiej jest uruchomić program ręcznie. <br> <br>
 `linux` Dodaj tę flagę, jeśli używasz ippCompiler na Linuxie. <br> <br>
 `force` Dodaj tę flagę, aby wykompilować program pomomo błędów wykrytych przez ippCompiler. <br> <br>
 `macros` Pobiera pliki wymagane przez ippCompiler. <br> <br>
