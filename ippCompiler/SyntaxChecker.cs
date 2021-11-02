@@ -23,6 +23,13 @@ namespace ippCompiler
                     StringsChars++;
                 }
             }
+
+            if (line.StartsWith(" "))
+            {
+                Log.Error("Wykryto spacje w kodzie. Należy używać tylko tabów!\n");
+                Compiler.errors++;
+            }
+
             if (StringsChars % 2 != 0)
             {
                 Log.Error($"Wykryto napis bez zakończenia na linijce: {line}\n");

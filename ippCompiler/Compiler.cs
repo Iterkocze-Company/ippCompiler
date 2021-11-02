@@ -228,10 +228,23 @@ namespace ippCompiler
                             index++;
                             break;
 
+                        case "Wait":
+                            string howLong = line.Replace("Wait", "").Trim();
+                            GeneratedCode[index] = $"Sleep({howLong});";
+                            index++;
+                            break;
+
                         default:
+                            if (line.EndsWith(")") && !line.Contains("def"))
+                            {
+                                GeneratedCode[index] = line + ";";
+                                skip = true;
+                                index++;
+                            }
                             break;
                     }
                     SyntaxChecker.Analyse(line, index);
+                    
                 }
 
                 if (skip != true)
@@ -387,9 +400,24 @@ namespace ippCompiler
             foreach (string includeName in includes)
             {
                 string codeFilename = "gen" + includeName.Replace(".ipp", "") + ".cpp";
-                File.WriteAllText(codeFilename, "");
-                File.AppendAllText(GeneratedCodeFilename, "#include \"" + codeFilename + "\"\n");
-                Process p = Process.Start("ippCompiler.exe", $"{includeName} -SelfInvoke");
+                if (includeName == "Math.ipp")
+                {
+                    File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "genMath.cpp", "");
+                    File.AppendAllText(GeneratedCodeFilename, "#include \"" + AppDomain.CurrentDomain.BaseDirectory + "genMath.cpp" + "\"\n");
+                }
+                else
+                {
+                    File.WriteAllText(codeFilename, "");
+                    File.AppendAllText(GeneratedCodeFilename, "#include \"" + codeFilename + "\"\n");
+                }
+
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.FileName = "ippCompiler.exe";
+                info.Arguments = $"{includeName} -SelfInvoke";
+                info.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+                //Process p = Process.Start("ippCompiler.exe", $"{includeName} -SelfInvoke");
+                Process p = Process.Start(info);
                 p.WaitForExit();
             }
 
