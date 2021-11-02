@@ -39,7 +39,7 @@ namespace ippCompiler
 
         private static void CheckMacrosDownloaded()
         {
-            if (!File.Exists("Macros.cpp"))
+            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/Macros.cpp"))
             {
                 Log.Debug("Wygląda na to, że nie masz pobranych dodatkowych plików wymaganych przez ippCompiler. Czy chcesz je pobrać teraz? [T/N]");
                 if (Console.ReadLine().Trim().ToLower() == "t")

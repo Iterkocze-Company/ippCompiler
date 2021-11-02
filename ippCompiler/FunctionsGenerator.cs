@@ -29,7 +29,7 @@ namespace ippCompiler
 
             foreach (string lineDef in splitted)
             {
-                if ((lineDef.Contains("int") || lineDef.Contains("float")) && funcName != lastFuncName)
+                if (funcName != lastFuncName)
                 {
                     lastFuncName = funcName;
 

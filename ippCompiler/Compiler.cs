@@ -8,16 +8,27 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace ippCompiler
 {
-     /* Kody zakończenia programu
-           1 - Wykryto błędy w kodzie .ipp, a flaga nie wymusiła kompilacji.
-           2 - Nie udało się uruchomić G++.
-           3 - Nie udało się uruchomić wykompilowanego pliku.
-     */
+    /* Kody zakończenia programu
+          1 - Wykryto błędy w kodzie .ipp, a flaga nie wymusiła kompilacji.
+          2 - Nie udało się uruchomić G++.
+          3 - Nie udało się uruchomić wykompilowanego pliku.
+    */
     public static class Compiler
     {
+        public static string GenerateRandomAlphanumericString(int length = 10)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            var random = new Random();
+            var randomString = new string(Enumerable.Repeat(chars, length)
+                                                    .Select(s => s[random.Next(s.Length)]).ToArray());
+            return randomString;
+        }
+
         public static List<string> VARS = new(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
         static string lastVar = "";
@@ -203,6 +214,20 @@ namespace ippCompiler
                             skip = true;
                             break;
 
+                        case "CreateFile":
+                            string fileName2 = line.Substring(line.IndexOf("File") + 5).Replace(" ", "").Replace("\t", "");
+                            string fileName2Formatted = fileName2.Replace("\"", "");
+                            string id = GenerateRandomAlphanumericString();
+                            GeneratedCode[index] = "ofstream " + id + ";";
+                            index++;
+                            GeneratedCode[index] = $"{id}.open(\"{fileName2Formatted + ".txt"}\");";
+                            index++;
+                            GeneratedCode[index] = $"{id}.close();";
+                            index++;
+                            GeneratedCode[index] = "Sleep(100);";
+                            index++;
+                            break;
+
                         default:
                             break;
                     }
@@ -282,7 +307,7 @@ namespace ippCompiler
                         {
                             string fileName = line.Substring(line.IndexOf(".Open")+5).Replace(" ", "").Replace("\t", "");
                             string fileObjName = line.Substring(0, line.IndexOf( ".Open")).Replace(" ", "").Replace("\t", "");
-                            GeneratedCode[index] += fileObjName + ".open(" + fileName + ");";
+                            GeneratedCode[index] += fileObjName + ".open(" + fileName + ", std::fstream::in | std::fstream::out);";
                             index++;
                             break;
                         }
@@ -315,14 +340,14 @@ namespace ippCompiler
                             {
                                 stringName = line.Substring(line.IndexOf(".ReadByLine") + 15).Replace(" ", "").Replace("\t", "");
                                 fileObjName = line.Substring(0, line.IndexOf(".ReadByLine")).Replace(" ", "").Replace("\t", "");
-                                GeneratedCode[index] += "while (getline(" + fileObjName + "," + stringName + ")){\n" + "cout << " + stringName + ";\n}";
+                                GeneratedCode[index] += "while (getline(" + fileObjName + "," + stringName + ")){\n" + "cout << " + stringName + ";\n";
                             }
                                     
                             else
                             {
                                 stringName = line.Substring(line.IndexOf(".ReadByLine") + 11).Replace(" ", "").Replace("\t", "");
                                 fileObjName = line.Substring(0, line.IndexOf(".ReadByLine")).Replace(" ", "").Replace("\t", "");
-                                GeneratedCode[index] += "while (getline(" + fileObjName + "," + stringName + ")){\n}";
+                                GeneratedCode[index] += "while (getline(" + fileObjName + "," + stringName + ")){\n";
                             }
                             index++;
                             break;
@@ -345,8 +370,10 @@ namespace ippCompiler
                 }
             }
 
+            string GeneratedCodeFilename = "gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp");
+
             if (Program.FLAG_SELF_INVOKE != true)
-                File.WriteAllText("genCode.cpp", "");
+                File.WriteAllText(GeneratedCodeFilename, "");
 
             if (Program.FLAG_SELF_INVOKE)
             {
@@ -361,23 +388,27 @@ namespace ippCompiler
             {
                 string codeFilename = "gen" + includeName.Replace(".ipp", "") + ".cpp";
                 File.WriteAllText(codeFilename, "");
-                File.AppendAllText("genCode.cpp", "#include \"" + codeFilename + "\"\n");
+                File.AppendAllText(GeneratedCodeFilename, "#include \"" + codeFilename + "\"\n");
                 Process p = Process.Start("ippCompiler.exe", $"{includeName} -SelfInvoke");
                 p.WaitForExit();
             }
 
             if (Program.FLAG_IS_LINUX)
             {
-                File.AppendAllText("genCode.cpp", "#include <curses.h>\n");
+                File.AppendAllText(GeneratedCodeFilename, "#include <curses.h>\n");
+                File.AppendAllText(GeneratedCodeFilename, "#include <unistd.h>\n");
             }
             else
             {
-                File.AppendAllText("genCode.cpp", "#include <conio.h>\n");
+                File.AppendAllText(GeneratedCodeFilename, "#include <conio.h>\n");
+                File.AppendAllText(GeneratedCodeFilename, "#include <Windows.h>\n");
             }
-            File.AppendAllText("genCode.cpp", "#include <iostream>\n#include <fstream>\n#include \"Macros.cpp\"\n\nusing namespace std;\n");
+            string MacrosPath = AppDomain.CurrentDomain.BaseDirectory + "Macros.cpp";
+
+            File.AppendAllText(GeneratedCodeFilename, $"#include <iostream>\n#include <fstream>\n#include \"{MacrosPath}\"\n\nusing namespace std;\n");
 
             for (int i = 0; i < GeneratedCode.Length; i++)
-                File.AppendAllText("genCode.cpp", "\n" + GeneratedCode[i]);
+                File.AppendAllText(GeneratedCodeFilename, "\n" + GeneratedCode[i]);
 
             if (errors != 0 && Program.FLAG_FORCE_COMPILE != true)
             {
@@ -395,7 +426,7 @@ namespace ippCompiler
             args += $"{"-o " + Program.FLAG_NAME}";
             try
             {
-                Process gpp = Process.Start("g++", $"{args} -O2 -s genCode.cpp");
+                Process gpp = Process.Start("g++", $"{args} -O2 -s {GeneratedCodeFilename}");
                 gpp.WaitForExit();
             }
             catch
