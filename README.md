@@ -14,6 +14,8 @@ Kompilator języka i++
 
 `ReadString` Powoduje postój w oczekiwaniu na input ze strony użytkownika programu. Musi być użyty, aby odczytać wartość wpisaną przez użytkownika w konsoli. Instrukcję `ReadString` można też użyć ze zmienną typu int. Input zostanie automatycznie przekonwertowany na typ int. Na przykład po deklaracji zmiennej `s = readString;`. Należy pamiętać, że język C++, do którego konwertowany jest język i++ nie wspiera odczytywania wartości operatorem 'cin', w tej samej linijce, po deklaracji zmiennej. Ten kod jest niepoprawny `string s = readString;`. <br>
 
+`Wait 'int milisekundy'` Na przykład `Wait 2000` Czeka przez dwie sekundy. <br>
+
 `return` Zwraca wartość po wykonaniu funkcji. Na przykład `return 4;`. <br>
 
 `if` oraz `else` Służy do podejmowania decyzji na podstawie konkretnego warunku/warunków. Na przykład `if (x == 1);`. Aby zakończyć instrukcję `if`, użyj słowa kluczowego `end`. Możesz też użyć `else` razem, z instrukcją `if` w następujący sposób: <br>
