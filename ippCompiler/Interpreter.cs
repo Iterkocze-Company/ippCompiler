@@ -25,6 +25,8 @@ namespace ippCompiler
         private static List<string> VAR_NAMES_STRING = new();
         private static List<string> VAR_VALS_STRING = new();
 
+        private static List<string> VAR_ALL = new();
+
         private static string[] ReadFileContents(string pathToFile)
         {
             return File.ReadAllText(pathToFile).Replace("\r\n", "").Split(";");
@@ -172,12 +174,14 @@ namespace ippCompiler
                                 }
                                 var_name = var_name.Remove(var_name.IndexOf(" "));
                                 VAR_NAMES_INT.Add(var_name);
+                                VAR_ALL.Add(var_name);
                                 VAR_VALS_INT.Add(int.Parse(var_val));
                             }
                             else
                             {
                                 string var_name = line.Replace("int", "").Trim();
                                 VAR_NAMES_INT.Add(var_name);
+                                VAR_ALL.Add(var_name);
                                 VAR_VALS_INT.Add(0);
                             }
                             break;
@@ -192,12 +196,14 @@ namespace ippCompiler
                                 }
                                 var_name = var_name.Remove(var_name.IndexOf(" "));
                                 VAR_NAMES_FLOAT.Add(var_name);
+                                VAR_ALL.Add(var_name);
                                 VAR_VALS_FLOAT.Add(float.Parse(var_val, CultureInfo.InvariantCulture.NumberFormat));
                             }
                             else
                             {
                                 string var_name = line.Replace("float", "").Trim();
                                 VAR_NAMES_FLOAT.Add(var_name);
+                                VAR_ALL.Add(var_name);
                                 VAR_VALS_FLOAT.Add(0);
                             }
                             break;
@@ -212,12 +218,14 @@ namespace ippCompiler
                                 }
                                 var_name = var_name.Remove(var_name.IndexOf(" "));
                                 VAR_NAMES_DOUBLE.Add(var_name);
+                                VAR_ALL.Add(var_name);
                                 VAR_VALS_DOUBLE.Add(double.Parse(var_val, CultureInfo.InvariantCulture.NumberFormat));
                             }
                             else
                             {
                                 string var_name = line.Replace("double", "").Trim();
                                 VAR_NAMES_DOUBLE.Add(var_name);
+                                VAR_ALL.Add(var_name);
                                 VAR_VALS_DOUBLE.Add(0);
                             }
                             break;
@@ -228,12 +236,14 @@ namespace ippCompiler
                                 string var_val = var_name.Substring(var_name.IndexOf(" ")).Replace("\'", "").Trim();
                                 var_name = var_name.Remove(var_name.IndexOf(" "));
                                 VAR_NAMES_CHAR.Add(var_name);
+                                VAR_ALL.Add(var_name);
                                 VAR_VALS_CHAR.Add(var_val.ToCharArray()[0]);
                             }
                             else
                             {
                                 string var_name = line.Replace("char", "").Trim();
                                 VAR_NAMES_CHAR.Add(var_name);
+                                VAR_ALL.Add(var_name);
                                 VAR_VALS_CHAR.Add(' ');
                             }
                             break;
@@ -244,18 +254,126 @@ namespace ippCompiler
                                 string var_val = var_name.Substring(var_name.IndexOf(" ")).Replace("\"", "").Trim();
                                 var_name = var_name.Remove(var_name.IndexOf(" "));
                                 VAR_NAMES_STRING.Add(var_name);
+                                VAR_ALL.Add(var_name);
                                 VAR_VALS_STRING.Add(var_val);
                             }
                             else
                             {
                                 string var_name = line.Replace("string", "").Trim();
                                 VAR_NAMES_STRING.Add(var_name);
+                                VAR_ALL.Add(var_name);
                                 VAR_VALS_STRING.Add("UNDEFINED");
                             }
                             break;
                     }
                 }
+
+                bool skip = true;
+
+                foreach (string var in VAR_ALL)
+                {
+                    if (line.Contains(var))
+                    {
+                        if ((!line.EndsWith("++") && !line.EndsWith("--")) && (!line.Contains("=") && !line.Contains("Echo") && !line.Contains("end")))
+                            skip = false;
+                    }
+                }
+
+                int indexOfVars = 0;
+                foreach (string var in VAR_NAMES_INT)
+                {
+                    if (skip == false)
+                    {
+                        string otherIntVal = "";
+                        foreach (string name in VAR_NAMES_INT)
+                        {
+                            if (line.Contains(name))
+                            {
+                                otherIntVal = line.Replace("+", "").Replace(name, "").Trim();
+                                VAR_VALS_INT[indexOfVars] += int.Parse(otherIntVal);
+                            }
+                        }
+                        break;
+                    }
+
+                    if (line.EndsWith("++"))
+                        {
+                            VAR_VALS_INT[indexOfVars]++;
+                            break;
+                        }
+                        if (line.EndsWith("--"))
+                        {
+                            VAR_VALS_INT[indexOfVars]--;
+                            break;
+                        }
+                    indexOfVars++;
+                }
+                indexOfVars = 0;
+                foreach (string var in VAR_NAMES_FLOAT)
+                {
+                    if (skip == false)
+                    {
+                        string otherIntVal = "";
+                        foreach (string name in VAR_NAMES_FLOAT)
+                        {
+                            if (line.Contains(name))
+                            {
+                                otherIntVal = line.Replace("+", "").Replace(name, "").Trim();
+                                VAR_VALS_FLOAT[indexOfVars] += float.Parse(otherIntVal, CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                        }
+                        break;
+                    }
+
+                    if (line.Contains(var))
+                    {
+                        if (line.EndsWith("++"))
+                        {
+                            VAR_VALS_FLOAT[indexOfVars]++;
+                            break;
+                        }
+                        if (line.EndsWith("--"))
+                        {
+                            VAR_VALS_FLOAT[indexOfVars]--;
+                            break;
+                        }
+                    }
+                    indexOfVars++;
+                }
+                indexOfVars = 0;
+                foreach (string var in VAR_NAMES_DOUBLE)
+                {
+                    if (skip == false)
+                    {
+                        string otherIntVal = "";
+                        foreach (string name in VAR_NAMES_DOUBLE)
+                        {
+                            if (line.Contains(name))
+                            {
+                                otherIntVal = line.Replace("+", "").Replace(name, "").Trim();
+                                VAR_VALS_DOUBLE[indexOfVars] += double.Parse(otherIntVal, CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                        }
+                        break;
+                    }
+
+                    if (line.Contains(var))
+                    {
+                        if (line.EndsWith("++"))
+                        {
+                            VAR_VALS_DOUBLE[indexOfVars]++;
+                            break;
+                        }
+                        if (line.EndsWith("--"))
+                        {
+                            VAR_VALS_DOUBLE[indexOfVars]--;
+                            break;
+                        }
+                    }
+                    indexOfVars++;
+                }
             }
+
             Log.Debug("\nZakończono interpretowanie programu.\n");
             Console.ReadKey();
         }
