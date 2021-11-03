@@ -14,7 +14,7 @@ namespace ippCompiler
     static class SyntaxChecker
     {
         public static byte StringsChars = 0;
-        public static void Analyse(string line, int index)
+        public static void Analyse(string line)
         {
             foreach (char c in line)
             {

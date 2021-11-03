@@ -108,7 +108,7 @@ namespace ippCompiler
                             
                             foreach (char ch in afterFirst) 
                             {
-                                if (ch == '+')
+                                if (ch == '~')
                                     GeneratedCode[index] = GeneratedCode[index] + " << ";
                                 else
                                 {
@@ -243,7 +243,7 @@ namespace ippCompiler
                             }
                             break;
                     }
-                    SyntaxChecker.Analyse(line, index);
+                    SyntaxChecker.Analyse(line);
                     
                 }
 

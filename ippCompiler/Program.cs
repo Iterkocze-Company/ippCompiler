@@ -19,6 +19,7 @@ namespace ippCompiler
         public static bool FLAG_IS_LINUX;
         public static bool FLAG_FORCE_COMPILE;
         public static bool FLAG_SELF_INVOKE;
+        public static bool FLAG_INTERPRET;
 
         private static bool SetFilePath(string path)
         {
@@ -62,6 +63,7 @@ namespace ippCompiler
             {
                 if (flag.Trim().Contains(".ipp")) CODE_FILE_PATH = flag;
                 if (flag.Replace("-", "").Trim() == "run") FLAG_RUN = true;
+                if (flag.Replace("-", "").Trim() == "sim") FLAG_INTERPRET = true;
                 if (flag.Replace("-", "").Trim() == "SelfInvoke") FLAG_SELF_INVOKE = true;
                 if (flag.Replace("-", "").Trim() == "linux") FLAG_IS_LINUX = true;
                 if (flag.Replace("-", "").Trim() == "force") FLAG_FORCE_COMPILE = true;
@@ -85,6 +87,14 @@ namespace ippCompiler
             }
         }
 
+        private static void InterpretOrCompile()
+        {
+            if (FLAG_INTERPRET)
+                Interpreter.Interpret();
+            else
+                Compiler.Compile();
+        }
+
         public static void Main(string[] args)
         {
             CheckMacrosDownloaded();
@@ -94,12 +104,12 @@ namespace ippCompiler
                 Console.Write("Wprowadź ścieżkę do pliku języka i++ (relatywną): ");
                 bool opt = SetFilePath(Console.ReadLine());
                 if (opt) HandleCompilerFlags(false, args);
-                if (opt) Compiler.Compile();
+                if (opt) InterpretOrCompile();
             }
             else
             {
                 HandleCompilerFlags(true, args);
-                Compiler.Compile();
+                InterpretOrCompile();
             }
         }
     }
