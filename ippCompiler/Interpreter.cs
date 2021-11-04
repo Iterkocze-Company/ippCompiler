@@ -280,31 +280,61 @@ namespace ippCompiler
                 }
 
                 int indexOfVars = 0;
-                foreach (string var in VAR_NAMES_INT)
+                foreach (string var in VAR_ALL)
                 {
                     if (skip == false)
                     {
                         string otherIntVal = "";
-                        foreach (string name in VAR_NAMES_INT)
+                        foreach (string name in VAR_ALL)
                         {
                             string valTwo = "";
                             foreach (string name2 in VAR_ALL)
                             {
                                 if (line.Contains("+")) valTwo = line.Substring(line.IndexOf("+")).Replace("+", "").Trim();
-                                else valTwo = line.Substring(line.IndexOf("-")).Replace("-", "").Trim();
-                                
-                                if (line.Contains(name) && line.Contains(valTwo))
+                                if (line.Contains("-")) valTwo = line.Substring(line.IndexOf("-")).Replace("-", "").Trim();
+                                if (line.Contains("/")) valTwo = line.Substring(line.IndexOf("/")).Replace("/", "").Trim();
+                                if (line.Contains("*")) valTwo = line.Substring(line.IndexOf("*")).Replace("*", "").Trim();
+                                if (line.Contains("%")) valTwo = line.Substring(line.IndexOf("%")).Replace("%", "").Trim();
+
+                                if (line.Contains(name) && line.Contains(valTwo) && (!int.TryParse(valTwo, out _) || float.TryParse(valTwo, out _)))
                                 {
-                                    int index = VAR_NAMES_INT.IndexOf(valTwo);
-                                    otherIntVal = VAR_VALS_INT[index].ToString();
-                                    VAR_VALS_INT[indexOfVars] += int.Parse(otherIntVal);
-                                    goto end;
+                                    if (VAR_NAMES_INT.Contains(name))
+                                    {
+                                        int index = VAR_NAMES_INT.IndexOf(valTwo);
+                                        otherIntVal = VAR_VALS_INT[index].ToString();
+                                        VAR_VALS_INT[indexOfVars] += int.Parse(otherIntVal);
+                                        goto end;
+                                    }
+                                    if (VAR_NAMES_FLOAT.Contains(name) && !float.TryParse(valTwo, out _))
+                                    {
+                                        int index = VAR_NAMES_FLOAT.IndexOf(valTwo);
+                                        otherIntVal = VAR_VALS_FLOAT[index].ToString();
+                                        VAR_VALS_FLOAT[indexOfVars] += float.Parse(otherIntVal, CultureInfo.InvariantCulture);
+                                        goto end;
+                                    }
+                                    if (VAR_NAMES_DOUBLE.Contains(name) && !float.TryParse(valTwo, out _))
+                                    {
+                                        int index = VAR_NAMES_DOUBLE.IndexOf(valTwo);
+                                        otherIntVal = VAR_VALS_DOUBLE[index].ToString();
+                                        VAR_VALS_DOUBLE[indexOfVars] += float.Parse(otherIntVal, CultureInfo.InvariantCulture);
+                                        goto end;
+                                    }
                                 }
                             }
                             if (line.Contains(name))
                             {
-                                otherIntVal = line.Replace("+", "").Replace(name, "").Trim();
-                                VAR_VALS_INT[indexOfVars] += int.Parse(otherIntVal);
+                                if (line.Contains("+")) otherIntVal = line.Replace("+", "").Replace(name, "").Trim();
+                                if (line.Contains("-")) otherIntVal = line.Replace("-", "").Replace(name, "").Trim();
+                                if (line.Contains("/")) otherIntVal = line.Replace("/", "").Replace(name, "").Trim();
+                                if (line.Contains("*")) otherIntVal = line.Replace("*", "").Replace(name, "").Trim();
+                                if (line.Contains("%")) otherIntVal = line.Replace("%", "").Replace(name, "").Trim();
+
+                                foreach (string gujdfoihdf in VAR_NAMES_INT)
+                                    if (line.Contains(gujdfoihdf)) VAR_VALS_INT[VAR_NAMES_INT.IndexOf(gujdfoihdf)]+=int.Parse(otherIntVal);
+                                foreach (string gujdfoihdf in VAR_NAMES_FLOAT)
+                                    if (line.Contains(gujdfoihdf)) VAR_VALS_FLOAT[VAR_NAMES_FLOAT.IndexOf(gujdfoihdf)] += float.Parse(otherIntVal, CultureInfo.InvariantCulture);
+                                foreach (string gujdfoihdf in VAR_NAMES_DOUBLE)
+                                    if (line.Contains(gujdfoihdf)) VAR_VALS_DOUBLE[VAR_NAMES_DOUBLE.IndexOf(gujdfoihdf)] += double.Parse(otherIntVal, CultureInfo.InvariantCulture);
                             }
                         }
                         end:
@@ -323,100 +353,8 @@ namespace ippCompiler
                     }
                     indexOfVars++;
                 }
+
                 indexOfVars = 0;
-                foreach (string var in VAR_NAMES_FLOAT)
-                {
-                    if (skip == false)
-                    {
-                        string otherIntVal = "";
-                        foreach (string name in VAR_NAMES_FLOAT)
-                        {
-                            string valTwo = "";
-                            foreach (string name2 in VAR_ALL)
-                            {
-                                if (line.Contains("+")) valTwo = line.Substring(line.IndexOf("+")).Replace("+", "").Trim();
-                                else valTwo = line.Substring(line.IndexOf("-")).Replace("-", "").Trim();
-
-                                if (line.Contains(name) && line.Contains(valTwo))
-                                {
-                                    int index = VAR_NAMES_FLOAT.IndexOf(valTwo);
-                                    otherIntVal = VAR_VALS_FLOAT[index].ToString();
-                                    VAR_VALS_FLOAT[indexOfVars] += int.Parse(otherIntVal);
-                                    goto end;
-                                }
-                            }
-                            if (line.Contains(name))
-                            {
-                                otherIntVal = line.Replace("+", "").Replace(name, "").Trim();
-                                VAR_VALS_FLOAT[indexOfVars] += int.Parse(otherIntVal);
-                            }
-                        }
-                    end:
-                        break;
-                    }
-
-                    if (line.Contains(var))
-                    {
-                        if (line.EndsWith("++"))
-                        {
-                            VAR_VALS_FLOAT[indexOfVars]++;
-                            break;
-                        }
-                        if (line.EndsWith("--"))
-                        {
-                            VAR_VALS_FLOAT[indexOfVars]--;
-                            break;
-                        }
-                    }
-                    indexOfVars++;
-                }
-                indexOfVars = 0;
-                foreach (string var in VAR_NAMES_DOUBLE)
-                {
-                    if (skip == false)
-                    {
-                        string otherIntVal = "";
-                        foreach (string name in VAR_NAMES_DOUBLE)
-                        {
-                            string valTwo = "";
-                            foreach (string name2 in VAR_ALL)
-                            {
-                                if (line.Contains("+")) valTwo = line.Substring(line.IndexOf("+")).Replace("+", "").Trim();
-                                else valTwo = line.Substring(line.IndexOf("-")).Replace("-", "").Trim();
-
-                                if (line.Contains(name) && line.Contains(valTwo))
-                                {
-                                    int index = VAR_NAMES_DOUBLE.IndexOf(valTwo);
-                                    otherIntVal = VAR_VALS_DOUBLE[index].ToString();
-                                    VAR_VALS_DOUBLE[indexOfVars] += int.Parse(otherIntVal);
-                                    goto end;
-                                }
-                            }
-                            if (line.Contains(name))
-                            {
-                                otherIntVal = line.Replace("+", "").Replace(name, "").Trim();
-                                VAR_VALS_DOUBLE[indexOfVars] += int.Parse(otherIntVal);
-                            }
-                        }
-                    end:
-                        break;
-                    }
-
-                    if (line.Contains(var))
-                    {
-                        if (line.EndsWith("++"))
-                        {
-                            VAR_VALS_DOUBLE[indexOfVars]++;
-                            break;
-                        }
-                        if (line.EndsWith("--"))
-                        {
-                            VAR_VALS_DOUBLE[indexOfVars]--;
-                            break;
-                        }
-                    }
-                    indexOfVars++;
-                }
             }
 
             Log.Debug("\nZakończono interpretowanie programu.\n");
