@@ -103,7 +103,6 @@ Funkcje mogą przyjmować też argumenty. Na przykład `def int test(int x, int 
 `linux` Dodaj tę flagę, jeśli używasz ippCompiler na Linuxie. <br> <br>
 `force` Dodaj tę flagę, aby wykompilować program pomomo błędów wykrytych przez ippCompiler. <br> <br>
 `macros` Pobiera pliki wymagane przez ippCompiler. <br> <br>
-`sim` Interpretuje kod zamiast go kompilować. <br> <br>
 Przykładowy sposób użycia flag kompilatora: `name=hello, run, force` <br>
 
 Mozesz też wprowadzić flagi z poziomu konsoli systemowej. np. `ippCompiler.exe kod.ipp run` lub `ippCompiler.exe kod.ipp -run`
@@ -128,7 +127,3 @@ def int main;
   test() 
 end;
 ```
-
-#### W Iterkocze ippCompiler jest też dostępny interpreter języka ipp. Aby go użyć, podaj flagę `sim` lub `-sim`.
-#### Interpreter jest jeszcze we wczesnej wersji. Nie wspiera on wielu funkcji z języka ipp.
-##### Do interpretowania kodu ipp nie jest potrzebny kompilator G++ w zmiennej PATH. <br>
