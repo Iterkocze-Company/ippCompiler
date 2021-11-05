@@ -32,8 +32,8 @@ namespace ippCompiler
             }
             else
             {
-                CODE_FILE_PATH = path;
-                FILE_LEN = File.ReadLines(path).Count();
+                CODE_FILE_PATH = Path.GetFullPath(path);
+                FILE_LEN = File.ReadLines(CODE_FILE_PATH).Count();
                 return true;
             }
                 
@@ -62,7 +62,7 @@ namespace ippCompiler
             
             foreach (string flag in flags)
             {
-                if (flag.Trim().Contains(".ipp")) CODE_FILE_PATH = flag;
+                if (flag.Trim().Contains(".ipp")) CODE_FILE_PATH = Path.GetFullPath(flag);
                 if (flag.Replace("-", "").Trim().ToLower() == "run") FLAG_RUN = true;
                 if (flag.Replace("-", "").Trim().ToLower() == "sim") FLAG_INTERPRET = true;
                 if (flag.Replace("-", "").Trim() == "SelfInvoke") FLAG_SELF_INVOKE = true;

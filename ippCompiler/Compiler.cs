@@ -33,6 +33,8 @@ namespace ippCompiler
 
         static string lastVar = "";
 
+        public static string CODE_FILE_GEN_PATH = "";
+
         static bool IS_DOWHILE = false;
 
         static string DoWhileCondition = "";
@@ -385,34 +387,26 @@ namespace ippCompiler
                 }
             }
 
-            string GeneratedCodeFilename = "gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp");
+            CODE_FILE_GEN_PATH = "gen" + Program.CODE_FILE_PATH.Remove(0, Program.CODE_FILE_PATH.LastIndexOf('\\')+1).Replace(".ipp", ".cpp");
+
+            //string GeneratedCodeFilename = "gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp");
 
             if (Program.FLAG_SELF_INVOKE != true)
-                File.WriteAllText(GeneratedCodeFilename, "");
+                File.WriteAllText(CODE_FILE_GEN_PATH, "");
 
             if (Program.FLAG_SELF_INVOKE)
             {
-                File.AppendAllText("gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp"), "\n" + "#include <iostream>\n\nusing namespace std;\n\n");
+                //File.AppendAllText("gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp"), "\n" + "#include <iostream>\n\nusing namespace std;\n\n");
+                File.AppendAllText(CODE_FILE_GEN_PATH, "\n" + "#include <iostream>\n\nusing namespace std;\n\n");
 
                 for (int i = 0; i < GeneratedCode.Length; i++)
-                    File.AppendAllText("gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp"), "\n" + GeneratedCode[i]);
+                    File.AppendAllText(CODE_FILE_GEN_PATH, "\n" + GeneratedCode[i]);
+                    //File.AppendAllText("gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp"), "\n" + GeneratedCode[i]);
                 Environment.Exit(0);
             }
 
             foreach (string includeName in includes)
             {
-                string codeFilename = "gen" + includeName.Replace(".ipp", "") + ".cpp";
-                if (includeName == "Math.ipp")
-                {
-                    File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "genMath.cpp", "");
-                    File.AppendAllText(GeneratedCodeFilename, "#include \"" + AppDomain.CurrentDomain.BaseDirectory + "genMath.cpp" + "\"\n");
-                }
-                else
-                {
-                    File.WriteAllText(codeFilename, "");
-                    File.AppendAllText(GeneratedCodeFilename, "#include \"" + codeFilename + "\"\n");
-                }
-
                 ProcessStartInfo info = new ProcessStartInfo();
                 info.FileName = "ippCompiler.exe";
                 info.Arguments = $"{includeName} -SelfInvoke";
@@ -425,22 +419,22 @@ namespace ippCompiler
 
             if (Program.FLAG_IS_LINUX)
             {
-                File.AppendAllText(GeneratedCodeFilename, "#include <curses.h>\n");
-                File.AppendAllText(GeneratedCodeFilename, "#include <unistd.h>\n");
-                GENERATED_FILES.Add(GeneratedCodeFilename);
+                File.AppendAllText(CODE_FILE_GEN_PATH, "#include <curses.h>\n");
+                File.AppendAllText(CODE_FILE_GEN_PATH, "#include <unistd.h>\n");
+                GENERATED_FILES.Add(CODE_FILE_GEN_PATH);
             }
             else
             {
-                File.AppendAllText(GeneratedCodeFilename, "#include <conio.h>\n");
-                File.AppendAllText(GeneratedCodeFilename, "#include <Windows.h>\n");
-                GENERATED_FILES.Add(GeneratedCodeFilename);
+                File.AppendAllText(CODE_FILE_GEN_PATH, "#include <conio.h>\n");
+                File.AppendAllText(CODE_FILE_GEN_PATH, "#include <Windows.h>\n");
+                GENERATED_FILES.Add(CODE_FILE_GEN_PATH);
             }
             string MacrosPath = AppDomain.CurrentDomain.BaseDirectory + "Macros.cpp";
 
-            File.AppendAllText(GeneratedCodeFilename, $"#include <iostream>\n#include <fstream>\n#include \"{MacrosPath}\"\n\nusing namespace std;\n");
+            File.AppendAllText(CODE_FILE_GEN_PATH, $"#include <iostream>\n#include <fstream>\n#include \"{MacrosPath}\"\n\nusing namespace std;\n");
 
             for (int i = 0; i < GeneratedCode.Length; i++)
-                File.AppendAllText(GeneratedCodeFilename, "\n" + GeneratedCode[i]);
+                File.AppendAllText(CODE_FILE_GEN_PATH, "\n" + GeneratedCode[i]);
 
             if (errors != 0 && Program.FLAG_FORCE_COMPILE != true)
             {
@@ -458,7 +452,7 @@ namespace ippCompiler
             args += $"{"-o " + Program.FLAG_NAME}";
             try
             {
-                Process gpp = Process.Start("g++", $"{args} -O2 -s {GeneratedCodeFilename}");
+                Process gpp = Process.Start("g++", $"{args} -O2 -s {CODE_FILE_GEN_PATH}");
                 gpp.WaitForExit();
             }
             catch

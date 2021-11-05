@@ -1,7 +1,8 @@
 {
   "profiles": {
     "ippCompiler": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "../net5.0/main.ipp"
     }
   }
 }
