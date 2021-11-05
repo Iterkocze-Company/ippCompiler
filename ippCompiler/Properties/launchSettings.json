@@ -2,7 +2,7 @@
   "profiles": {
     "ippCompiler": {
       "commandName": "Project",
-      "commandLineArgs": "../net5.0/main.ipp"
+      "commandLineArgs": "C:\\Users\\m12\\Desktop\\main.ipp"
     }
   }
 }

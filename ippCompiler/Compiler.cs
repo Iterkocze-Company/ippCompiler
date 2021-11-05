@@ -70,7 +70,7 @@ namespace ippCompiler
                     string[] parts = line.Split(" ");
                     int a = 0;
 
-                    while (parts[a] == "") a = a + 1;
+                    //while (parts[a] == "") a = a + 1;
 
                     string afterFirst = line;
                     string toFirst = "";
@@ -387,7 +387,7 @@ namespace ippCompiler
                 }
             }
 
-            CODE_FILE_GEN_PATH = "gen" + Program.CODE_FILE_PATH.Remove(0, Program.CODE_FILE_PATH.LastIndexOf('\\')+1).Replace(".ipp", ".cpp");
+            CODE_FILE_GEN_PATH = "gen" + Program.CODE_FILE_PATH.Remove(0, Program.CODE_FILE_PATH.Replace("/", "\\").LastIndexOf('\\')+1).Replace(".ipp", ".cpp");
 
             //string GeneratedCodeFilename = "gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp");
 
