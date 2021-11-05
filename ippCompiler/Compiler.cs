@@ -45,6 +45,8 @@ namespace ippCompiler
 
         public static List<string> includes = new();
 
+        public static List<string> GENERATED_FILES = new();
+
         public static string[] ReadFileContents(string pathToFile)
         {
             //return Regex.Split(File.ReadAllText(pathToFile), @"(?<=[;])");
@@ -425,11 +427,13 @@ namespace ippCompiler
             {
                 File.AppendAllText(GeneratedCodeFilename, "#include <curses.h>\n");
                 File.AppendAllText(GeneratedCodeFilename, "#include <unistd.h>\n");
+                GENERATED_FILES.Add(GeneratedCodeFilename);
             }
             else
             {
                 File.AppendAllText(GeneratedCodeFilename, "#include <conio.h>\n");
                 File.AppendAllText(GeneratedCodeFilename, "#include <Windows.h>\n");
+                GENERATED_FILES.Add(GeneratedCodeFilename);
             }
             string MacrosPath = AppDomain.CurrentDomain.BaseDirectory + "Macros.cpp";
 
@@ -489,9 +493,16 @@ namespace ippCompiler
                     Console.ReadLine();
                     Environment.Exit(3);
                 }
-            }
-            else
                 Console.ReadKey();
+            }
+                
+            if (Program.FLAG_NO_GENCODE)
+            {
+                foreach (string name in GENERATED_FILES)
+                {
+                    File.Delete(name);
+                }
+            }
         }
     }
 }

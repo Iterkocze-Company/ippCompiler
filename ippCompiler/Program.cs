@@ -20,6 +20,7 @@ namespace ippCompiler
         public static bool FLAG_FORCE_COMPILE;
         public static bool FLAG_SELF_INVOKE;
         public static bool FLAG_INTERPRET;
+        public static bool FLAG_NO_GENCODE;
 
         private static bool SetFilePath(string path)
         {
@@ -54,7 +55,7 @@ namespace ippCompiler
         {
             if (isCommandLine == false)
             {
-                Console.Write("Podaj flagi kompilatora: ");
+                Console.Write("Enter compiler flags: ");
                 string flagsStringBig = Console.ReadLine();
                 flags = flagsStringBig.Split(",");
             }
@@ -62,12 +63,13 @@ namespace ippCompiler
             foreach (string flag in flags)
             {
                 if (flag.Trim().Contains(".ipp")) CODE_FILE_PATH = flag;
-                if (flag.Replace("-", "").Trim() == "run") FLAG_RUN = true;
-                if (flag.Replace("-", "").Trim() == "sim") FLAG_INTERPRET = true;
+                if (flag.Replace("-", "").Trim().ToLower() == "run") FLAG_RUN = true;
+                if (flag.Replace("-", "").Trim().ToLower() == "sim") FLAG_INTERPRET = true;
                 if (flag.Replace("-", "").Trim() == "SelfInvoke") FLAG_SELF_INVOKE = true;
-                if (flag.Replace("-", "").Trim() == "linux") FLAG_IS_LINUX = true;
-                if (flag.Replace("-", "").Trim() == "force") FLAG_FORCE_COMPILE = true;
-                if (flag.Replace("-", "").Trim() == "macros") PackageManager.DownloadMacros();
+                if (flag.Replace("-", "").Trim().ToLower() == "linux") FLAG_IS_LINUX = true;
+                if (flag.Replace("-", "").Trim().ToLower() == "force") FLAG_FORCE_COMPILE = true;
+                if (flag.Replace("-", "").Trim().ToLower() == "nogencode") FLAG_NO_GENCODE = true;
+                if (flag.Replace("-", "").Trim().ToLower() == "macros") PackageManager.DownloadMacros();
                 if (flag.Contains("name"))
                 {
                     FLAG_NAME = "";
@@ -100,8 +102,8 @@ namespace ippCompiler
             CheckMacrosDownloaded();
             if (args.Length == 0)
             {
-                Console.WriteLine("Witaj w kompilatorze języka i++");
-                Console.Write("Wprowadź ścieżkę do pliku języka i++ (relatywną): ");
+                Console.WriteLine("Welcome to i++ language compiler.");
+                Console.Write("Enter the path of .ipp file: ");
                 bool opt = SetFilePath(Console.ReadLine());
                 if (opt) HandleCompilerFlags(false, args);
                 if (opt) InterpretOrCompile();
