@@ -1,11 +1,11 @@
 # ippCompiler
-Kompilator języka i++
+ipp Language Compiler. ipp is a cross-platform language that is compiled to c++.
 
 #### 
       "i made it, and it work" 
                         ~Michał 2021
 
-##### Aby używać kompilatora, musisz mieć działający kompilator GNU G++ w zmiennej PATH. <br>
+##### To use the compiler, you need to have g++ in your PATH. <br>
 ##### Dla bezpieczeństwa należy używać w kodzie tylko tabów, bez spacji. <br>
 
 ### Instrukcje Języka i++
