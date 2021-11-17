@@ -43,7 +43,7 @@ namespace ippCompiler
 
         public static string[] lines = ReadFileContents(Program.CODE_FILE_PATH);
 
-        public static string[] GeneratedCode = new string[Program.FILE_LEN + 8];
+        public static string[] GeneratedCode = new string[Program.FILE_LEN + 12]; //Change this to List.
 
         public static List<string> includes = new();
 
@@ -64,6 +64,11 @@ namespace ippCompiler
             {
                 bool skip = false;
                 string line = lines[i].Replace("\n", "").Replace("\t", "");
+
+                if (line.StartsWith(" "))
+                {
+                    line = line.Replace(" ", "");
+                }
                 
                 if (line != lines[lines.Length - 1])
                 {
@@ -248,7 +253,6 @@ namespace ippCompiler
                             break;
                     }
                     SyntaxChecker.Analyse(line);
-                    
                 }
 
                 if (skip != true)

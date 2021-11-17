@@ -2,7 +2,7 @@
   "profiles": {
     "ippCompiler": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\m12\\Desktop\\main.ipp"
+      "commandLineArgs": "../../../../examples/files.ipp -nogencode"
     }
   }
 }
