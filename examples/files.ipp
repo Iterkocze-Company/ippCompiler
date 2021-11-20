@@ -1,8 +1,8 @@
 def int main();
-	CreateFile plik;
-	File plik;
+	CreateFile textFile;
+	File file;
 
-	plik.Open "plik.txt";
-	plik.Write "hello";
-	plik.Close;
+	file.Open "textFile.txt";
+	file.Write "hello";
+	file.Close;
 end;
