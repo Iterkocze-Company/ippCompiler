@@ -1,8 +1,7 @@
 {
   "profiles": {
     "ippCompiler": {
-      "commandName": "Project",
-      "commandLineArgs": "../../../../examples/files.ipp -nogencode"
+      "commandName": "Project"
     }
   }
 }

@@ -442,15 +442,15 @@ namespace ippCompiler
 
             if (errors != 0 && Program.FLAG_FORCE_COMPILE != true)
             {
-                Log.Debug("Program nie zostanie wykompilowany, ponieważ wykryo " + errors.ToString() + " błedów składni.");
+                Log.Debug("Program is not going to be compiled > Detected " + errors.ToString() + " syntax errors.");
                 Console.ReadLine();
                 Environment.Exit(1);
             }
             if (Program.FLAG_FORCE_COMPILE)
             {
-                Log.Debug("Wykryto " + errors.ToString() + " błędów składni. Kompilacja wymuszona przez flagę.");
+                Log.Debug("Detected " + errors.ToString() + " syntax errors. But compilation is forced by flag.");
             }
-            Console.WriteLine("Kompiluję...");
+            Console.WriteLine("Compilation...");
             string args = "";
             
             args += $"{"-o " + Program.FLAG_NAME}";
@@ -461,7 +461,7 @@ namespace ippCompiler
             }
             catch
             {
-                Log.Error("Nie udało się uruchomić G++. Czy jesteś pewien, że masz go w zmiennej PATH?");
+                Log.Error("Can't run G++. Are you sure, that it is located in your PATH?");
                 Environment.Exit(2);
             }
             var startInfo = new ProcessStartInfo();
@@ -476,18 +476,18 @@ namespace ippCompiler
                 startInfo.FileName = Program.FLAG_NAME + ".exe";
             }
             
-            Console.WriteLine("Gotowe");
+            Console.WriteLine("Done");
             if (Program.FLAG_RUN)
             {
                 try
                 {
-                    Console.WriteLine("Aby uruchomić program, naciśnij dowolny przycisk.");
+                    Console.WriteLine("Press any key to run your program.");
                     Console.ReadLine();
                     Process.Start(startInfo);
                 }
                 catch
                 {
-                    Log.Error("Wystąpił błąd podczas uruchamiania pliku! Czy jesteś pewien, że wybrałeś odpowiednią platformę?");
+                    Log.Error("Error while opening your program! Are you compiling for the right platform?");
                     Console.ReadLine();
                     Environment.Exit(3);
                 }

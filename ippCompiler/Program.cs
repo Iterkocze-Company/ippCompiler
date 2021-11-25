@@ -26,7 +26,7 @@ namespace ippCompiler
         {
             if (!File.Exists(path))
             {
-                Log.Error("Wystąpił błąd podczas wczytywania pliku kodu! Upewnij się, że podełeś jego prawidłową lokalizację.");
+                Log.Error("Error while reading code file! Is the path correct?");
                 Console.ReadLine();
                 return false;
             }
@@ -36,15 +36,14 @@ namespace ippCompiler
                 FILE_LEN = File.ReadLines(CODE_FILE_PATH).Count();
                 return true;
             }
-                
         }
 
         private static void CheckMacrosDownloaded()
         {
             if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/Macros.cpp"))
             {
-                Log.Debug("Wygląda na to, że nie masz pobranych dodatkowych plików wymaganych przez ippCompiler. Czy chcesz je pobrać teraz? [T/N]");
-                if (Console.ReadLine().Trim().ToLower() == "t")
+                Log.Debug("It seems that you don't have additional files downloaded. Download them now? [Y/N]");
+                if (Console.ReadLine().Trim().ToLower() == "y")
                 {
                     PackageManager.DownloadMacros();
                 }
