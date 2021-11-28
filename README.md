@@ -13,7 +13,7 @@ ipp Language Compiler. ipp is a cross-platform language that is compiled to c++.
 
 `ReadKey` Halt program and wait for user input. Returns ASCII value of inputed char. <br> <br>
 
-`ReadString` Halt program and wait for user input. Returns inputed string. Since i++ is compiled to C++, this code is not legal in i++: `string s = readString;`. <br>
+`ReadString` Halt program and wait for user input. Returns inputed string. Since i++ is compiled to C++, this code is not legal in i++: `string s = ReadString;`. <br>
 
 `Wait 'int millisecond'` ex. `Wait 2000` Halts program for 2 seconds. <br>
 
