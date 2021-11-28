@@ -6,7 +6,7 @@ ipp Language Compiler. ipp is a cross-platform language that is compiled to c++.
                         ~Michał 2021
 
 ##### To use the compiler, you need to have g++ in your PATH. <br>
-##### Dla bezpieczeństwa należy używać w kodzie tylko tabów, bez spacji. <br>
+##### Do not use blank spaces in code, use tabs instead. <br>
 
 ### Instructions in i++
 `Echo "hello"` Lub `EchoLine "hello"` Displays string in console window. You can use `~` operator to concatenate two or more strings. <br> <br>
@@ -40,7 +40,7 @@ end;
 <br>
 
 #### File handling in i++
-`File` To create file object. ex. `File mojPlik;`. <br>
+`File` To create file object. ex. `File myFile;`. <br>
 `File.Open` To open a file. ex. `myFile.Open "file.txt";`. <br>
 `File.Write` Write to file. ex. `myFile.Write "text";`. <br>
 `File.Close` Close file. ex. `myFile.Close;`. <br>
