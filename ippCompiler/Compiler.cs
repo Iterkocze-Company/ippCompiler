@@ -19,25 +19,30 @@ namespace ippCompiler
     */
     public static class Compiler
     {
-        public static string GenerateRandomAlphanumericString(int length = 10)
+        public enum Keyword //Not used
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            DEFINE,
+            ECHOLINE,
+            ECHO,
+            END,
 
-            var random = new Random();
-            var randomString = new string(Enumerable.Repeat(chars, length)
-                                                    .Select(s => s[random.Next(s.Length)]).ToArray());
-            return randomString;
+            INT,
+            FLOAT,
+            DOUBLE,
+            CHAR,
+            STRING,
+            VOID
         }
 
         public static List<string> VARS = new(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
-        static string lastVar = "";
+        static string lastVar = string.Empty;
 
-        public static string CODE_FILE_GEN_PATH = "";
+        public static string CODE_FILE_GEN_PATH = string.Empty;
 
         static bool IS_DOWHILE = false;
 
-        static string DoWhileCondition = "";
+        static string DoWhileCondition = string.Empty;
 
         public static int errors = 0;
 
@@ -49,11 +54,20 @@ namespace ippCompiler
 
         public static List<string> GENERATED_FILES = new();
 
+        public static string GenerateRandomAlphanumericString(int length = 10)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            var random = new Random();
+            var randomString = new string(Enumerable.Repeat(chars, length)
+                                                    .Select(s => s[random.Next(s.Length)]).ToArray());
+            return randomString;
+        }
+
         public static string[] ReadFileContents(string pathToFile)
         {
             //return Regex.Split(File.ReadAllText(pathToFile), @"(?<=[;])");
             return File.ReadAllText(pathToFile).Replace("\r\n", "").Split(";");
-            
         }
 
         public static void Compile()
@@ -75,10 +89,8 @@ namespace ippCompiler
                     string[] parts = line.Split(" ");
                     int a = 0;
 
-                    //while (parts[a] == "") a = a + 1;
-
                     string afterFirst = line;
-                    string toFirst = "";
+                    string toFirst = string.Empty;
                     for (int j = 0; j <= a; j = j + 1)
                     {
                         if (parts[j] == "") toFirst = toFirst + " ";
@@ -393,19 +405,15 @@ namespace ippCompiler
 
             CODE_FILE_GEN_PATH = "gen" + Program.CODE_FILE_PATH.Remove(0, Program.CODE_FILE_PATH.Replace("/", "\\").LastIndexOf('\\')+1).Replace(".ipp", ".cpp");
 
-            //string GeneratedCodeFilename = "gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp");
-
             if (Program.FLAG_SELF_INVOKE != true)
                 File.WriteAllText(CODE_FILE_GEN_PATH, "");
 
             if (Program.FLAG_SELF_INVOKE)
             {
-                //File.AppendAllText("gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp"), "\n" + "#include <iostream>\n\nusing namespace std;\n\n");
                 File.AppendAllText(CODE_FILE_GEN_PATH, "\n" + "#include <iostream>\n\nusing namespace std;\n\n");
 
                 for (int i = 0; i < GeneratedCode.Length; i++)
                     File.AppendAllText(CODE_FILE_GEN_PATH, "\n" + GeneratedCode[i]);
-                    //File.AppendAllText("gen" + Program.CODE_FILE_PATH.Replace(".ipp", ".cpp"), "\n" + GeneratedCode[i]);
                 Environment.Exit(0);
             }
 
@@ -416,7 +424,6 @@ namespace ippCompiler
                 info.Arguments = $"{includeName} -SelfInvoke";
                 info.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-                //Process p = Process.Start("ippCompiler.exe", $"{includeName} -SelfInvoke");
                 Process p = Process.Start(info);
                 p.WaitForExit();
             }
@@ -451,7 +458,7 @@ namespace ippCompiler
                 Log.Debug("Detected " + errors.ToString() + " syntax errors. But compilation is forced by flag.");
             }
             Console.WriteLine("Compilation...");
-            string args = "";
+            string args = string.Empty;
             
             args += $"{"-o " + Program.FLAG_NAME}";
             try
@@ -482,16 +489,16 @@ namespace ippCompiler
                 try
                 {
                     Console.WriteLine("Press any key to run your program.");
-                    Console.ReadLine();
+                    Console.ReadKey();
+                    Console.Clear();
                     Process.Start(startInfo);
                 }
                 catch
                 {
                     Log.Error("Error while opening your program! Are you compiling for the right platform?");
-                    Console.ReadLine();
+                    Console.ReadKey();
                     Environment.Exit(3);
                 }
-                Console.ReadKey();
             }
                 
             if (Program.FLAG_NO_GENCODE)

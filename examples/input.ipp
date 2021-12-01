@@ -1,5 +1,5 @@
 def int main();
 	string input;
 	input = ReadString;
-	EchoLine "Wpisales: " ~ input;
+	EchoLine "You typed: " ~ input;
 end;
