@@ -7,6 +7,7 @@ ipp Language Compiler. ipp is a cross-platform language that is compiled to c++.
 
 ##### To use the compiler, you need to have g++ in your PATH. <br>
 ##### Do not use blank spaces in code, use tabs instead. <br>
+##### Actually using i++ and have a question? Contact me: EmDeeTee#6255
 
 ### Instructions in i++
 `Echo "hello"` Lub `EchoLine "hello"` Displays string in console window. You can use `~` operator to concatenate two or more strings. <br> <br>
