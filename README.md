@@ -100,7 +100,7 @@ Functions can take arguments. ex. `def int test(int x, int y);`.
 
 ### Compiler Flags
 `name=example` Change compiled .exe filename to 'example'. <br> <br>
-`run` Run program after compilation. Attention. This flag can cause unwanted behavior. It's recommended to run your program manually. <br> <br>
+`run` Run program after compilation. <br> <br>
 `linux` Use this flag, if you are using ippCompiler in Linux. <br> <br>
 `force` Use this flag to force compile program regardless of errors detected by ippCompiler. <br> <br>
 `macros` Downloads additional files needed by ippCompiler. <br> <br>
