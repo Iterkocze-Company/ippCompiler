@@ -105,6 +105,8 @@ Functions can take arguments. ex. `def int test(int x, int y);`.
 `linux` Use this flag, if you are using ippCompiler in Linux. <br> <br>
 `force` Use this flag to force compile program regardless of errors detected by ippCompiler. <br> <br>
 `macros` Downloads additional files needed by ippCompiler. <br> <br>
+`nogencode` Compiler outputs only runable file whitout generated .cpp file. <br> <br>
+`noout` Produces no output. Used in compiling examples. <br> <br>
 ex: `name=hello, run, force` <br>
 
 You can use ippCompiler from command line too. ex. `ippCompiler.exe code.ipp run` or `ippCompiler.exe code.ipp -run`
