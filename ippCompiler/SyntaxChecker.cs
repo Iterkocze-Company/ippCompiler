@@ -3,16 +3,12 @@
     All rights reserved.
     https://github.com/Iterkocze-Company/ippCompiler
 */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace ippCompiler
 {
     static class SyntaxChecker
     {
+        private static readonly string[] Keywords = new string[] { "Echo", "EchoLine", "def", "int", "float", "double", "char", "string", "end", "ReadKey", "if", "while", "DoWhile", "else", "for", "use", "return", "File", "Write", "CreateFile", "Wait" };
+
         public static byte StringsChars = 0;
         public static void Analyse(string line)
         {
@@ -36,6 +32,26 @@ namespace ippCompiler
                 Compiler.errors++;
                 StringsChars = 0;
             }
+
+            
+            // An attempt to make syntax checker.
+
+            /*foreach (string codeKeyword in line.Split(' '))
+            {
+                if (!Keywords.Any(codeKeyword.Contains))
+                {
+                    Log.Error($"Unknown keyword: {codeKeyword}\n");
+                    Compiler.errors++;
+                }
+            }
+            foreach (string codeKeyword in line.Split('.'))
+            {
+                if (!Keywords.Any(line.Contains))
+                {
+                    Log.Error($"Unknown keyword: {codeKeyword}\n");
+                    Compiler.errors++;
+                }
+            }*/
         }
     }
 }

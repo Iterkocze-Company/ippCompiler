@@ -21,6 +21,7 @@ namespace ippCompiler
         public static bool FLAG_SELF_INVOKE;
         public static bool FLAG_INTERPRET;
         public static bool FLAG_NO_GENCODE;
+        public static bool FLAG_NO_OUTPUT;
 
         private static bool SetFilePath(string path)
         {
@@ -68,6 +69,7 @@ namespace ippCompiler
                 if (flag.Replace("-", "").Trim().ToLower() == "linux") FLAG_IS_LINUX = true;
                 if (flag.Replace("-", "").Trim().ToLower() == "force") FLAG_FORCE_COMPILE = true;
                 if (flag.Replace("-", "").Trim().ToLower() == "nogencode") FLAG_NO_GENCODE = true;
+                if (flag.Replace("-", "").Trim().ToLower() == "noout") FLAG_NO_OUTPUT = true;
                 if (flag.Replace("-", "").Trim().ToLower() == "macros") PackageManager.DownloadMacros();
                 if (flag.Contains("name"))
                 {

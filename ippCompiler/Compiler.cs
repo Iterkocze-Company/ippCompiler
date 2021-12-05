@@ -81,7 +81,7 @@ namespace ippCompiler
 
                 if (line.StartsWith(" "))
                 {
-                    line = line.Replace(" ", "");
+                    line = line.Remove(0,1);
                 }
                 
                 if (line != lines[lines.Length - 1])
@@ -507,6 +507,13 @@ namespace ippCompiler
                 {
                     File.Delete(name);
                 }
+            }
+            if (Program.FLAG_NO_OUTPUT)
+            {
+                if (Program.FLAG_IS_LINUX)
+                    File.Delete(Program.FLAG_NAME + ".out");
+                else
+                    File.Delete(Program.FLAG_NAME + ".exe");
             }
         }
     }
