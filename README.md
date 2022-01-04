@@ -107,6 +107,7 @@ Functions can take arguments. ex. `def int test(int x, int y);`.
 `macros` Downloads additional files needed by ippCompiler. <br> 
 `nogencode` Compiler outputs only runable file whitout generated .cpp file. <br> 
 `noout` Produces no output. Used in compiling examples. <br> 
+`help` Shows list of all compiler flags. <br>
 ex: `name=hello, run, force` <br>
 
 You can use ippCompiler from command line too. ex. `ippCompiler.exe code.ipp run` or `ippCompiler.exe code.ipp -run`
