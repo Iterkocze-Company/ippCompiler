@@ -25,7 +25,7 @@ namespace ippCompiler
                 Compiler.GeneratedCode[index] += "int main(){";
                 index++;
             }
-            Compiler.VARS.Add(funcName);
+            if (funcName != string.Empty) Compiler.VARS.Add(funcName);
 
             foreach (string lineDef in splitted)
             {
@@ -59,7 +59,7 @@ namespace ippCompiler
                         Compiler.GeneratedCode[index] += ", ";
                     foreach (string var in argNames)
                     {
-                        Compiler.VARS.Add(var.Trim());
+                        Compiler.VARS.Add(var.Replace("string", "").Replace("int", "").Replace("float", "").Replace("char", "").Replace("double", "").Trim());
                     }
 
                     if (argumentsIntIndex > 1)

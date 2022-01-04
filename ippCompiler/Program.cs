@@ -87,6 +87,17 @@ namespace ippCompiler
                 }
                 if (!flag.Contains("name") && FLAG_NAME == "")
                     FLAG_NAME = "a";
+                if (flag.Replace("-", "").Trim().ToLower() == "help")
+                {
+                    Console.WriteLine("'name=example' Change compiled .exe filename to 'example'.\n" +
+                    "'run' Run program after compilation.\n" +
+                    "'linux' Use this flag, if you are using ippCompiler in Linux.\n" +
+                    "'force' Use this flag to force compile program regardless of errors detected by ippCompiler.\n" +
+                    "'macros' Downloads additional files needed by ippCompiler.\n" +
+                    "'nogencode' Compiler outputs only runable file whitout generated .cpp file.\n" +
+                    "'noout' Produces no output. Used in compiling examples.\n");
+                    Environment.Exit(0);
+                }
             }
         }
 
