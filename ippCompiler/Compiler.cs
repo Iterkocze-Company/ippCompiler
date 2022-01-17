@@ -78,11 +78,6 @@ namespace ippCompiler
             {
                 bool skip = false;
                 string line = lines[i].Replace("\n", "").Replace("\t", "");
-
-                if (line.StartsWith(" "))
-                {
-                    line = line.Remove(0,1);
-                }
                 
                 if (line != lines[lines.Length - 1])
                 {
