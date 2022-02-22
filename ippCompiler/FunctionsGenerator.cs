@@ -18,7 +18,7 @@ namespace ippCompiler
             string lastFuncName = "";
             string[] splitted = line.Split();
             string funcName = "";
-            if (!splitted[2].Contains("main"))
+            if (!splitted[2].Contains("main"))  
                 funcName = splitted[2].Substring(0, splitted[2].IndexOf("("));
             if (splitted[2].Contains("main"))
             {

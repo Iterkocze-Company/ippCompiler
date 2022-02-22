@@ -176,7 +176,7 @@ namespace ippCompiler
                             GeneratedCode[index] += "{";
                             index++;
                             skip = true;
-                            break;
+                            break; 
 
                         case "while":
                             GeneratedCode[index] = lines[index].Replace("while", "while (").Replace(":--", "==").Replace("!:--", "!=").Replace("<:-", "<=").Replace(">:-", ">=");
@@ -247,6 +247,16 @@ namespace ippCompiler
                         case "Wait":
                             string howLong = line.Replace("Wait", "").Trim();
                             GeneratedCode[index] = $"Sleep({howLong});";
+                            index++;
+                            break;
+
+                        case "const":
+                            GeneratedCode[index] += line + ";";
+                            index++;
+                            break;
+
+                        case "static":
+                            GeneratedCode[index] += line + ";";
                             index++;
                             break;
 

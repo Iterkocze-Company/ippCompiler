@@ -15,11 +15,11 @@ namespace ippCompiler
     {
         public static void Analyse(string line, int index)
         {
-            string afterFirst = line;
+            //string afterFirst = line;
             if (line.Contains("int"))
             {
                 bool hasEnd = false;
-                Compiler.GeneratedCode[index] = "int ";
+                Compiler.GeneratedCode[index] += "int ";
                 if (line.EndsWith("ReadKey"))
                 {
                     string nameRead = Compiler.lines[index].Substring(Compiler.lines[index].IndexOf(' ')).Replace(" ", "");
@@ -28,7 +28,7 @@ namespace ippCompiler
                     index++;
                     hasEnd = true;
                 }
-                string name = afterFirst.Substring(afterFirst.IndexOf(' ')).Replace(" ", "");
+                string name = line.Substring(line.IndexOf(' ')).Replace(" ", "");
                 if (hasEnd == false)
                     Compiler.GeneratedCode[index] = Compiler.GeneratedCode[index] + name + ";";
 
@@ -39,7 +39,7 @@ namespace ippCompiler
             }
             if (line.Contains("string"))
             {
-                Compiler.GeneratedCode[index] = "string ";
+                Compiler.GeneratedCode[index] += "string ";
 
                 string nameStr = line.Substring(line.IndexOf(' ')).Replace(" ", "");
                 Compiler.GeneratedCode[index] = Compiler.GeneratedCode[index] + nameStr + ";";
@@ -50,7 +50,7 @@ namespace ippCompiler
             }
             if (line.Contains("char"))
             {
-                Compiler.GeneratedCode[index] = "char ";
+                Compiler.GeneratedCode[index] += "char ";
 
                 string nameStr = line.Substring(line.IndexOf(' ')).Replace(" ", "");
                 Compiler.GeneratedCode[index] = Compiler.GeneratedCode[index] + nameStr + ";";
@@ -61,7 +61,7 @@ namespace ippCompiler
             }
             if (line.Contains("float"))
             {
-                Compiler.GeneratedCode[index] = "float ";
+                Compiler.GeneratedCode[index] += "float ";
 
                 string nameStr = line.Substring(line.IndexOf(' ')).Replace(" ", "");
                 Compiler.GeneratedCode[index] = Compiler.GeneratedCode[index] + nameStr + ";";
@@ -72,7 +72,7 @@ namespace ippCompiler
             }
             if (line.Contains("double"))
             {
-                Compiler.GeneratedCode[index] = "double ";
+                Compiler.GeneratedCode[index] += "double ";
 
                 string nameStr = line.Substring(line.IndexOf(' ')).Replace(" ", "");
                 Compiler.GeneratedCode[index] = Compiler.GeneratedCode[index] + nameStr + ";";
@@ -83,7 +83,7 @@ namespace ippCompiler
             }
             if (line.Contains("bool"))
             {
-                Compiler.GeneratedCode[index] = "bool ";
+                Compiler.GeneratedCode[index] += "bool ";
 
                 string nameStr = line.Substring(line.IndexOf(' ')).Replace(" ", "");
                 Compiler.GeneratedCode[index] = Compiler.GeneratedCode[index] + nameStr + ";";

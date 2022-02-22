@@ -32,7 +32,7 @@ namespace ippCompiler
             {
                 if (forIndex > 0)
                 {
-                    forIndex--;
+                    forIndex--; 
                     return;
                 }
                 Log.Error("Detected blank space in code. Use only tabs!\n");
