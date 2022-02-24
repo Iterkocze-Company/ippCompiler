@@ -92,6 +92,52 @@ namespace ippCompiler
 
                 Compiler.VARS.Add(nameStr);
             }
+
+
+            if (line.Contains("int*"))
+            {
+                bool hasEnd = false;
+                string pointerName = null;
+                Compiler.GeneratedCode[index] = "int* ";
+                string name = line.Substring(line.IndexOf(' ')).Replace(" ", "");
+                if (hasEnd == false)
+                {
+                    if (line != null && line.Contains("Address"))
+                    {
+                        int index22 = 0;
+                        string[] lineSplit = line.Split(" ");
+                        foreach (string line2 in lineSplit)
+                        {
+                            if (line2.Contains("Address"))
+                            {
+                                string beforeEqual = null;
+                                string line22 = line2.Replace(".Address", "");
+                                try
+                                {
+                                    //beforeEqual = line22.Remove(line22.IndexOf("="));
+                                    line22 = line22.Remove(0, line2.IndexOf("=") + 1);
+                                }
+                                catch { }
+                                string line222 = " " + beforeEqual;
+                                line222 += " &" + line22;
+                                lineSplit[index22] = line222;
+                            }
+                            index22++;
+                        }
+                        foreach (string line2 in lineSplit)
+                        {
+                            if (line2.Contains('&'))
+                                pointerName = line2;
+                        }
+                    }
+                }
+                if (name.Contains('='))
+                    name = name.Substring(0, name.IndexOf('='));
+
+                Compiler.GeneratedCode[index] = Compiler.GeneratedCode[index] + name + " = " + pointerName + ";";
+
+                Compiler.VARS.Add(name);
+            }
         }
     }
 }

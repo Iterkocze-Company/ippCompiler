@@ -19,21 +19,6 @@ namespace ippCompiler
     */
     public static class Compiler
     {
-        public enum Keyword //Not used
-        {
-            DEFINE,
-            ECHOLINE,
-            ECHO,
-            END,
-
-            INT,
-            FLOAT,
-            DOUBLE,
-            CHAR,
-            STRING,
-            VOID
-        }
-
         public static List<string> VARS = new(); //Zawiera nazwy wszystkich zadeklarowancyh zmiennych i funkcji.
 
         static string lastVar = string.Empty;
@@ -148,6 +133,7 @@ namespace ippCompiler
                         case "double":
                         case "char":
                         case "string":
+                        case "int*":
                             VariableGenerator.Analyse(line, index);
                             index++;
                             skip = true;
@@ -271,6 +257,8 @@ namespace ippCompiler
                     }
                     SyntaxChecker.Analyse(line);
                 }
+
+                
 
                 if (skip != true)
                 foreach (string var in VARS)
@@ -406,6 +394,40 @@ namespace ippCompiler
                     FunctionsGenerator.Analyse(line, index);
                     index++;
                 }
+            }
+
+            int index2 = 0;
+            foreach (string line in GeneratedCode) //I just don't know what I'm doing with this anymore. I know, I just gave up on this compiler at this point.
+            {
+                if (line != null && line.Contains("Address"))
+                {
+                    int index22 = 0;
+                    string[] lineSplit = line.Split(" ");
+                    foreach (string line2 in lineSplit)
+                    {
+                        if (line2.Contains("Address"))
+                        {
+                            string beforeEqual = null;
+                            string line22 = line2.Replace(".Address", "");
+                            try
+                            {
+                                //beforeEqual = line22.Remove(line22.IndexOf("="));
+                                line22 = line22.Remove(0, line2.IndexOf("=") + 1);
+                            }
+                            catch { }
+                            string line222 = " " + beforeEqual;
+                            line222 += " &" + line22;
+                            lineSplit[index22] = line222;
+                        }
+                        index22++;
+                    }
+                    GeneratedCode[index2] = "";
+                    foreach (string line2 in lineSplit)
+                    {
+                        GeneratedCode[index2] += line2;
+                    }
+                }
+                index2++;
             }
 
             CODE_FILE_GEN_PATH = "gen" + Program.CODE_FILE_PATH.Remove(0, Program.CODE_FILE_PATH.Replace("/", "\\").LastIndexOf('\\')+1).Replace(".ipp", ".cpp");

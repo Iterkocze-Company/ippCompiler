@@ -2,7 +2,7 @@
   "profiles": {
     "ippCompiler": {
       "commandName": "Project",
-      "commandLineArgs": "\"F:\\Visual Studio Projekty\\ippCompiler\\ippCompiler\\bin\\Debug\\net5.0\\main.ipp\""
+      "commandLineArgs": "\"F:\\Visual Studio Projekty\\ippCompiler\\ippCompiler\\bin\\Debug\\net6.0-windows\\main.ipp\""
     }
   }
 }
