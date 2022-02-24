@@ -72,12 +72,26 @@ EchoLine s[0];
 `/` Division <br> <br>
 
 ### Types in i++
-`int` <br>
+`int/int*` <br>
 `string` ex. `string s;` or `string s = "hello";`. <br> 
 `char` <br>
 `float` <br>
 `double` <br>
 `void` In function definitions. ex. `def void test();`. <br> <br>
+
+### Pointers in i++
+You can use the address of a variable like this:
+```
+int i = 10;
+EchoLine i.Address;
+```
+Or assign it to a pointer like this:
+```
+int i = 10;
+int* p = i.Address;
+
+EchoLine p;
+```
 
 ### Functions in i++
 Use `def`, in order to define a function. After `def` keyword provide return type. ex. `def int test();`. End function definition with `end` keyword. ex.
